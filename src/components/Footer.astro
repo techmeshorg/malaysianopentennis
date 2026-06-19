@@ -1,0 +1,28 @@
+---
+import { SITE, FOOTER_LINKS, DISCLAIMER } from '../data/site-nav.js';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="fb">Malaysian Open Tennis</div>
+        <p>Tournaments, records and resources for Malaysian tennis — independent and editorial-first.</p>
+      </div>
+      <div class="foot-links">
+        <div>
+          <h4>Site</h4>
+          <a href="/malaysia-tennis-events/">Tennis Events</a>
+          <a href="/tournaments/">Tournaments</a>
+          <a href="/atp-wta-malaysia-history/">ATP &amp; WTA History</a>
+          <a href="/news/">News</a>
+        </div>
+        <div>
+          <h4>Information</h4>
+          {FOOTER_LINKS.map((l) => <a href={l.href}>{l.label}</a>)}
+        </div>
+      </div>
+    </div>
+    <p class="foot-disclaimer">{DISCLAIMER}<br/>© {year} {SITE.domain}. All rights reserved. Independent site — not affiliated with the ATP, WTA, BWF, PSA, LTAM, or any tournament organiser.</p>
+  </div>
+</footer>

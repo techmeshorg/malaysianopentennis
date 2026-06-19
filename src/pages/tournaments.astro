@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import TournamentTable from '../components/TournamentTable.astro';
+import { TOURNAMENTS, STATUS_ORDER } from '../data/tournaments.js';
+import { SITE } from '../data/site-nav.js';
+const path='/tournaments/';
+const title='Malaysia Tennis Tournaments 2026 | Full Calendar & Status';
+const description='The full 2026 Malaysian tennis tournament calendar — national circuit, junior tour, ITF, ATF and international team events with venues, dates and status.';
+const updated='18 June 2026';
+const counts = STATUS_ORDER.map((s)=>({s,n:TOURNAMENTS.filter(t=>t.status===s).length}));
+const itemList={'@context':'https://schema.org','@type':'ItemList',name:'TennisMalaysia 2026 tournament calendar',numberOfItems:TOURNAMENTS.length,itemListElement:TOURNAMENTS.map((t,i)=>({'@type':'ListItem',position:i+1,name:t.name}))};
+const crumbs=[{name:'Home',href:'/'},{name:'Tournaments',href:path}];
+---
+<BaseLayout title={title} description={description} path={path} schema={[itemList]} updated={updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Malaysia Tennis Tournaments 2026</h1><p class="intro">The full TennisMalaysia 2026 calendar — {TOURNAMENTS.length} events across the national circuit, junior tour, ITF, ATF and international team competition.</p></div></div>
+  <section class="section"><div class="container">
+    <div class="prose" style="max-width:none">
+      <p class="lead">Below is the complete 2026 tournament list. Use the filters to show confirmed events, events still to be confirmed (TBC), or completed events. Status and dates follow the official TennisMalaysia summary.</p>
+      <p style="color:var(--slate);font-size:14px">
+        {counts.map((c,i)=>(<span><span class={`chip ${c.s}`}>{c.s}</span> {c.n}{i !== counts.length - 1 ? '  ·  ' : ''} </span>))}
+      </p>
+    </div>
+    <div style="margin-top:18px">
+      <TournamentTable heading={`TennisMalaysia 2026 calendar — ${TOURNAMENTS.length} events`} showFilter={true} />
+    </div>
+    <div class="prose" style="max-width:none;margin-top:22px">
+      <div class="callout">Source: TennisMalaysia "Calendar of Events 2026" summary (updated 29 May 2026). Venue "TBC" means the source did not list a venue. Dates and statuses can change — confirm with the organiser before travelling. "Category" is our own classification to aid filtering, not part of the source data.</div>
+      <div class="related callout info"><strong>Related:</strong> <a href="/malaysia-tennis-events/">Types of Malaysia tennis events</a> · <a href="/malaysian-tennis-players/">Malaysian tennis players</a> · <a href="/atp-wta-malaysia-history/">ATP &amp; WTA history</a></div>
+    </div>
+  </div></section>
+</BaseLayout>

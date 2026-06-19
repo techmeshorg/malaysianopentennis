@@ -1,0 +1,190 @@
+/* ===== Malaysian Open Tennis — global styles ===== */
+:root{
+  --white:#FFFFFF;
+  --bg-soft:#F3F8F4;          /* faint green-tinted section bg */
+  --bg-blue:#F2F7FB;          /* faint blue-tinted section bg */
+  --green:#167D45;            /* primary — court green */
+  --green-deep:#0E5A30;       /* headers / footer */
+  --green-soft:#E4F1E8;
+  --blue:#1F6FB2;             /* secondary accent — links, info */
+  --blue-deep:#155A93;
+  --yellow:#E8C23B;           /* subtle tennis-ball accent (sparing) */
+  --ink:#15201A;             /* body text */
+  --slate:#5A6862;            /* muted text */
+  --line:#E2E8E2;             /* hairlines */
+  --ok:#167D45; --tbc:#9A6B12; --done:#5A6862;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,monospace;
+  --maxw:1160px;
+  --radius:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--white);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:var(--blue-deep);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;height:auto;display:block}
+.container{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+.visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* skip link */
+.skip{position:absolute;left:-999px;top:0;background:var(--green);color:#fff;padding:10px 16px;border-radius:0 0 8px 0;z-index:200}
+.skip:focus{left:0}
+
+/* ---------- header / nav ---------- */
+.site-header{background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:100}
+.hdr{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em;color:var(--ink)}
+.logo:hover{text-decoration:none}
+.logo svg{flex:none}
+.logo span{color:var(--green)}
+.nav{display:flex}
+.nav > ul{list-style:none;display:flex;gap:2px;align-items:center}
+.nav li{position:relative}
+.nav > ul > li > a{display:inline-flex;align-items:center;gap:6px;padding:9px 12px;border-radius:8px;font-weight:600;font-size:14.5px;letter-spacing:-.01em;color:var(--ink)}
+.nav > ul > li > a:hover,.nav > ul > li:focus-within > a{background:var(--bg-soft);color:var(--green);text-decoration:none}
+.nav .caret{font-size:9px;color:var(--slate)}
+.nav .submenu{list-style:none;position:absolute;top:100%;left:0;min-width:248px;background:var(--white);border:1px solid var(--line);border-radius:10px;box-shadow:0 16px 40px rgba(14,74,46,.16);padding:7px;opacity:0;visibility:hidden;transform:translateY(6px);transition:opacity .15s,transform .15s,visibility .15s;z-index:120}
+.nav li:hover > .submenu,.nav li:focus-within > .submenu{opacity:1;visibility:visible;transform:none}
+.nav .submenu a{display:block;padding:9px 11px;border-radius:7px;font-size:14px;font-weight:500;color:var(--ink)}
+.nav .submenu a:hover{background:var(--bg-soft);color:var(--green);text-decoration:none}
+.nav .submenu > li > a{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.nav .caret-r{font-size:9px;color:var(--slate)}
+.nav .submenu .submenu{top:-7px;left:100%;margin-left:3px}
+.nav-toggle{display:none;background:none;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:15px;cursor:pointer;color:var(--ink)}
+
+@media(max-width:900px){
+  .nav-toggle{display:inline-flex;align-items:center;gap:8px}
+  .nav{position:fixed;inset:84px 0 auto 0;background:var(--white);border-bottom:1px solid var(--line);box-shadow:0 18px 40px rgba(14,74,46,.12);max-height:calc(100vh - 84px);overflow-y:auto;transform:translateY(-120%);transition:transform .2s ease;padding:10px 0 18px}
+  .nav.open{transform:none}
+  .nav > ul{flex-direction:column;align-items:stretch;gap:0;padding:0 14px}
+  .nav > ul > li > a{padding:12px 8px;border-radius:0;border-bottom:1px solid var(--line)}
+  .nav .submenu{position:static;opacity:1;visibility:visible;transform:none;box-shadow:none;border:none;padding:2px 0 8px 10px;min-width:0}
+  .nav .submenu a{padding:8px}
+  .nav .submenu .submenu{padding-left:16px}
+}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:650;font-size:15px;padding:11px 20px;border-radius:9px;border:1.5px solid transparent;cursor:pointer;transition:transform .12s,box-shadow .15s,background .15s}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn-primary{background:var(--green);color:#fff}
+.btn-primary:hover{background:var(--green-deep);box-shadow:0 8px 20px rgba(14,74,46,.22)}
+.btn-secondary{background:#fff;color:var(--blue-deep);border-color:var(--blue)}
+.btn-secondary:hover{background:var(--bg-blue)}
+
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(90deg,rgba(11,58,37,.94) 0%,rgba(11,58,37,.66) 46%,rgba(16,90,48,.48) 100%),url('/hero-court.jpg') center/cover no-repeat;background-color:var(--green-deep);color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 48px,rgba(255,255,255,.02) 48px 49px);pointer-events:none}
+.hero .container{position:relative;z-index:1;padding:62px 22px}
+.hero .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--yellow);margin-bottom:18px}
+.hero h1{font-size:clamp(30px,4.6vw,50px);line-height:1.06;letter-spacing:-.028em;font-weight:800;max-width:18ch}
+.hero p.sub{font-size:clamp(17px,2vw,20px);color:#DCEBE1;max-width:60ch;margin-top:18px;line-height:1.5}
+.hero .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero .btn-secondary{background:rgba(255,255,255,.06);color:#fff;border-color:rgba(255,255,255,.55)}
+.hero .btn-secondary:hover{background:rgba(255,255,255,.14)}
+
+/* ---------- sections ---------- */
+.section{padding:54px 0}
+.section.alt{background:var(--bg-soft)}
+.section.alt-blue{background:var(--bg-blue)}
+.section-head{margin-bottom:26px}
+.section-head .kick{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.section-head h2{font-size:clamp(22px,2.8vw,30px);letter-spacing:-.025em;font-weight:800}
+.section-head p{color:var(--slate);margin-top:8px;max-width:64ch}
+
+/* ---------- cards ---------- */
+.grid{display:grid;gap:18px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:20px 20px 22px;transition:box-shadow .18s,transform .18s}
+a.card:hover{text-decoration:none;box-shadow:0 14px 30px rgba(14,74,46,.10);transform:translateY(-2px)}
+.card .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--green)}
+.card h3{font-size:19px;line-height:1.2;letter-spacing:-.02em;font-weight:700;margin:9px 0 0;color:var(--ink)}
+.card p{color:var(--slate);font-size:15px;margin-top:9px;flex:1}
+.card .more{font-weight:650;color:var(--blue-deep);font-size:14px;margin-top:14px}
+
+/* ---------- content prose ---------- */
+.prose{max-width:760px}
+.prose h2{font-size:25px;letter-spacing:-.02em;font-weight:750;margin:34px 0 12px}
+.prose h3{font-size:20px;letter-spacing:-.015em;font-weight:700;margin:24px 0 8px}
+.prose p{margin:0 0 14px}
+.prose ul,.prose ol{margin:0 0 16px 22px}
+.prose li{margin:5px 0}
+.prose strong{font-weight:700}
+.prose a{color:var(--blue-deep);text-decoration:underline;text-underline-offset:2px}
+.lead{font-size:19px;color:#33403a;line-height:1.55}
+
+/* ---------- tables ---------- */
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius)}
+table{width:100%;border-collapse:collapse;font-size:14.5px;min-width:560px}
+caption{caption-side:top;text-align:left;font-weight:700;padding:14px 16px;background:var(--green-soft);color:var(--green-deep)}
+th{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--slate);text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--bg-soft)}
+td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--bg-soft)}
+
+/* ---------- status chips ---------- */
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:20px;border:1px solid;white-space:nowrap}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.chip.Confirmed{color:var(--ok);border-color:var(--ok);background:rgba(22,125,69,.07)}
+.chip.TBC{color:var(--tbc);border-color:var(--tbc);background:rgba(154,107,18,.07)}
+.chip.Completed{color:var(--done);border-color:var(--line);background:var(--bg-soft)}
+
+/* ---------- breadcrumbs ---------- */
+.crumbs{font-size:13px;color:var(--slate);padding:16px 0 0}
+.crumbs ol{list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.crumbs li::after{content:"/";margin-left:6px;color:var(--line)}
+.crumbs li:last-child::after{content:""}
+.crumbs a{color:var(--slate)}
+.crumbs a:hover{color:var(--green)}
+.crumbs [aria-current]{color:var(--ink);font-weight:600}
+
+/* ---------- FAQ ---------- */
+.faq{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.faq details{border-bottom:1px solid var(--line)}
+.faq details:last-child{border-bottom:none}
+.faq summary{cursor:pointer;padding:16px 18px;font-weight:650;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--green);font-weight:700;font-size:20px}
+.faq details[open] summary::after{content:"–"}
+.faq .ans{padding:0 18px 16px;color:#33403a}
+
+/* ---------- meta / updated ---------- */
+.updated{font-family:var(--mono);font-size:12px;color:var(--slate);margin-top:8px}
+.related{margin-top:14px}
+
+/* ---------- callout ---------- */
+.callout{border:1px solid var(--line);border-left:4px solid var(--yellow);background:#FFFCF2;border-radius:8px;padding:14px 16px;font-size:15px;color:#3a3320}
+.callout.info{border-left-color:var(--blue);background:var(--bg-blue);color:#243a4a}
+
+/* ---------- page header band ---------- */
+.page-band{background:var(--bg-soft);border-bottom:1px solid var(--line)}
+.page-band .container{padding-top:8px;padding-bottom:26px}
+.page-band h1{font-size:clamp(26px,3.6vw,38px);letter-spacing:-.028em;font-weight:800;margin-top:10px}
+.page-band p.intro{color:var(--slate);margin-top:10px;max-width:66ch;font-size:17px}
+
+/* ---------- footer ---------- */
+.site-footer{background:var(--green-deep);color:#C7DDCF;font-size:14px;margin-top:10px}
+.site-footer .container{padding:42px 22px}
+.foot-grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.foot-brand .fb{font-weight:800;color:#fff;font-size:19px;letter-spacing:-.02em}
+.foot-brand p{margin-top:10px;max-width:38ch;line-height:1.7;color:#A9C7B5}
+.foot-links{display:flex;gap:46px;flex-wrap:wrap}
+.foot-links h4{color:#fff;font-size:11px;letter-spacing:.13em;text-transform:uppercase;margin-bottom:10px}
+.foot-links a{display:block;padding:4px 0;color:#C7DDCF}
+.foot-links a:hover{color:var(--yellow);text-decoration:none}
+.foot-disclaimer{border-top:1px solid rgba(255,255,255,.14);margin-top:30px;padding-top:18px;font-size:12.5px;color:#8FB29C;line-height:1.7}
+
+/* ---------- filter bar (tournaments) ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.filter-btn{font-family:var(--mono);font-size:12px;letter-spacing:.04em;padding:7px 13px;border-radius:20px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer}
+.filter-btn[aria-pressed="true"]{background:var(--green);color:#fff;border-color:var(--green)}
+
+@media(max-width:860px){
+  .grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:560px){
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}

@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/Faq.astro';
+import { SITE } from '../data/site-nav.js';
+const path='/tennis-ranking-guide/';
+const title='Tennis Ranking Guide | ATP, WTA, ITF & Malaysia Rankings Explained';
+const description='Learn how tennis rankings work, including ATP, WTA, ITF, junior rankings, Malaysia rankings, ranking points, seeding, and tournament entry.';
+const updated='19 June 2026';
+const faqs=[
+  {q:'Where can I check official Malaysia tennis rankings?',a:'You can check LTAM\u2019s official ranking page for National Circuit and Junior Tour rankings.'},
+  {q:'What is the difference between ATP and WTA rankings?',a:'ATP rankings are for men\u2019s professional tennis, while WTA rankings are for women\u2019s professional tennis.'},
+  {q:'Do all tournaments give ranking points?',a:'No. Only eligible tournaments under the relevant ranking system award official ranking points.'},
+  {q:'Why does a player\u2019s ranking drop?',a:'A ranking can drop if a player loses points from previous results, performs worse than before, misses tournaments, or is overtaken by other players.'},
+];
+const articleSchema={'@context':'https://schema.org','@type':'Article',headline:'Tennis Ranking Guide',description,inLanguage:'en-MY',datePublished:'2026-06-19',dateModified:'2026-06-19',mainEntityOfPage:new URL(path,SITE.url).href,author:{'@type':'Organization',name:SITE.name},publisher:{'@type':'Organization',name:SITE.name,logo:{'@type':'ImageObject',url:new URL('/logo.png',SITE.url).href}}};
+const crumbs=[{name:'Home',href:'/'},{name:'Tennis',href:'/malaysia-tennis-events/'},{name:'Tennis Ranking Guide',href:path}];
+---
+<BaseLayout title={title} description={description} path={path} type="article" schema={[articleSchema]} updated={updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Tennis Ranking Guide</h1><p class="intro">ATP, WTA, ITF, junior and Malaysia tennis rankings — explained in simple terms.</p></div></div>
+  <section class="section"><div class="container prose">
+    <p class="lead">Tennis rankings help measure player performance over time. They are used to decide tournament entry, seedings, qualification priority, and player status. Rankings are especially important for competitive players because they influence which tournaments a player can enter and how they are placed in the draw.</p>
+    <p>This guide explains ATP, WTA, ITF, junior, and Malaysia tennis rankings in simple terms.</p>
+
+    <h2>What is a tennis ranking?</h2>
+    <p>A tennis ranking is a points-based position that shows where a player stands compared to other players. Players earn points by competing in tournaments and winning matches. The better the tournament level and the deeper a player goes in the draw, the more points they usually earn.</p>
+
+    <h2>ATP rankings</h2>
+    <p>ATP rankings apply to men's professional tennis. ATP rankings are used for tournament entry, seedings, and measuring performance across the men's professional tour. ATP explains ranking-related details through its official rankings FAQ.</p>
+
+    <h2>WTA rankings</h2>
+    <p>WTA rankings apply to women's professional tennis. The WTA ranking system awards points based on tournament category and round reached. WTA's ranking explanation shows different points by event level, including Grand Slams, WTA 1000, WTA 500, WTA 250, WTA 125, and ITF Circuit events.</p>
+
+    <h2>ITF rankings and player records</h2>
+    <p>The ITF provides information for players who compete across ITF tours, including men's, women's, junior, masters, wheelchair, and other categories. ITF player pages can be useful for checking player profiles and international tournament history.</p>
+
+    <h2>Malaysia tennis rankings</h2>
+    <p>Malaysia has official rankings for local competition pathways. LTAM publishes official rankings for National Circuit and Junior Tour players, including historical ranking updates.</p>
+    <p>For Malaysian players, local rankings can be useful for:</p>
+    <ul>
+      <li>Tournament entry</li><li>Player development tracking</li><li>Junior progression</li>
+      <li>National competition structure</li><li>Seeding decisions</li><li>Performance comparison</li>
+    </ul>
+
+    <h2>How ranking points usually work</h2>
+    <p>Ranking systems vary by tour, but the basic idea is similar:</p>
+    <ul>
+      <li>Players enter tournaments</li><li>Players earn points based on results</li><li>Bigger tournaments award more points</li>
+      <li>Points are updated after tournaments</li><li>Rankings change as new results are added</li><li>Older results eventually drop off</li>
+    </ul>
+
+    <h2>Ranking vs seeding</h2>
+    <p>Ranking and seeding are related, but they are not the same.</p>
+    <div class="table-wrap" style="min-width:0"><table style="min-width:0">
+      <thead><tr><th scope="col">Term</th><th scope="col">Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>Ranking</td><td>Player's position in the official ranking list</td></tr>
+        <tr><td>Seeding</td><td>Player's protected position in a tournament draw</td></tr>
+        <tr><td>Entry list</td><td>List of players accepted into a tournament</td></tr>
+        <tr><td>Wild card</td><td>Special entry given by organisers</td></tr>
+        <tr><td>Qualifying</td><td>Pre-main draw competition for entry</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Why rankings matter</h2>
+    <p>Rankings matter because they influence:</p>
+    <ul>
+      <li>Who enters tournaments directly</li><li>Who must play qualifying</li><li>Who receives seeding</li>
+      <li>Who avoids top players in early rounds</li><li>Who receives national attention</li><li>Who may be selected for higher-level opportunities</li>
+    </ul>
+
+    <h2>Junior rankings</h2>
+    <p>Junior rankings help track young players by age category or junior competition level. For Malaysian juniors, LTAM ranking updates are important because they reflect the domestic junior tennis structure.</p>
+
+    <Faq items={faqs} />
+    <div class="related callout info"><strong>Related:</strong> <a href="/malaysian-tennis-players/">Malaysian tennis players</a> · <a href="/atp-wta-malaysia-history/">ATP &amp; WTA Malaysia history</a> · <a href="/how-tennis-scoring-works/">How tennis scoring works</a></div>
+  </div></section>
+</BaseLayout>

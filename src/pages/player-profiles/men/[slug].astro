@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { MEN } from '../../../data/players.js';
+import { SITE } from '../../../data/site-nav.js';
+import { NEWS } from '../../../data/news.js';
+
+export async function getStaticPaths() {
+  const { MEN } = await import('../../../data/players.js');
+  return MEN.map((p) => ({ params: { slug: p.slug }, props: { player: p } }));
+}
+const { player } = Astro.props;
+const gender = 'men';
+const path = `/player-profiles/${gender}/${player.slug}/`;
+const title = `${player.name} | Malaysian Tennis Player Profile`;
+const description = `${player.name} — ${player.headline} Nationality, ranking, playing style, career highlights and sources.`;
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Player Profiles', href: '/player-profiles/men/' },
+  { name: "Men", href: '/player-profiles/men/' },
+  { name: player.name, href: path },
+];
+const personSchema = {
+  '@context': 'https://schema.org', '@type': 'Person',
+  name: player.fullName || player.name, nationality: 'Malaysian',
+  url: new URL(path, SITE.url).href, jobTitle: 'Tennis player',
+};
+const initials = player.name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+const relatedNews = NEWS.filter((n) => (n.players || []).some((pl) => pl.slug === player.slug)).sort((a, b) => b.date.localeCompare(a.date));
+const rows = [
+  ['Full name', player.fullName],
+  ['Nationality', player.nationality],
+  ['Category', player.category],
+  ['Born', player.born],
+  ['Plays', player.plays],
+  ['Current ranking', player.currentRank],
+  ['Highest ranking', player.highRank],
+  ['Main events', player.mainEvents],
+];
+---
+<BaseLayout title={title} description={description} path={path} schema={[personSchema]} updated={player.updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} />
+    <div class="pp-head-row">
+      <span class="pp-avatar-lg" aria-hidden="true">{initials}</span>
+      <div><h1>{player.name}</h1><p class="intro">{player.headline}</p></div>
+    </div>
+  </div></div>
+  <section class="section"><div class="container">
+    <div class="prose" style="max-width:none">
+      {player.note && <div class="callout info" style="margin-bottom:18px"><strong>Note:</strong> {player.note}</div>}
+      <h2>Profile</h2>
+      <table class="pp-table"><tbody>
+        {rows.map(([k, v]) => v && (<tr><th scope="row">{k}</th><td>{v}</td></tr>))}
+      </tbody></table>
+
+      <h2>Recent results</h2>
+      <p>{player.recentResults}</p>
+
+      <h2>Career highlights</h2>
+      <ul>{player.highlights.map((h) => <li>{h}</li>)}</ul>
+
+      <h2>Playing style</h2>
+      <p>{player.style}</p>
+
+      <h2>Sources</h2>
+      <ul class="pp-sources">
+        {player.sources.map((s) => <li><a href={s.url} target="_blank" rel="nofollow noopener">{s.label}</a></li>)}
+      </ul>
+      <p style="color:var(--slate,#5A6862);font-size:13px">Compiled from public sources. Where a detail is not publicly available it is marked as such rather than estimated. Spot an error? <a href="/contact/">Let us know</a>.</p>
+
+      {relatedNews.length > 0 && (
+        <Fragment>
+          <h2>In the news</h2>
+          <div class="pp-news">
+            {relatedNews.map((n) => (
+              <a class="pp-news-card" href={`/news/${n.slug}/`} aria-label={n.title}>
+                <span class="pp-news-fig"><img src={n.image} alt={n.title} width="1200" height="630" loading="lazy" /><span class="pp-news-cat" style={`background:${n.accent}`}>{n.category}</span></span>
+                <span class="pp-news-t">{n.title}</span>
+                <span class="pp-news-d">{n.displayDate} · {n.source}</span>
+              </a>
+            ))}
+          </div>
+        </Fragment>
+      )}
+
+      <div class="related callout info"><strong>More profiles:</strong> <a href="/player-profiles/men/">Men's players</a> · <a href="/player-profiles/women/">Women's players</a> · <a href="/malaysian-tennis-players/">Malaysian tennis players overview</a></div>
+    </div>
+  </div></section>
+  <style>
+    .pp-head-row{display:flex;gap:16px;align-items:center}
+    .pp-avatar-lg{flex:0 0 auto;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:22px;color:#fff;background:linear-gradient(135deg,#167D45,#1F6FB2);letter-spacing:.5px}
+    .pp-table{width:100%;border-collapse:collapse;margin:8px 0 4px}
+    .pp-table th{text-align:left;width:190px;vertical-align:top;padding:9px 14px 9px 0;color:#5A6862;font-weight:600;border-bottom:1px solid #eef1ef}
+    .pp-table td{padding:9px 0;border-bottom:1px solid #eef1ef;color:#15201A}
+    .pp-sources a{word-break:break-word}
+    .pp-news{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:6px 0 8px}
+    .pp-news-card{display:flex;flex-direction:column;border:1px solid #e4e8e6;border-radius:12px;overflow:hidden;background:#fff;text-decoration:none}
+    .pp-news-card:hover{box-shadow:0 10px 26px rgba(14,74,46,.12)}
+    .pp-news-fig{position:relative;display:block;aspect-ratio:1200/630;overflow:hidden}
+    .pp-news-fig img{width:100%;height:100%;object-fit:cover;display:block}
+    .pp-news-cat{position:absolute;left:10px;bottom:10px;color:#fff;font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:3px 9px;border-radius:999px}
+    .pp-news-t{display:block;padding:12px 13px 0;font-weight:700;font-size:14.5px;line-height:1.3;color:#15201A}
+    .pp-news-card:hover .pp-news-t{color:#167D45}
+    .pp-news-d{display:block;padding:5px 13px 13px;font-size:12px;color:#5A6862;font-weight:600}
+  </style>
+</BaseLayout>

@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE } from '../data/site-nav.js';
+const path='/about/';
+const title='About Malaysian Open Tennis | Independent Malaysian Tennis Resource';
+const description='Learn about MalaysianOpenTennis.com, an independent tennis and sports information website covering Malaysian tennis events, rules, rankings, players, and tournament history.';
+const updated='19 June 2026';
+const schema=[{'@context':'https://schema.org','@type':'AboutPage',name:'About Malaysian Open Tennis',url:new URL(path,SITE.url).href,inLanguage:'en-MY'}];
+const crumbs=[{name:'Home',href:'/'},{name:'About',href:path}];
+---
+<BaseLayout title={title} description={description} path={path} schema={schema} updated={updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>About Malaysian Open Tennis</h1><p class="intro">An independent online hub for Malaysian tennis — events, history, players and sports education.</p></div></div>
+  <section class="section"><div class="container prose">
+    <p class="lead">MalaysianOpenTennis.com is an independent tennis and sports information website created for players, fans, parents, coaches, and readers who want to follow the growth of tennis in Malaysia.</p>
+    <p>Our focus is simple: to make Malaysian tennis easier to understand, follow, and enjoy.</p>
+    <p>We cover Malaysian tennis events, tournament history, player resources, tennis rules, ranking guides, scoring explanations, and wider Malaysia Open sports coverage. Whether you are new to tennis or already following local tournaments, MalaysianOpenTennis.com is designed to be a useful starting point.</p>
+
+    <h2>Our History</h2>
+    <p>The name Malaysian Open Tennis has always carried a clear connection to tennis, Malaysia, and open sporting competition.</p>
+    <p>Today, MalaysianOpenTennis.com continues that tennis-focused direction by expanding into a more complete information resource for the Malaysian tennis community.</p>
+    <p>The website is being updated with clearer guides, better page structure, and more useful editorial coverage around the same core theme: Malaysian tennis.</p>
+    <p>Rather than moving away from the sporting identity of the name, MalaysianOpenTennis.com is strengthening it with content that helps readers understand local tennis events, player development, rankings, rules, tournament formats, and Malaysia's place in the wider tennis landscape.</p>
+
+    <h2>What MalaysianOpenTennis.com Covers</h2>
+    <p>MalaysianOpenTennis.com focuses on practical and educational tennis content for Malaysian readers.</p>
+    <p>Our key content areas include:</p>
+    <ul>
+      <li>Malaysian tennis events</li>
+      <li>ATP and WTA history connected to Malaysia</li>
+      <li>Tennis rules for beginners</li>
+      <li>Tennis ranking guides</li>
+      <li>Malaysian tennis player resources</li>
+      <li>Player profiles</li>
+      <li>Tennis scoring explanations</li>
+      <li>Malaysia Open sports coverage</li>
+      <li>Tournament guides and updates</li>
+      <li>Responsible sports education</li>
+    </ul>
+    <p>Our goal is to organise useful tennis information in one place so that players, fans, parents, coaches, and tournament followers can find what they need more easily.</p>
+
+    <h2>Why This Website Exists</h2>
+    <p>Tennis information in Malaysia can be spread across many different sources, including official bodies, tournament organisers, academies, clubs, venues, social media pages, and international tennis websites.</p>
+    <p>For new fans and developing players, it is not always easy to understand:</p>
+    <ul>
+      <li>Which tennis events are happening in Malaysia</li>
+      <li>How local tournaments are structured</li>
+      <li>How tennis rankings work</li>
+      <li>How tennis scoring and match rules work</li>
+      <li>Which Malaysian players are active</li>
+      <li>How Malaysia connects to ATP, WTA, ITF, and regional tennis pathways</li>
+      <li>Where to find beginner-friendly tennis information</li>
+    </ul>
+    <p>MalaysianOpenTennis.com exists to make these topics easier to access and understand.</p>
+    <p>We aim to provide clear, well-structured, and helpful tennis content that supports the Malaysian tennis audience.</p>
+
+    <h2>Our Editorial Mission</h2>
+    <p>Our mission is to build a reliable tennis information hub for Malaysia.</p>
+    <p>We aim to:</p>
+    <ul>
+      <li>Explain tennis topics in simple language</li>
+      <li>Help beginners understand rules, scoring, rankings, and tournament formats</li>
+      <li>Track and organise Malaysian tennis event information</li>
+      <li>Highlight Malaysian tennis players and development pathways</li>
+      <li>Preserve useful tennis history connected to Malaysia</li>
+      <li>Create educational resources for fans, parents, players, and coaches</li>
+      <li>Keep the website sports-first, informative, and reader-focused</li>
+    </ul>
+    <p>Every page is created with usefulness, clarity, and long-term value in mind.</p>
+
+    <h2>Independent Tennis Information</h2>
+    <p>MalaysianOpenTennis.com is an independent website.</p>
+    <p>We are not the official website of any tennis federation, tournament organiser, player, academy, venue, sports authority, ATP, WTA, or ITF body unless clearly stated.</p>
+    <p>When we cover tournaments, rankings, players, venues, or tennis history, we aim to use publicly available information from credible sources where possible.</p>
+    <p>If information is outdated, incomplete, or incorrect, we welcome corrections from players, parents, coaches, organisers, clubs, and members of the tennis community.</p>
+
+    <h2>Our Content Standards</h2>
+    <p>We want MalaysianOpenTennis.com to become a trustworthy tennis resource for Malaysian readers.</p>
+    <p>Our content follows these editorial principles:</p>
+    <ul>
+      <li>We aim to separate factual information from opinion.</li>
+      <li>We try to verify tournament, ranking, and player information from reliable sources.</li>
+      <li>We update pages when new information becomes available.</li>
+      <li>We avoid misleading claims about official status or affiliation.</li>
+      <li>We explain technical tennis topics in beginner-friendly language.</li>
+      <li>We prioritise useful sports information over short-term trends.</li>
+      <li>We clearly disclose commercial or affiliate content if it appears in the future.</li>
+    </ul>
+    <p>Our priority is to serve readers first.</p>
+
+    <h2>Who This Website Is For</h2>
+    <p>MalaysianOpenTennis.com is built for:</p>
+    <ul>
+      <li>Tennis fans in Malaysia</li>
+      <li>New players learning the sport</li>
+      <li>Parents supporting junior players</li>
+      <li>Coaches and academies</li>
+      <li>Local tournament followers</li>
+      <li>Malaysian tennis players</li>
+      <li>Sports writers and researchers</li>
+      <li>Readers interested in Malaysia Open history</li>
+      <li>Anyone trying to understand tennis rules, scoring, rankings, and events</li>
+    </ul>
+    <p>Whether you are learning how tennis scoring works or researching Malaysian tennis events, we want this website to be a helpful and reliable guide.</p>
+
+    <h2>Our Future Direction</h2>
+    <p>MalaysianOpenTennis.com will continue to grow as a tennis and sports information platform.</p>
+    <p>Future sections may include:</p>
+    <ul>
+      <li>Malaysian tennis tournament calendars</li>
+      <li>Tournament results and past champions</li>
+      <li>Men's and women's player profiles</li>
+      <li>Junior tennis development resources</li>
+      <li>Malaysia Open event history</li>
+      <li>Tennis court and venue guides</li>
+      <li>Tennis equipment and beginner resources</li>
+      <li>Sports education guides</li>
+      <li>Responsible sports and betting education, where relevant</li>
+    </ul>
+    <p>If commercial, sponsored, or affiliate content is added in the future, it will be clearly disclosed and kept separate from our core editorial information pages.</p>
+    <p>Our long-term direction is to keep MalaysianOpenTennis.com sports-first, tennis-focused, and useful to the Malaysian tennis community.</p>
+
+    <h2>Contact Us</h2>
+    <p>We welcome corrections, event submissions, tournament updates, player information, venue updates, and feedback from the Malaysian tennis community.</p>
+    <p>If you would like to suggest an update or contact the editorial team, please visit our <a href="/contact/">Contact page</a>.</p>
+    <p>MalaysianOpenTennis.com continues to grow around one clear purpose: helping Malaysian tennis become easier to follow, understand, and support.</p>
+    <div class="related callout info"><strong>More:</strong> <a href="/editorial-policy/">Editorial policy</a> · <a href="/contact/">Contact</a> · <a href="/tournaments/">Tournaments</a></div>
+  </div></section>
+</BaseLayout>

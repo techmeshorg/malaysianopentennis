@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE } from '../data/site-nav.js';
+const path='/editorial-policy/';
+const title='Editorial Policy';
+const description='Our editorial policy: how we research, source, verify and update tennis content, and how we handle corrections at MalaysianOpenTennis.com.';
+const updated='18 June 2026';
+const schema=[{'@context':'https://schema.org','@type':'WebPage',name:title,url:new URL(path,SITE.url).href,inLanguage:'en-MY'}];
+const crumbs=[{name:'Home',href:'/'},{name:'Editorial Policy',href:path}];
+---
+<BaseLayout title={title} description={description} path={path} schema={schema} updated={updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Editorial Policy</h1><p class="intro">How we research, verify and maintain our content.</p></div></div>
+  <section class="section"><div class="container prose">
+    <p class="lead">We want our tennis content to be accurate, clear and genuinely useful. This policy explains how we work.</p>
+    <h2>Sourcing</h2>
+    <p>We base factual content on official and primary sources where possible — including tournament organisers, the Lawn Tennis Association of Malaysia (LTAM), the ITF, and the ATP and WTA. Tournament data such as our <a href="/tournaments/">2026 calendar</a> is taken from official summaries.</p>
+    <h2>Verification and no fabrication</h2>
+    <p>We do not publish invented results, statistics or champions. When a detail (such as a past finalist or score) cannot be confirmed against a reliable source, we leave it clearly marked as unconfirmed rather than filling the gap with a guess.</p>
+    <h2>Updates</h2>
+    <p>Schedules and results change. We review time-sensitive pages — particularly events and calendars — and show a "last updated" date on each page so you can judge how current it is.</p>
+    <h2>Corrections</h2>
+    <p>If you spot an error, please <a href="/contact/">contact us</a>. We correct confirmed mistakes promptly and, where relevant, note the change.</p>
+    <h2>Commercial content</h2>
+    <p>This site may add commercial content in future. When it does, it will be clearly labelled and kept separate from editorial coverage. See our <a href="/responsible-gambling/">responsible gambling</a> page for our position on any future betting-related content.</p>
+  </div></section>
+</BaseLayout>

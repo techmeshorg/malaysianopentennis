@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/Faq.astro';
+import { SITE } from '../data/site-nav.js';
+const path='/how-tennis-scoring-works/';
+const title='How Tennis Scoring Works | Points, Games, Sets, Deuce & Tie-Breaks';
+const description='Learn how tennis scoring works, including love, 15, 30, 40, deuce, advantage, games, sets, matches, and tie-break rules.';
+const updated='19 June 2026';
+const faqs=[
+  {q:'Why is tennis scoring 15, 30, and 40?',a:'The exact historical origin is debated, but the 15, 30, 40 system has been part of traditional tennis scoring for a long time.'},
+  {q:'What happens at 40-40?',a:'The score is called deuce. A player must win two points in a row to win the game.'},
+  {q:'What does 7-6 mean in tennis?',a:'It usually means the set was decided by a tie-break.'},
+  {q:'What is the easiest way to understand tennis scoring?',a:'Remember this structure: points make games, games make sets, and sets make the match.'},
+];
+const articleSchema={'@context':'https://schema.org','@type':'Article',headline:'How Tennis Scoring Works',description,inLanguage:'en-MY',datePublished:'2026-06-19',dateModified:'2026-06-19',mainEntityOfPage:new URL(path,SITE.url).href,author:{'@type':'Organization',name:SITE.name},publisher:{'@type':'Organization',name:SITE.name,logo:{'@type':'ImageObject',url:new URL('/logo.png',SITE.url).href}}};
+const crumbs=[{name:'Home',href:'/'},{name:'Tennis',href:'/malaysia-tennis-events/'},{name:'How Tennis Scoring Works',href:path}];
+---
+<BaseLayout title={title} description={description} path={path} type="article" schema={[articleSchema]} updated={updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>How Tennis Scoring Works</h1><p class="intro">Points, games, sets, deuce, advantage and tie-breaks — made simple.</p></div></div>
+  <section class="section"><div class="container prose">
+    <p class="lead">Tennis scoring can look confusing at first, but it becomes simple once you understand the structure. A tennis match is built from points, games, and sets.</p>
+    <p>The basic structure is: <strong>Points → Games → Sets → Match</strong>. The official Rules of Tennis are maintained by the International Tennis Federation.</p>
+
+    <h2>Tennis point scoring</h2>
+    <p>Tennis does not use 1, 2, 3, 4 for normal point scoring. Instead, the score goes:</p>
+    <ul><li>0 = Love</li><li>1 point = 15</li><li>2 points = 30</li><li>3 points = 40</li><li>4 points = Game</li></ul>
+    <p>A player must usually win by two points to win a game.</p>
+
+    <h2>Example game score</h2>
+    <ul>
+      <li>Player A wins first point: 15-0</li><li>Player B wins next point: 15-15</li><li>Player A wins next point: 30-15</li>
+      <li>Player A wins next point: 40-15</li><li>Player A wins next point: Game</li>
+    </ul>
+
+    <h2>What does love mean?</h2>
+    <p>Love means zero in tennis. For example: 15-love = 15-0, 30-love = 30-0, 40-love = 40-0.</p>
+
+    <h2>What is deuce?</h2>
+    <p>Deuce happens when both players reach 40-40. At deuce, a player must win two points in a row to win the game.</p>
+    <ul>
+      <li>Deuce</li>
+      <li>Player A wins point → Advantage Player A</li>
+      <li>Player A wins next point → Game Player A</li>
+    </ul>
+    <p>If Player A has advantage but loses the next point, the score returns to deuce.</p>
+
+    <h2>What is advantage?</h2>
+    <p>Advantage means a player is one point away from winning the game after deuce.</p>
+    <ul>
+      <li>Advantage server = server can win the game on the next point</li>
+      <li>Advantage receiver = receiver can win the game on the next point</li>
+    </ul>
+
+    <h2>How games work</h2>
+    <p>A player wins a game by winning at least four points and leading by two points. A set is made up of games.</p>
+
+    <h2>How sets work</h2>
+    <p>A player usually wins a set by reaching six games with at least a two-game lead. Common set scores include:</p>
+    <ul><li>6-0</li><li>6-1</li><li>6-2</li><li>6-3</li><li>6-4</li><li>7-5</li><li>7-6</li></ul>
+    <p>If the score reaches 6-6, many tournaments use a tie-break.</p>
+
+    <h2>What is a tie-break?</h2>
+    <p>A tie-break is a special scoring format used to decide a close set. Instead of love, 15, 30, and 40, tie-breaks use normal numbers: 1, 2, 3, 4, 5, 6, 7.</p>
+    <p>A player usually wins a standard tie-break by reaching seven points with at least a two-point lead. Example: 7-4 = tie-break won, 8-6 = tie-break won, 10-8 = tie-break won.</p>
+
+    <h2>How matches work</h2>
+    <p>A tennis match is usually played as best of 3 sets or best of 5 sets. Most regular tennis matches are best of three sets. Some men's Grand Slam matches use best of five sets.</p>
+
+    <h2>Simple scoring example</h2>
+    <p>Imagine Player A beats Player B 6-4, 3-6, 6-2. This means:</p>
+    <ul>
+      <li>Player A won the first set 6-4</li>
+      <li>Player B won the second set 6-3</li>
+      <li>Player A won the third set 6-2</li>
+      <li>Player A won the match by 2 sets to 1</li>
+    </ul>
+
+    <h2>Common tennis scoring terms</h2>
+    <div class="table-wrap" style="min-width:0"><table style="min-width:0">
+      <thead><tr><th scope="col">Term</th><th scope="col">Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>Love</td><td>Zero</td></tr>
+        <tr><td>15</td><td>One point</td></tr>
+        <tr><td>30</td><td>Two points</td></tr>
+        <tr><td>40</td><td>Three points</td></tr>
+        <tr><td>Deuce</td><td>40-40</td></tr>
+        <tr><td>Advantage</td><td>One point after deuce</td></tr>
+        <tr><td>Game</td><td>Unit won after enough points</td></tr>
+        <tr><td>Set</td><td>Group of games</td></tr>
+        <tr><td>Match</td><td>Full contest</td></tr>
+        <tr><td>Tie-break</td><td>Special game to decide a close set</td></tr>
+      </tbody>
+    </table></div>
+
+    <Faq items={faqs} />
+    <div class="related callout info"><strong>Related:</strong> <a href="/tennis-rules/">Tennis rules</a> · <a href="/tennis-ranking-guide/">Tennis ranking guide</a> · <a href="/malaysia-tennis-events/">Malaysia tennis events</a></div>
+  </div></section>
+</BaseLayout>

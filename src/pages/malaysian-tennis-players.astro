@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/Faq.astro';
+import { SITE } from '../data/site-nav.js';
+const path='/malaysian-tennis-players/';
+const title='Malaysian Tennis Players | National, Junior & Rising Tennis Talents';
+const description='Discover Malaysian tennis players, national competitors, junior talents, rankings, tournament pathways, and player development in Malaysia.';
+const updated='19 June 2026';
+const faqs=[
+  {q:'Where can I find official Malaysian tennis rankings?',a:'LTAM publishes official rankings for National Circuit and Junior Tour players.'},
+  {q:'Are there Malaysian players in ITF tournaments?',a:'Yes. Malaysian players may appear in ITF junior or professional tournaments. ITF player search can be used to find player records.'},
+  {q:'How can a Malaysian player start competing?',a:'A player can start with local club tournaments, academy events, junior competitions, and then progress to ranking events depending on age and ability.'},
+];
+const articleSchema={'@context':'https://schema.org','@type':'Article',headline:'Malaysian Tennis Players',description,inLanguage:'en-MY',datePublished:'2026-06-19',dateModified:'2026-06-19',mainEntityOfPage:new URL(path,SITE.url).href,author:{'@type':'Organization',name:SITE.name},publisher:{'@type':'Organization',name:SITE.name,logo:{'@type':'ImageObject',url:new URL('/logo.png',SITE.url).href}}};
+const crumbs=[{name:'Home',href:'/'},{name:'Tennis',href:'/malaysia-tennis-events/'},{name:'Malaysian Tennis Players',href:path}];
+---
+<BaseLayout title={title} description={description} path={path} type="article" schema={[articleSchema]} updated={updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Malaysian Tennis Players</h1><p class="intro">The Malaysian tennis player pathway, from juniors to national and international competition.</p></div></div>
+  <section class="section"><div class="container prose">
+    <p class="lead">Malaysia has a growing tennis community made up of junior players, national competitors, club players, coaches, and international-level hopefuls. This page introduces the Malaysian tennis player pathway and helps readers understand how local players progress through tournaments and rankings.</p>
+    <p>For fans, parents, and new players, this guide explains where Malaysian tennis players usually begin, how they compete, and how rankings and tournament results shape their development.</p>
+
+    <h2>Malaysian tennis player pathway</h2>
+    <p>A Malaysian tennis player may progress through several stages:</p>
+    <ul>
+      <li>Beginner lessons</li><li>Club or academy training</li><li>Local tournaments</li><li>Junior tournaments</li><li>State competitions</li>
+      <li>National Circuit events</li><li>ITF junior tournaments</li><li>ITF professional events</li><li>Regional or international competition</li>
+    </ul>
+    <p>Not every player follows the same path, but most competitive players build experience through structured tournaments. See the <a href="/tournaments/">2026 tournament calendar</a> for current events.</p>
+
+    <h2>Junior Malaysian tennis players</h2>
+    <p>Junior tennis is important because it builds the next generation of Malaysian players. Junior players may compete in age-group events and ranking tournaments. LTAM publishes Junior Tour rankings, which can be used to track domestic junior player progress.</p>
+
+    <h2>National Circuit players</h2>
+    <p>National Circuit players compete at a higher domestic level. These tournaments help identify strong Malaysian competitors and provide a platform for players to test themselves against serious opposition.</p>
+    <p>LTAM publishes National Circuit ranking updates, which are useful for following local competitive players.</p>
+
+    <h2>Malaysian players in ITF events</h2>
+    <p>Some Malaysian players compete in ITF junior or professional events. ITF player profiles can include career information, event participation, and international competition history.</p>
+
+    <h2>How to follow Malaysian tennis players</h2>
+    <p>You can follow Malaysian tennis players through:</p>
+    <ul>
+      <li>LTAM ranking updates</li><li>Tournament result pages</li><li>ITF player search</li><li>Academy announcements</li>
+      <li>Club tournament results</li><li>Social media updates from organisers</li><li>MalaysianOpenTennis.com <a href="/player-profiles/men/">player profiles</a></li>
+    </ul>
+
+    <h2>Malaysian tennis development</h2>
+    <p>Malaysia's tennis development depends on:</p>
+    <ul>
+      <li>Accessible courts</li><li>Qualified coaching</li><li>Regular tournaments</li><li>Junior competition</li>
+      <li>National ranking systems</li><li>International exposure</li><li>Parent and school support</li><li>Clear player pathways</li>
+    </ul>
+    <p>A strong local tennis ecosystem helps more players compete consistently and progress to higher levels.</p>
+
+    <Faq items={faqs} />
+    <div class="related callout info"><strong>Related:</strong> <a href="/player-profiles/men/">Player profiles</a> · <a href="/tennis-ranking-guide/">Tennis ranking guide</a> · <a href="/malaysia-tennis-events/">Malaysia tennis events</a></div>
+  </div></section>
+</BaseLayout>

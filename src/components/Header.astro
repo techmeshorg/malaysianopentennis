@@ -1,0 +1,49 @@
+---
+import { NAV } from '../data/site-nav.js';
+const { path = '' } = Astro.props;
+---
+<header class="site-header">
+  <div class="container hdr">
+    <a class="logo" href="/" aria-label="Malaysian Open Tennis — home">
+      <img src="/logo.png" alt="Malaysian Open Tennis" width="480" height="127" style="height:56px;width:auto;display:block" />
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav">☰ Menu</button>
+    <nav class="nav" id="primary-nav" aria-label="Primary">
+      <ul>
+        {NAV.map((item) => (
+          <li>
+            <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>
+              {item.label}{item.children && <span class="caret">▾</span>}
+            </a>
+            {item.children && (
+              <ul class="submenu">
+                {item.children.map((c) => (
+                  <li>
+                    <a href={c.href} aria-current={path === c.href ? 'page' : undefined}>
+                      {c.label}{c.children && <span class="caret caret-r">▸</span>}
+                    </a>
+                    {c.children && (
+                      <ul class="submenu submenu-2">
+                        {c.children.map((g) => (
+                          <li><a href={g.href} aria-current={path === g.href ? 'page' : undefined}>{g.label}</a></li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+<script>
+  const btn = document.querySelector('.nav-toggle');
+  const nav = document.getElementById('primary-nav');
+  btn?.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+</script>

@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { NEWS } from '../../data/news.js';
+import { SITE } from '../../data/site-nav.js';
+
+export async function getStaticPaths() {
+  const { NEWS } = await import('../../data/news.js');
+  return NEWS.map((n) => ({ params: { slug: n.slug }, props: { item: n } }));
+}
+const { item } = Astro.props;
+const path = `/news/${item.slug}/`;
+const title = item.title;
+const description = item.summary;
+const imageAbs = new URL(item.image, SITE.url).href;
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'News', href: '/news/' },
+  { name: item.title, href: path },
+];
+const schema = [{
+  '@context': 'https://schema.org', '@type': 'NewsArticle',
+  headline: item.title, description: item.summary,
+  datePublished: item.date, dateModified: item.date,
+  image: [imageAbs], inLanguage: 'en-MY',
+  mainEntityOfPage: new URL(path, SITE.url).href,
+  author: { '@type': 'Organization', name: SITE.name },
+  publisher: { '@type': 'Organization', name: SITE.name, logo: { '@type': 'ImageObject', url: new URL('/logo.png', SITE.url).href } },
+}];
+const more = NEWS.filter((n) => n.slug !== item.slug).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 2);
+
+// Internal-link any featured players we have a profile for (first mention in the body).
+const players = item.players || [];
+const escapeHtml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const linkedSlugs = new Set();
+const bodyHtml = item.body.map((p) => {
+  let html = escapeHtml(p);
+  for (const pl of players) {
+    if (linkedSlugs.has(pl.slug)) continue;
+    const i = html.indexOf(pl.name);
+    if (i !== -1) {
+      const href = `/player-profiles/${pl.gender}/${pl.slug}/`;
+      html = html.slice(0, i) + `<a href="${href}">${pl.name}</a>` + html.slice(i + pl.name.length);
+      linkedSlugs.add(pl.slug);
+    }
+  }
+  return html;
+});
+---
+<BaseLayout title={title} description={description} path={path} type="article" image={item.image} schema={schema} updated={item.displayDate}>
+  <div class="page-band"><div class="container">
+    <Breadcrumbs items={crumbs} />
+    <span class="art-cat" style={`background:${item.accent}`}>{item.category}</span>
+    <h1>{item.title}</h1>
+    <p class="art-meta">{item.displayDate} · {item.source}</p>
+    {players.length > 0 && (
+      <p class="art-players">{players.length > 1 ? 'Featured players: ' : 'Featured player: '}
+        {players.map((pl, i) => (<span><a href={`/player-profiles/${pl.gender}/${pl.slug}/`}>{pl.name}</a>{i < players.length - 1 ? ', ' : ''}</span>))}
+      </p>
+    )}
+  </div></div>
+  <section class="section"><div class="container">
+    <figure class="art-hero"><img src={item.image} alt={item.title} width="1200" height="630" /></figure>
+    <div class="prose art-body">
+      {bodyHtml.map((h) => <p set:html={h} />)}
+      <div class="callout info art-source">
+        <strong>Source:</strong> This is an original summary written by MalaysianOpenTennis.com from publicly reported facts.
+        Read the full report at <a href={item.sourceUrl} target="_blank" rel="nofollow noopener">{item.source}</a>.
+      </div>
+      <div class="related callout"><strong>More news:</strong> {more.map((n, i) => (<span><a href={`/news/${n.slug}/`}>{n.title}</a>{i < more.length - 1 ? ' · ' : ''}</span>))} · <a href="/news/">All news</a></div>
+    </div>
+  </div></section>
+  <style>
+    .art-cat{display:inline-block;margin:6px 0 10px;color:#fff;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 12px;border-radius:999px}
+    .art-meta{color:#5A6862;font-weight:600;font-size:14px;margin:6px 0 0}
+    .art-players{margin:8px 0 0;font-size:14px;font-weight:600;color:#155A93}
+    .art-players a{color:#1F6FB2;text-decoration:none}
+    .art-players a:hover{text-decoration:underline}
+    .art-hero{margin:0 0 26px;border-radius:16px;overflow:hidden;border:1px solid var(--line,#e4e8e6)}
+    .art-hero img{width:100%;height:auto;display:block}
+    .art-body{max-width:760px}
+    .art-body p{font-size:17px;line-height:1.7;color:#27332D}
+    .art-source{margin-top:24px}
+  </style>
+</BaseLayout>

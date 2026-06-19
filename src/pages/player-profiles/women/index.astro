@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import { WOMEN } from '../../../data/players.js';
+import { SITE } from '../../../data/site-nav.js';
+const path='/player-profiles/women/';
+const title="Malaysian Women's Tennis Players | Player Profiles";
+const description='Profiles of Malaysian men\u2019s tennis players — rankings, playing style, career highlights and sources, from ATP and ITF competitors to Davis Cup names.';
+const updated='19 June 2026';
+const crumbs=[{name:'Home',href:'/'},{name:'Player Profiles',href:'/player-profiles/men/'},{name:'Women',href:path}];
+const itemList={'@context':'https://schema.org','@type':'ItemList',name:"Malaysian women's tennis players",numberOfItems:WOMEN.length,itemListElement:WOMEN.map((p,i)=>({'@type':'ListItem',position:i+1,name:p.name,url:new URL(`/player-profiles/women/${p.slug}/`,SITE.url).href}))};
+const initials=(n)=>n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+---
+<BaseLayout title={title} description={description} path={path} schema={[itemList]} updated={updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Malaysian Women's Tennis Players</h1><p class="intro">Player profiles compiled from public sources. See also <a href="/player-profiles/men/">men's profiles</a>.</p></div></div>
+  <section class="section"><div class="container">
+    <div class="pp-grid">
+      {WOMEN.map((p)=>(
+        <a class="pp-card" href={`/player-profiles/women/${p.slug}/`}>
+          <span class="pp-avatar" aria-hidden="true">{initials(p.name)}</span>
+          <span class="pp-body">
+            <span class="pp-name">{p.name}</span>
+            <span class="pp-cat">{p.category}</span>
+            <span class="pp-head">{p.headline}</span>
+            <span class="pp-rank">{p.currentRank}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+    <div class="prose" style="max-width:none;margin-top:22px">
+      <div class="callout info">Profiles draw on public data from the ATP, WTA, ITF, Tennis Explorer and Malaysian media. Where a detail is not publicly available it is marked rather than guessed. Corrections welcome via our <a href="/contact/">Contact page</a>.</div>
+    </div>
+  </div></section>
+  <style>
+    .pp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .pp-card{display:flex;gap:14px;align-items:flex-start;padding:18px;border:1px solid var(--line,#e4e8e6);border-radius:14px;background:#fff;text-decoration:none;color:inherit;transition:box-shadow .15s,transform .15s}
+    .pp-card:hover{box-shadow:0 8px 24px rgba(20,32,26,.08);transform:translateY(-2px)}
+    .pp-avatar{flex:0 0 auto;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff;background:linear-gradient(135deg,#167D45,#1F6FB2);letter-spacing:.5px}
+    .pp-body{display:flex;flex-direction:column;gap:3px}
+    .pp-name{font-weight:800;font-size:17px;color:#15201A}
+    .pp-cat{font-size:12px;color:#1F6FB2;font-weight:600}
+    .pp-head{font-size:13px;color:#5A6862;margin-top:2px}
+    .pp-rank{font-size:12px;color:#15201A;margin-top:4px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  </style>
+</BaseLayout>

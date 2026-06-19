@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/Faq.astro';
+import { SITE } from '../data/site-nav.js';
+
+const path = '/tennis-courts-malaysia/';
+const title = 'Tennis Courts in Malaysia | Where to Play Tennis by State & City';
+const description = 'Find tennis courts in Malaysia by city and state, including public courts, private clubs, academies, school courts, and booking tips.';
+const updated = '18 June 2026';
+
+const faqs = [
+  { q: 'Are there public tennis courts in Malaysia?', a: 'Yes, many Malaysian cities have public or community sports facilities, although availability and booking systems vary by location.' },
+  { q: 'Do I need to be a club member to play tennis?', a: 'Not always. Some courts are public or pay-per-use, while private clubs may require membership or guest access.' },
+  { q: 'What is the best court surface for beginners?', a: 'Hard courts are usually beginner-friendly because the bounce is predictable and the pace is balanced.' },
+  { q: 'Can I take tennis lessons at Malaysian courts?', a: 'Yes. Many clubs and academies offer coaching for juniors and adults.' },
+];
+const articleSchema = {
+  '@context': 'https://schema.org', '@type': 'Article', headline: 'Tennis Courts in Malaysia',
+  description, inLanguage: 'en-MY', datePublished: '2026-06-18', dateModified: '2026-06-18',
+  mainEntityOfPage: new URL(path, SITE.url).href,
+  author: { '@type': 'Organization', name: SITE.name },
+  publisher: { '@type': 'Organization', name: SITE.name, logo: { '@type': 'ImageObject', url: new URL('/logo.png', SITE.url).href } },
+};
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Tennis', href: '/malaysia-tennis-events/' }, { name: 'Tennis Courts in Malaysia', href: path }];
+const cities = ['Kuala Lumpur','Selangor','Penang','Johor','Melaka','Negeri Sembilan','Perak','Pahang','Sabah','Sarawak'];
+---
+<BaseLayout title={title} description={description} path={path} type="article" schema={[articleSchema]} updated={updated}>
+  <div class="page-band">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <h1>Tennis Courts in Malaysia</h1>
+      <p class="intro">Where to play tennis across Malaysia — by court type, city and state.</p>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container prose">
+      <p class="lead">Finding the right tennis court is one of the first steps to playing more regularly. Malaysia has tennis courts in public sports complexes, private clubs, hotels, schools, universities, residential communities, and tennis academies.</p>
+      <p>This guide helps players understand the main types of tennis courts in Malaysia and how to choose the right venue. Once you're playing regularly, browse <a href="/malaysia-tennis-events/">Malaysia tennis events</a> to find your first competition.</p>
+
+      <h2>Types of tennis courts in Malaysia</h2>
+      <h3>Public tennis courts</h3>
+      <p>Public courts are usually located in sports complexes, community facilities, or local council venues. They may be more affordable, but court conditions and booking systems can vary.</p>
+      <h3>Private club courts</h3>
+      <p>Private clubs often provide better facilities, organised coaching, leagues, and social tennis sessions. Access may require membership or guest fees.</p>
+      <h3>Tennis academy courts</h3>
+      <p>Academies are useful for players who want structured coaching. They may offer beginner lessons, junior programmes, adult clinics, and performance training.</p>
+      <h3>School and university courts</h3>
+      <p>Some schools and universities have tennis courts for students or community programmes. Access depends on the institution's rules.</p>
+      <h3>Hotel and resort courts</h3>
+      <p>Some hotels and resorts in Malaysia offer tennis courts for guests. These are useful for casual players and travellers.</p>
+
+      <h2>Popular cities for tennis in Malaysia</h2>
+      <p>Tennis courts can be found across major Malaysian cities and states, including:</p>
+      <ul>{cities.map((c) => <li>{c}</li>)}</ul>
+
+      <h2 id="choose">What to check before booking a court</h2>
+      <p>Before booking a tennis court, check:</p>
+      <ul>
+        <li>Court surface</li><li>Lighting availability</li><li>Opening hours</li><li>Booking method</li><li>Hourly rate</li>
+        <li>Coaching availability</li><li>Parking</li><li>Changing rooms</li><li>Weather policy</li><li>Racket or ball rental</li>
+      </ul>
+
+      <h2 id="court-surfaces">Court surfaces</h2>
+      <p>Common tennis court surfaces include:</p>
+      <div class="table-wrap" style="min-width:0">
+        <table style="min-width:0">
+          <thead><tr><th scope="col">Surface</th><th scope="col">Playing style</th></tr></thead>
+          <tbody>
+            <tr><td>Hard court</td><td>Balanced speed and bounce</td></tr>
+            <tr><td>Clay court</td><td>Slower rallies and higher bounce</td></tr>
+            <tr><td>Grass court</td><td>Faster and lower bounce</td></tr>
+            <tr><td>Artificial turf</td><td>Recreational and club-friendly</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Many Malaysian recreational courts are hard courts or synthetic surfaces, but surface type varies by venue.</p>
+
+      <h2>How to choose the best tennis court</h2>
+      <p>Beginners should look for courts with:</p>
+      <ul><li>Affordable hourly rates</li><li>Beginner coaching</li><li>Easy booking</li><li>Good lighting</li><li>Safe surroundings</li><li>Convenient location</li></ul>
+      <p>Competitive players should look for:</p>
+      <ul><li>Consistent surface quality</li><li>Match-play environment</li><li>Tournament hosting experience</li><li>Coaching and hitting partners</li><li>Access to regular leagues</li></ul>
+
+      <h2>Court directory (in progress)</h2>
+      <p>We're building a verified, court-by-court directory. The format below will be filled in with confirmed venue information rather than placeholder data.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">State</th><th scope="col">Venue</th><th scope="col">City</th><th scope="col">Court type</th><th scope="col">Booking</th><th scope="col">Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Kuala Lumpur</td><td>—</td><td>—</td><td>Hard court</td><td>—</td><td>Verified info to be added</td></tr>
+            <tr><td>Selangor</td><td>—</td><td>—</td><td>Hard court</td><td>—</td><td>Verified info to be added</td></tr>
+            <tr><td>Penang</td><td>—</td><td>—</td><td>—</td><td>—</td><td>Verified info to be added</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <Faq items={faqs} />
+
+      <div class="related callout info">
+        <strong>Related:</strong> <a href="/malaysia-tennis-events/">Malaysia tennis events</a> · <a href="/tennis-rules/">Tennis rules</a> · <a href="/tournaments/">2026 calendar</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

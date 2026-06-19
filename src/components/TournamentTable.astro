@@ -1,0 +1,94 @@
+---
+import { TOURNAMENTS, STATUS_ORDER, CAT_META, CATEGORIES, ORG_META, orgOf } from '../data/tournaments.js';
+const { limit = 0, statuses = null, heading = 'TennisMalaysia 2026 calendar', showFilter = true } = Astro.props;
+let rows = TOURNAMENTS.slice();
+if (statuses) rows = rows.filter((t) => statuses.includes(t.status));
+rows.sort((a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status));
+if (limit > 0) rows = rows.slice(0, limit);
+const catSlug = (c) => c.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+---
+{showFilter && (
+  <div class="tt-filters">
+    <div class="filters" role="group" aria-label="Filter by status">
+      <span class="tt-flabel">Status</span>
+      <button class="filter-btn" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter-btn" data-filter="Confirmed" aria-pressed="false">Confirmed</button>
+      <button class="filter-btn" data-filter="TBC" aria-pressed="false">TBC</button>
+      <button class="filter-btn" data-filter="Completed" aria-pressed="false">Completed</button>
+    </div>
+    <div class="tt-catfilter">
+      <label for="cat-filter" class="tt-flabel">Category</label>
+      <select id="cat-filter" aria-label="Filter by category">
+        <option value="all">All categories</option>
+        {CATEGORIES.map((c) => <option value={catSlug(c)}>{c}</option>)}
+      </select>
+    </div>
+  </div>
+)}
+<div class="table-wrap">
+  <table id="tournament-table">
+    <caption>{heading}</caption>
+    <thead>
+      <tr>
+        <th scope="col">Organizer</th>
+        <th scope="col">Tournament</th>
+        <th scope="col">Category</th>
+        <th scope="col">Venue</th>
+        <th scope="col">Date (2026)</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((t) => {
+        const org = orgOf(t.name);
+        const om = ORG_META[org];
+        const cm = CAT_META[t.category] || { bg: '#eef1ef', fg: '#15201A' };
+        return (
+          <tr data-status={t.status} data-cat={catSlug(t.category)}>
+            <td><span class="org-badge" style={`background:${om.color}`}>{om.label}</span></td>
+            <td><strong>{t.name}</strong></td>
+            <td><span class="cat-chip" style={`background:${cm.bg};color:${cm.fg}`}>{t.category}</span></td>
+            <td>{t.venue}</td>
+            <td>{t.date}</td>
+            <td><span class={`chip ${t.status}`}>{t.status}</span></td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
+{showFilter && (
+  <p class="tt-note">Organizer badges are derived from the event name as a colour-coded label (not official logos). Real organiser logo files can be dropped in later.</p>
+)}
+{showFilter && (
+  <script>
+    const btns = document.querySelectorAll('.filter-btn');
+    const sel = document.getElementById('cat-filter');
+    const trs = document.querySelectorAll('#tournament-table tbody tr');
+    let activeStatus = 'all';
+    let activeCat = 'all';
+    function apply() {
+      trs.forEach((tr) => {
+        const okS = activeStatus === 'all' || tr.dataset.status === activeStatus;
+        const okC = activeCat === 'all' || tr.dataset.cat === activeCat;
+        tr.style.display = (okS && okC) ? '' : 'none';
+      });
+    }
+    btns.forEach((b) => b.addEventListener('click', () => {
+      activeStatus = b.dataset.filter;
+      btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      apply();
+    }));
+    sel?.addEventListener('change', () => { activeCat = sel.value; apply(); });
+  </script>
+)}
+<style>
+  .tt-filters{display:flex;flex-wrap:wrap;gap:18px 26px;align-items:center;margin-bottom:14px}
+  .tt-flabel{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#5A6862;margin-right:8px}
+  .tt-catfilter{display:flex;align-items:center;gap:4px}
+  .tt-catfilter select{padding:7px 12px;border:1px solid #d8ded9;border-radius:9px;background:#fff;font:inherit;font-size:14px;color:#15201A;cursor:pointer}
+  .org-badge{display:inline-block;padding:3px 9px;border-radius:999px;color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+  .cat-chip{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+  .tt-note{font-size:12px;color:#5A6862;margin:8px 0 0}
+  #tournament-table td:first-child{white-space:nowrap}
+</style>

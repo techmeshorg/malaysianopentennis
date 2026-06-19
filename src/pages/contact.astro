@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE } from '../data/site-nav.js';
+const path='/contact/';
+const title='Contact Us';
+const description='Contact MalaysianOpenTennis.com with questions, corrections, or feedback about our tennis guides and tournament resources.';
+const updated='18 June 2026';
+const schema=[{'@context':'https://schema.org','@type':'ContactPage',name:title,url:new URL(path,SITE.url).href,inLanguage:'en-MY'}];
+const crumbs=[{name:'Home',href:'/'},{name:'Contact',href:path}];
+---
+<BaseLayout title={title} description={description} path={path} schema={schema} updated={updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Contact Us</h1><p class="intro">Questions, corrections or feedback — we'd like to hear from you.</p></div></div>
+  <section class="section"><div class="container prose">
+    <p class="lead">The best way to reach us is by email. We read every message and aim to reply to genuine enquiries.</p>
+    <h2>Email</h2>
+    <p><a href={'mailto:'+SITE.email}>{SITE.email}</a></p>
+    <h2>Corrections</h2>
+    <p>Found an error in a guide, result, or tournament listing? Email us with the page link and the correct information (and a source if you have one). See our <a href="/editorial-policy/">editorial policy</a> for how we handle corrections.</p>
+    <h2>What we can't help with</h2>
+    <p>We're an independent information site. We don't sell tickets, register players for tournaments, or represent any organiser. For entries, please contact the relevant tournament organiser or LTAM directly.</p>
+    <div class="callout info">This site is static and does not collect form submissions. Please use the email address above.</div>
+  </div></section>
+</BaseLayout>

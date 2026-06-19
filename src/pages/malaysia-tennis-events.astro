@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/Faq.astro';
+import { SITE } from '../data/site-nav.js';
+
+const path = '/malaysia-tennis-events/';
+const title = 'Malaysia Tennis Events Guide | Calendar, Tournaments & Local Competitions';
+const description = 'Explore Malaysia tennis events, local tournaments, national circuits, junior competitions, venues, organisers, and key updates for tennis players and fans.';
+const updated = '18 June 2026';
+
+const faqs = [
+  { q: 'Where can I find official Malaysia tennis tournaments?', a: 'The official LTAM tournament page is one of the best starting points for Malaysian tennis tournament information. LTAM also publishes ranking-related information for National Circuit and Junior Tour players.' },
+  { q: 'Are there junior tennis tournaments in Malaysia?', a: 'Yes. Malaysia has junior tournaments across different age categories, including events linked to national and international development pathways.' },
+  { q: 'Can beginners join tennis events in Malaysia?', a: 'Yes, but beginners should usually start with club, academy, or social tournaments before entering higher-level competitive events.' },
+  { q: 'Do Malaysian tennis events count toward rankings?', a: 'Some events may count toward local or official rankings, depending on the organiser and event category. Players should check the tournament rules before registering.' },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Malaysia Tennis Events Guide',
+  description,
+  inLanguage: 'en-MY',
+  datePublished: '2026-06-18',
+  dateModified: '2026-06-18',
+  mainEntityOfPage: new URL(path, SITE.url).href,
+  author: { '@type': 'Organization', name: SITE.name },
+  publisher: { '@type': 'Organization', name: SITE.name, logo: { '@type': 'ImageObject', url: new URL('/logo.png', SITE.url).href } },
+};
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Tennis', href: '/malaysia-tennis-events/' }, { name: 'Malaysia Tennis Events', href: path }];
+---
+<BaseLayout title={title} description={description} path={path} type="article" schema={[articleSchema]} updated={updated}>
+  <div class="page-band">
+    <div class="container">
+      <Breadcrumbs items={crumbs} />
+      <h1>Malaysia Tennis Events Guide</h1>
+      <p class="intro">Your guide to the tournaments, circuits and competitions that make up tennis in Malaysia.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container prose">
+      <p class="lead">Tennis in Malaysia continues to grow through national circuits, junior tournaments, local club competitions, school-level events, and international tournaments hosted across the country. This guide is designed to help players, parents, coaches, and tennis fans understand the main types of tennis events available in Malaysia.</p>
+      <p>Whether you are looking for a junior competition, a national-level tournament, an ITF event, or a local club match, Malaysia's tennis calendar offers opportunities for players at different levels of experience. You can browse the live <a href="/tournaments/">2026 tournament calendar</a> for confirmed dates and venues.</p>
+
+      <h2>What are Malaysia tennis events?</h2>
+      <p>Malaysia tennis events can include amateur tournaments, junior competitions, national ranking events, inter-club matches, university events, and international tournaments. Some events are organised by tennis clubs, while others are connected to national or international tennis bodies.</p>
+      <p>The Lawn Tennis Association of Malaysia, also known as LTAM, is the official national governing body for tennis in Malaysia. LTAM publishes information related to tournaments and official rankings for Malaysian players.</p>
+
+      <h2>Main types of tennis events in Malaysia</h2>
+      <h3>1. National Circuit events</h3>
+      <p>National Circuit events are usually more competitive and may involve ranked Malaysian players. These tournaments are important for players who want to build their competitive record and move up the local tennis structure.</p>
+      <p>Common categories may include:</p>
+      <ul>
+        <li>Men's Singles</li><li>Men's Doubles</li><li>Women's Singles</li><li>Women's Doubles</li>
+        <li>Junior Boys' Singles</li><li>Junior Girls' Singles</li><li>Mixed Doubles</li>
+      </ul>
+      <h3>2. Junior tennis tournaments</h3>
+      <p>Junior tournaments are important for player development. They give younger players experience in match play, tournament pressure, scoring, and competitive routines.</p>
+      <p>Junior events may be grouped by age categories such as:</p>
+      <ul><li>Under-10</li><li>Under-12</li><li>Under-14</li><li>Under-16</li><li>Under-18</li></ul>
+      <h3>3. ITF junior and professional events</h3>
+      <p>Malaysia has hosted ITF-level events, including junior events and professional tour events. For example, ITF lists tournament pages for Malaysia-based events such as J200 Kuala Lumpur, which took place from 15 April 2025 to 20 April 2025.</p>
+      <h3>4. Club and academy tournaments</h3>
+      <p>Local tennis clubs and academies often organise tournaments for beginner, intermediate, and advanced players. These are useful for players who want match experience before joining higher-level events.</p>
+      <h3>5. School, college, and university tennis events</h3>
+      <p>Educational institutions may organise inter-school, college, or university competitions. These events help introduce younger players to structured competition.</p>
+
+      <h2>How to choose the right tennis event</h2>
+      <p>Before joining a tennis tournament in Malaysia, players should check:</p>
+      <ul>
+        <li>Age category</li><li>Ranking requirement</li><li>Registration deadline</li><li>Tournament venue</li><li>Match format</li>
+        <li>Surface type</li><li>Entry fee</li><li>Draw size</li><li>Ball type</li><li>Prize or ranking points</li>
+      </ul>
+      <p>Beginners should start with friendly club events or academy competitions. More experienced players can look for national-level tournaments or ranking events. If you still need somewhere to practise, see our guide to <a href="/tennis-courts-malaysia/">tennis courts in Malaysia</a>.</p>
+
+      <h2>Featured Malaysia tennis event categories</h2>
+      <h3>TennisMalaysia National Circuit</h3>
+      <p>The TennisMalaysia National Circuit is one of the key domestic competition formats for Malaysian players. It is useful for tracking active players, competition results, and local tennis development. You can follow the players who compete in it on our <a href="/malaysian-tennis-players/">Malaysian tennis players</a> page.</p>
+      <h3>ITF World Tennis Tour events in Malaysia</h3>
+      <p>ITF events give Malaysian players exposure to international competition and allow foreign players to compete in Malaysia. ITF tournament pages usually include dates, event categories, results, and draws.</p>
+      <h3>Junior development tournaments</h3>
+      <p>Junior tennis events are important for Malaysia's long-term tennis growth. They help young players build match discipline, ranking history, and competitive confidence.</p>
+
+      <h2>How we update this page</h2>
+      <p>We review Malaysia tennis event information from official tournament organisers, LTAM, ITF listings, venue announcements, and public tournament results. For completed events, we aim to include champions, runner-up information, venue details, and event category where available.</p>
+
+      <Faq items={faqs} />
+
+      <div class="related callout info">
+        <strong>Related:</strong> <a href="/tournaments/">Full 2026 tournament calendar</a> · <a href="/player-profiles/men/">Player profiles</a> · <a href="/malaysian-tennis-players/">Malaysian tennis players</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

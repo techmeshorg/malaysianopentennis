@@ -1,0 +1,9 @@
+---
+const { title, href, tag, body, cta = 'Read more' } = Astro.props;
+---
+<a class="card" href={href}>
+  {tag && <span class="tag">{tag}</span>}
+  <h3>{title}</h3>
+  {body && <p>{body}</p>}
+  <span class="more">{cta} →</span>
+</a>

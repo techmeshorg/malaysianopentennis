@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE } from '../data/site-nav.js';
+const path='/responsible-gambling/';
+const title='Responsible Gambling';
+const description='Our responsible gambling position. MalaysianOpenTennis.com is an informational tennis site and does not offer betting. Guidance and support resources for anyone affected by gambling.';
+const updated='19 June 2026';
+const schema=[{'@context':'https://schema.org','@type':'WebPage',name:title,url:new URL(path,SITE.url).href,inLanguage:'en-MY'}];
+const crumbs=[{name:'Home',href:'/'},{name:'Responsible Gambling',href:path}];
+---
+<BaseLayout title={title} description={description} path={path} schema={schema} updated={updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Responsible Gambling</h1><p class="intro">Our position on responsible play, and where to find help.</p></div></div>
+  <section class="section"><div class="container prose">
+    <div class="callout info"><strong>This site does not currently offer betting.</strong> MalaysianOpenTennis.com is an independent tennis information website. We publish editorial guides and tournament resources only. If we add any betting-related educational content in future, it will be clearly labelled, age-gated, and accompanied by the guidance below.</div>
+
+    <h2>Know the law where you are</h2>
+    <p>Gambling laws differ by country and are strict in many places. In Malaysia in particular, online gambling is heavily restricted. It is your responsibility to understand and follow the laws that apply to you. Nothing on this site is an inducement to gamble.</p>
+
+    <h2>If you choose to gamble, do it responsibly</h2>
+    <ul>
+      <li>Only ever risk money you can comfortably afford to lose.</li>
+      <li>Set strict time and money limits before you start — and stick to them.</li>
+      <li>Never chase losses, and never gamble to make money, solve debt, or escape stress.</li>
+      <li>Don't gamble while under the influence of alcohol or when upset.</li>
+      <li>Keep gambling in balance with the rest of your life.</li>
+      <li>Gambling is strictly for adults (18+, or the legal age where you live — 21+ in some jurisdictions).</li>
+    </ul>
+
+    <h2>Warning signs of a problem</h2>
+    <p>Gambling may be becoming harmful if you are spending more than you can afford, hiding it from others, borrowing to gamble, feeling anxious or irritable about it, or finding it hard to stop. These are signals to seek support early.</p>
+
+    <h2>Support in Malaysia</h2>
+    <p>Malaysia does not have a single dedicated public "gambling helpline", but the following free, confidential services can help anyone in distress — including stress, anxiety, debt worry, or mental-health difficulties connected to gambling. (These are general support lines, not gambling-specific.)</p>
+    <ul>
+      <li><strong>Talian Kasih</strong> — 15999 (24/7 national welfare &amp; counselling helpline, also WhatsApp 019-261 5999)</li>
+      <li><strong>Talian HEAL</strong> — 15555 (national mental-health crisis line)</li>
+      <li><strong>Befrienders Kuala Lumpur</strong> — 03-7627 2929 (24/7 emotional support; see befrienders.org.my for centres nationwide)</li>
+      <li><strong>MIASA Crisis Helpline</strong> — 1-800-18-0066 (24/7)</li>
+    </ul>
+    <p>Please verify numbers against the official providers before relying on them, as contact details and operating hours can change.</p>
+
+    <h2>International resources</h2>
+    <ul>
+      <li>Speak to a doctor or counsellor — a GP can refer you to appropriate local services.</li>
+      <li><strong>Gamblers Anonymous</strong> runs free peer-support groups in many countries.</li>
+      <li><strong>GamCare</strong> and <strong>BeGambleAware</strong> offer free, confidential information and guidance online.</li>
+      <li>In an emergency, contact your local emergency services.</li>
+    </ul>
+
+    <h2>Tools that can help</h2>
+    <p>Licensed operators are typically required to offer deposit limits, time-outs, reality checks, and self-exclusion. Banks and devices may also offer gambling-blocking tools. If you need a break, use them.</p>
+
+    <div class="related callout info"><strong>Related:</strong> <a href="/editorial-policy/">Editorial policy</a> · <a href="/about/">About us</a></div>
+  </div></section>
+</BaseLayout>

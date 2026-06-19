@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { NEWS } from '../../data/news.js';
+import { SITE } from '../../data/site-nav.js';
+const path='/news/';
+const title='Malaysian Tennis News';
+const description='Latest Malaysian tennis news — national team, juniors and ITF events — written in original summaries with links to the original reports.';
+const updated='19 June 2026';
+const crumbs=[{name:'Home',href:'/'},{name:'News',href:path}];
+const items=[...NEWS].sort((a,b)=>b.date.localeCompare(a.date));
+const itemList={'@context':'https://schema.org','@type':'ItemList',name:'Malaysian tennis news',numberOfItems:items.length,itemListElement:items.map((n,i)=>({'@type':'ListItem',position:i+1,name:n.title,url:new URL(`/news/${n.slug}/`,SITE.url).href}))};
+---
+<BaseLayout title={title} description={description} path={path} schema={[itemList]} updated={updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Malaysian Tennis News</h1><p class="intro">Original write-ups of Malaysian tennis stories — national team, juniors and ITF events. Each article links to the original report at its source.</p></div></div>
+  <section class="section"><div class="container">
+    <div class="news-grid">
+      {items.map((n)=>(
+        <article class="news-card">
+          <a class="news-figlink" href={`/news/${n.slug}/`} aria-label={n.title}>
+            <img class="news-img" src={n.image} alt={n.title} width="1200" height="630" loading="lazy" />
+            <span class="news-cat" style={`background:${n.accent}`}>{n.category}</span>
+          </a>
+          <div class="news-body">
+            <h2 class="news-title"><a href={`/news/${n.slug}/`}>{n.title}</a></h2>
+            <p class="news-meta">{n.displayDate} · {n.source}</p>
+            <p class="news-sum">{n.summary}</p>
+            <a class="news-link" href={`/news/${n.slug}/`}>Read more →</a>
+          </div>
+        </article>
+      ))}
+    </div>
+    <div class="prose" style="max-width:none;margin-top:24px">
+      <div class="callout info"><strong>About this section.</strong> Articles are written in-house in our own words from publicly reported facts, and link to the original report; we do not republish outlets' text or photographs. Feature images are on-brand generated graphics — swap for licensed photos if preferred. New stories are added in <code>src/data/news.js</code>.</div>
+    </div>
+  </div></section>
+  <style>
+    .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px}
+    .news-card{display:flex;flex-direction:column;border:1px solid var(--line,#e4e8e6);border-radius:14px;overflow:hidden;background:#fff}
+    .news-figlink{position:relative;display:block;aspect-ratio:1200/630;overflow:hidden}
+    .news-img{width:100%;height:100%;object-fit:cover;display:block}
+    .news-cat{position:absolute;left:12px;bottom:12px;color:#fff;font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:4px 11px;border-radius:999px}
+    .news-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:7px}
+    .news-title{font-size:18px;line-height:1.25;margin:0}
+    .news-title a{color:#15201A;text-decoration:none}
+    .news-title a:hover{color:#167D45}
+    .news-meta{font-size:12px;color:#5A6862;margin:0;font-weight:600}
+    .news-sum{font-size:14px;line-height:1.55;color:#36433C;margin:2px 0 4px}
+    .news-link{font-size:13px;font-weight:700;color:#1F6FB2;text-decoration:none;margin-top:auto}
+    .news-link:hover{text-decoration:underline}
+  </style>
+</BaseLayout>

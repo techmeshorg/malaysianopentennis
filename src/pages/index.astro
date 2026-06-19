@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/Card.astro';
+import { TOURNAMENTS } from '../data/tournaments.js';
+import { SITE } from '../data/site-nav.js';
+
+const title = 'Malaysia Tennis, Tournament Guides & Player Resources';
+const description = SITE.description;
+
+// Upcoming events: not yet completed, first few in calendar order.
+const upcoming = TOURNAMENTS.filter((t) => t.status !== 'Completed').slice(0, 6);
+
+const coreGuides = [
+  { title: 'Malaysia Tennis Events', href: '/malaysia-tennis-events/', tag: 'Guide', body: 'National circuits, junior tours, ITF events and how to choose the right one.' },
+  { title: 'ATP & WTA Malaysia History', href: '/atp-wta-malaysia-history/', tag: 'History', body: 'How Malaysia connects to the ATP, WTA and ITF tours, tournament levels and the player pathway.' },
+  { title: 'Tennis Rules', href: '/tennis-rules/', tag: 'Learn', body: 'The essential rules of tennis explained for new and improving players.' },
+  { title: 'How Tennis Scoring Works', href: '/how-tennis-scoring-works/', tag: 'Learn', body: 'Points, games, sets, deuce, advantage and tiebreaks made simple.' },
+  { title: 'Tennis Ranking Guide', href: '/tennis-ranking-guide/', tag: 'Reference', body: 'How ATP, WTA and national rankings are calculated and updated.' },
+  { title: 'Malaysian Tennis Players', href: '/malaysian-tennis-players/', tag: 'Players', body: 'Following Malaysia’s players across national and international competition.' },
+];
+
+---
+<BaseLayout title={title + ' | ' + SITE.name} description={description} path="/">
+  <section class="hero">
+    <div class="container">
+      <p class="eyebrow">Independent · Malaysia tennis</p>
+      <h1>Malaysia Tennis, Tournament Guides &amp; Player Resources</h1>
+      <p class="sub">Your independent guide to tennis events, tournament history, rankings, rules, courts, and player development in Malaysia.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="/malaysia-tennis-events/">Explore Tennis Events</a>
+        <a class="btn btn-secondary" href="/tennis-rules/">Learn Tennis Rules</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Featured core guides -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="kick">Start here</p>
+        <h2>Featured core guides</h2>
+        <p>The essential resources for following and playing tennis in Malaysia.</p>
+      </div>
+      <div class="grid grid-3">
+        {coreGuides.map((g) => <Card {...g} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Malaysia tennis events overview -->
+  <section class="section alt">
+    <div class="container">
+      <div class="section-head">
+        <p class="kick">What's on</p>
+        <h2>Malaysia tennis events overview</h2>
+        <p>National circuit legs, junior tours and ITF stops run across the country through the year. Here are upcoming and confirmed events from the 2026 calendar.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <caption>Upcoming &amp; confirmed — 2026</caption>
+          <thead><tr><th scope="col">Tournament</th><th scope="col">Venue</th><th scope="col">Date</th><th scope="col">Status</th></tr></thead>
+          <tbody>
+            {upcoming.map((t) => (
+              <tr>
+                <td><strong>{t.name}</strong></td>
+                <td>{t.venue}</td>
+                <td>{t.date}</td>
+                <td><span class={`chip ${t.status}`}>{t.status}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:16px"><a class="btn btn-secondary" href="/tournaments/">View the full 2026 calendar</a></p>
+    </div>
+  </section>
+
+  <!-- 3. Learn tennis basics -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="kick">Learn</p>
+        <h2>Learn tennis basics</h2>
+        <p>New to the sport? Start with the rules and the scoring system.</p>
+      </div>
+      <div class="grid grid-2">
+        <Card title="Tennis Rules" href="/tennis-rules/" tag="Learn" body="Court layout, serving, faults, lets, and the rules that govern singles and doubles play." />
+        <Card title="How Tennis Scoring Works" href="/how-tennis-scoring-works/" tag="Learn" body="From 15-30-40 and deuce to games, sets, tiebreaks and full match formats." />
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Player and ranking resources -->
+  <section class="section alt-blue">
+    <div class="container">
+      <div class="section-head">
+        <p class="kick">Players &amp; rankings</p>
+        <h2>Player and ranking resources</h2>
+        <p>Understand how rankings work and how to follow Malaysian players.</p>
+      </div>
+      <div class="grid grid-3">
+        <Card title="Tennis Ranking Guide" href="/tennis-ranking-guide/" tag="Reference" body="How the ATP, WTA, ITF and Malaysia ranking systems award points, seeding and entry." />
+        <Card title="Malaysian Tennis Players" href="/malaysian-tennis-players/" tag="Players" body="The player pathway, junior and national circuit competition, and where to track results." />
+        <Card title="Player Profiles" href="/player-profiles/men/" tag="Format" body="How we build individual Malaysian player pages — fields, format and verified-data standards." />
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Tennis courts in Malaysia -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="kick">Where to play</p>
+        <h2>Tennis courts in Malaysia</h2>
+        <p>Public courts, private clubs, academies and more — and what to check before you book.</p>
+      </div>
+      <div class="grid grid-3">
+        <Card title="Find Tennis Courts" href="/tennis-courts-malaysia/" tag="Courts" body="Court types across Malaysia by city and state, with a booking checklist." />
+        <Card title="Court Surfaces" href="/tennis-courts-malaysia/#court-surfaces" tag="Reference" body="Hard, clay, grass and artificial turf — how each plays." />
+        <Card title="Choosing a Court" href="/tennis-courts-malaysia/#choose" tag="Tips" body="What beginners and competitive players should look for." />
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Latest guides -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="kick">Recently published</p>
+        <h2>Latest guides</h2>
+        <p>Our most recent tennis resources and references.</p>
+      </div>
+      <div class="grid grid-3">
+        <Card title="ATP, WTA & ITF: how Malaysia fits in" href="/atp-wta-malaysia-history/" tag="History" body="The professional tennis structure and Malaysia’s place in the wider tennis world." />
+        <Card title="A beginner's guide to tennis scoring" href="/how-tennis-scoring-works/" tag="Learn" body="The scoring system explained step by step." />
+        <Card title="Choosing a tennis tournament in Malaysia" href="/malaysia-tennis-events/" tag="Guide" body="Categories, ranking points and what to check before you enter." />
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Editorial trust section -->
+  <section class="section alt-blue">
+    <div class="container">
+      <div class="section-head">
+        <p class="kick">Why trust us</p>
+        <h2>Independent, editorial-first</h2>
+      </div>
+      <div class="grid grid-3">
+        <Card title="Editorial Policy" href="/editorial-policy/" tag="Trust" body="How we research, source and update our content — and how we handle corrections." />
+        <Card title="About Us" href="/about/" tag="Trust" body="Who we are and what this independent tennis resource is for." />
+        <Card title="Responsible Gambling" href="/responsible-gambling/" tag="Safety" body="Our position on responsible play and where to find support." />
+      </div>
+      <div class="callout info" style="margin-top:18px">
+        We don't publish fabricated results or statistics. Tournament data is taken from official organisers and listings; where a detail isn't confirmed, we mark it rather than guess.
+      </div>
+    </div>
+  </section>
+</BaseLayout>
