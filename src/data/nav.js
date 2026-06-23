@@ -24,7 +24,6 @@ export const NAV = [
   },
   { label: 'Tournaments', href: '/tournaments/' },
   { label: 'News', href: '/news/' },
-  { label: 'Responsible Gambling', href: '/responsible-gambling/' },
 ];
 
 export const FOOTER_LINKS = [
@@ -33,5 +32,4 @@ export const FOOTER_LINKS = [
   { label: 'Contact', href: '/contact/' },
   { label: 'Privacy Policy', href: '/privacy-policy/' },
   { label: 'Terms', href: '/terms/' },
-  { label: 'Responsible Gambling', href: '/responsible-gambling/' },
 ];
