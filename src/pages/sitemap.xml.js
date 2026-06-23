@@ -5,7 +5,7 @@ const PATHS = [
   '/', '/malaysia-tennis-events/', '/atp-wta-malaysia-history/', '/tennis-rules/',
   '/how-tennis-scoring-works/', '/tennis-ranking-guide/', '/malaysian-tennis-players/',
   '/tennis-courts-malaysia/', '/player-profiles/men/', '/player-profiles/women/', '/player-profiles/men/mitsuki-leong/', '/player-profiles/men/christian-didier-chin/', '/player-profiles/men/adam-malik/', '/player-profiles/men/darrshan-suresh/', '/player-profiles/women/shihomi-leong/', '/player-profiles/women/daania-hazli/', '/player-profiles/women/elsa-wan/','/tournaments/', '/news/', '/news/tennis-malaysia-davis-cup-group-iii-2026/', '/news/malaysia-potential-pickleball-padel-2026/', '/news/j300-premier-sarawak-cup-kuching-2026/', '/news/daania-hazli-national-circuit-two-titles-2026/', '/news/daania-hazli-itf-j30-phnom-penh-2025/',
-  '/about/', '/editorial-policy/', '/contact/', '/privacy-policy/', '/terms/', '/responsible-gambling/',
+  '/about/', '/editorial-policy/', '/contact/', '/privacy-policy/', '/terms/',
 ];
 const lastmod = new Date().toISOString().split('T')[0];
 

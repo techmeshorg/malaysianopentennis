@@ -47,7 +47,7 @@ malaysiaopentennis/
    │  ├─ tournaments.astro
    │  ├─ news.astro
    │  ├─ about.astro / editorial-policy.astro / contact.astro
-   │  ├─ privacy-policy.astro / terms.astro / responsible-gambling.astro
+   │  ├─ privacy-policy.astro / terms.astro
    │  ├─ 404.astro
    │  ├─ sitemap.xml.js    # generates /sitemap.xml
    │  └─ malaysia-open/{tennis,badminton,golf,squash}.astro
@@ -105,4 +105,4 @@ After the first deploy, every `git push` to `main` triggers an automatic rebuild
 - Every page sets a unique title, meta description, canonical URL, Open Graph + Twitter tags, one `<h1>`, breadcrumbs, related links and a "last updated" date.
 - JSON-LD: `WebSite` + `Organization` on every page; `Article` on content pages; `BreadcrumbList` via the breadcrumbs component; `FAQPage` where an FAQ exists; `ItemList` on the tournaments page.
 - The 2026 calendar is transcribed from the official TennisMalaysia summary (updated 29 May 2026). No results, champions or statistics are fabricated; unconfirmed items are marked rather than guessed.
-- The site currently contains **no betting or casino content**. The Responsible Gambling page is informational and reflects that the site offers no betting at this time.
+- The site currently contains **no betting or casino content**.
