@@ -50,7 +50,7 @@ img{max-width:100%;height:auto;display:block}
 .nav .submenu a:hover{background:var(--bg-soft);color:var(--green);text-decoration:none}
 .nav .submenu > li > a{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .nav .caret-r{font-size:9px;color:var(--slate)}
-.nav .submenu .submenu{top:-7px;left:100%;margin-left:3px}
+.nav .submenu .submenu{top:-7px;left:auto;right:100%;margin-right:3px}
 .nav-toggle{display:none;background:none;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:15px;cursor:pointer;color:var(--ink)}
 
 @media(max-width:900px){
@@ -130,6 +130,11 @@ tbody tr:hover td{background:var(--bg-soft)}
 .chip.Confirmed{color:var(--ok);border-color:var(--ok);background:rgba(22,125,69,.07)}
 .chip.TBC{color:var(--tbc);border-color:var(--tbc);background:rgba(154,107,18,.07)}
 .chip.Completed{color:var(--done);border-color:var(--line);background:var(--bg-soft)}
+.chip.Upcoming{color:var(--ok);border-color:var(--ok);background:rgba(22,125,69,.07)}
+.chip.Ongoing{color:var(--blue-deep);border-color:var(--blue);background:rgba(31,111,178,.08)}
+.chip.Postponed{color:var(--tbc);border-color:var(--tbc);background:rgba(154,107,18,.07)}
+.chip.Cancelled{color:#A3261B;border-color:#A3261B;background:rgba(163,38,27,.06)}
+.chip.Unconfirmed{color:var(--tbc);border-color:var(--tbc);border-style:dashed;background:#fff}
 
 /* ---------- breadcrumbs ---------- */
 .crumbs{font-size:13px;color:var(--slate);padding:16px 0 0}

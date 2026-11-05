@@ -3,94 +3,125 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Faq from '../components/Faq.astro';
 import { SITE } from '../data/site-nav.js';
+import { TOURNAMENTS } from '../data/tournaments.js';
+import { upcoming } from '../lib/events.js';
 
 const path = '/malaysia-tennis-events/';
-const title = 'Malaysia Tennis Events Guide | Calendar, Tournaments & Local Competitions';
-const description = 'Explore Malaysia tennis events, local tournaments, national circuits, junior competitions, venues, organisers, and key updates for tennis players and fans.';
-const updated = '18 June 2026';
+const title = 'How to Choose & Enter Tennis Tournaments in Malaysia | Levels, Fees & Checklist';
+const description = 'A practical guide to tennis competitions in Malaysia: the levels from Junior Tour to ITF events, who can enter, how to register (BOUNX, IPIN, ATF), published fees and deadlines, ranking points and a first-tournament checklist.';
+const updated = '5 November 2026';
+const next = upcoming(TOURNAMENTS).filter((t) => t.inMalaysia !== false).slice(0, 3);
+const L = {
+  tm: 'https://www.ltam.my/tournaments',
+  tmRank: 'https://www.ltam.my/ranking',
+  jt5: 'https://www.ltam.my/tournaments/2026/2026-jt-leg5',
+  jt5fs: 'https://cdn.prod.website-files.com/60740f7c45729bf0942e165e/6a5b38f16910a9f4b6d32c8d_TMJT26L5%20MELAKA%20FACT%20SHEET%20(1).pdf',
+  klo: 'https://www.ltam.my/tournaments/2026/2026-nc-klopen',
+  klofs: 'https://cdn.prod.website-files.com/60740f7c45729bf0942e165e/6a4e7d2fdec4794e14803245_KL%20Open%202026%20Factsheet%20(2).pdf',
+  ipinFaq: 'https://www.itftennis.com/media/16731/ipin-guide-faq-june-2026.pdf',
+  jrRegs: 'https://www.itftennis.com/media/16911/2026-itf-world-tennis-tour-juniors-regulations.pdf',
+  wttRegs: 'https://www.itftennis.com/media/15544/2026-wtt-regulations.pdf',
+  atfRegs: 'https://www.asiantennis.com/wp-content/uploads/2026/03/2026-ATF-14-Under-Regulation-Final-With-Update-series.pdf',
+  atfReg: 'https://www.atf.hitcourt.com/register-player',
+};
 
 const faqs = [
-  { q: 'Where can I find official Malaysia tennis tournaments?', a: 'The official LTAM tournament page is one of the best starting points for Malaysian tennis tournament information. LTAM also publishes ranking-related information for National Circuit and Junior Tour players.' },
-  { q: 'Are there junior tennis tournaments in Malaysia?', a: 'Yes. Malaysia has junior tournaments across different age categories, including events linked to national and international development pathways.' },
-  { q: 'Can beginners join tennis events in Malaysia?', a: 'Yes, but beginners should usually start with club, academy, or social tournaments before entering higher-level competitive events.' },
-  { q: 'Do Malaysian tennis events count toward rankings?', a: 'Some events may count toward local or official rankings, depending on the organiser and event category. Players should check the tournament rules before registering.' },
+  { q: 'Where do I register for TennisMalaysia tournaments?', a: 'TennisMalaysia Junior Tour, National Circuit (including the KL Open) and national junior events take entries through the BOUNX Sport app. Each event’s fact sheet on ltam.my gives the fee and the entry and withdrawal deadlines.' },
+  { q: 'Can beginners enter tennis tournaments in Malaysia?', a: 'Yes, but start at the right level. Club and academy events, and the younger Junior Tour age groups, are the usual first step. National Circuit open events and ITF tournaments attract experienced and ranked players.' },
+  { q: 'Which Malaysian events give world ranking points?', a: 'ITF junior events (J30 up to J300 in Malaysia) give ITF junior points; ITF M15 events give ATP points; ITF women’s events (W15 and up) give WTA points. TennisMalaysia National Circuit and Junior Tour legs count towards TennisMalaysia’s national rankings.' },
+  { q: 'How old do you have to be to play ITF junior events?', a: 'For 2026, players born between 2008 and 2013 are eligible, and a player must have turned 13 before the main draw starts. Entry is through an ITF IPIN Juniors membership.' },
 ];
-
 const articleSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: 'Malaysia Tennis Events Guide',
-  description,
-  inLanguage: 'en-MY',
-  datePublished: '2026-06-18',
-  dateModified: '2026-06-18',
+  '@context': 'https://schema.org', '@type': 'Article', headline: 'How to Choose and Enter Tennis Tournaments in Malaysia',
+  description, inLanguage: 'en-MY', datePublished: '2026-06-18', dateModified: '2026-11-05',
   mainEntityOfPage: new URL(path, SITE.url).href,
-  author: { '@type': 'Organization', name: SITE.name },
+  author: { '@type': 'Organization', name: `${SITE.name} Editorial Team` },
   publisher: { '@type': 'Organization', name: SITE.name, logo: { '@type': 'ImageObject', url: new URL('/logo.png', SITE.url).href } },
 };
-const crumbs = [{ name: 'Home', href: '/' }, { name: 'Tennis', href: '/malaysia-tennis-events/' }, { name: 'Malaysia Tennis Events', href: path }];
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Tennis', href: '/malaysia-tennis-events/' }, { name: 'Choosing & Entering Events', href: path }];
 ---
 <BaseLayout title={title} description={description} path={path} type="article" schema={[articleSchema]} updated={updated}>
-  <div class="page-band">
-    <div class="container">
-      <Breadcrumbs items={crumbs} />
-      <h1>Malaysia Tennis Events Guide</h1>
-      <p class="intro">Your guide to the tournaments, circuits and competitions that make up tennis in Malaysia.</p>
-    </div>
-  </div>
+  <div class="page-band"><div class="container">
+    <Breadcrumbs items={crumbs} />
+    <h1>How to Choose &amp; Enter Tennis Events in Malaysia</h1>
+    <p class="intro">Competition levels, who can enter, how to register and what it costs, plus a checklist for your first tournament.</p>
+  </div></div>
 
-  <section class="section">
-    <div class="container prose">
-      <p class="lead">Tennis in Malaysia continues to grow through national circuits, junior tournaments, local club competitions, school-level events, and international tournaments hosted across the country. This guide is designed to help players, parents, coaches, and tennis fans understand the main types of tennis events available in Malaysia.</p>
-      <p>Whether you are looking for a junior competition, a national-level tournament, an ITF event, or a local club match, Malaysia's tennis calendar offers opportunities for players at different levels of experience. You can browse the live <a href="/tournaments/">2026 tournament calendar</a> for confirmed dates and venues.</p>
+  <section class="section"><div class="container prose">
+    <p class="lead">This page explains how to pick and enter a competition. For dates, see the <a href="/tournaments/">2026 tournament calendar</a>, which lists upcoming events and results.{next.length > 0 && <> Coming up next: {next.map((t, i) => <>{t.name} ({t.dates}){i < next.length - 1 ? '; ' : '.'}</>)}</>}</p>
 
-      <h2>What are Malaysia tennis events?</h2>
-      <p>Malaysia tennis events can include amateur tournaments, junior competitions, national ranking events, inter-club matches, university events, and international tournaments. Some events are organised by tennis clubs, while others are connected to national or international tennis bodies.</p>
-      <p>The Lawn Tennis Association of Malaysia, also known as LTAM, is the official national governing body for tennis in Malaysia. LTAM publishes information related to tournaments and official rankings for Malaysian players.</p>
+    <h2 id="levels">Competition levels in Malaysia</h2>
+    <div class="table-wrap" style="min-width:0"><table class="lv">
+      <thead><tr><th scope="col">Level</th><th scope="col">Who it suits</th><th scope="col">Eligibility</th><th scope="col">Points</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Club, academy &amp; school events</strong></td><td>First-timers and social players</td><td>Set by the organiser; often members or students</td><td>None</td></tr>
+        <tr><td><strong>TennisMalaysia Junior Tour</strong></td><td>Developing juniors</td><td>12&amp;U, 14&amp;U, 16&amp;U birth-year groups</td><td>TennisMalaysia Junior Tour ranking</td></tr>
+        <tr><td><strong>TennisMalaysia National Junior Championships</strong></td><td>Juniors, including the youngest players</td><td>Age groups from 8&amp;U upwards</td><td>National junior rankings</td></tr>
+        <tr><td><strong>TennisMalaysia National Circuit</strong> (incl. KL Open)</td><td>Strong juniors and adults; the main domestic senior competition</td><td>Open events plus age-group events; Masters 35+ and Veterans 50+ at the KL Open</td><td>TennisMalaysia National Circuit ranking</td></tr>
+        <tr><td><strong>ATF 14&amp;U (Asian Junior Tour)</strong></td><td>Competitive juniors aged 10–14</td><td>Born 2012–2016 (for 2026); ATF player account</td><td>ATF 14&amp;U ranking</td></tr>
+        <tr><td><strong>ITF World Tennis Tour Juniors</strong> (J30–J300 in Malaysia)</td><td>Internationally competitive under-18s</td><td>Born 2008–2013 (for 2026), aged 13+; IPIN Juniors</td><td>ITF junior ranking</td></tr>
+        <tr><td><strong>ITF World Tennis Tour</strong> (M15 Kuala Lumpur)</td><td>Players starting a professional career</td><td>IPIN pro membership; minimum age rules apply</td><td>ATP points (men); WTA points at W-events</td></tr>
+      </tbody>
+    </table></div>
+    <p class="src">Sources: <a href={L.tm} target="_blank" rel="noopener">TennisMalaysia tournaments</a>; <a href={L.atfRegs} target="_blank" rel="noopener">ATF 14&amp;U Regulations 2026</a>; <a href={L.jrRegs} target="_blank" rel="noopener">ITF Juniors Regulations 2026</a>; <a href={L.wttRegs} target="_blank" rel="noopener">ITF World Tennis Tour Regulations 2026</a>. For how each ranking is calculated, see the <a href="/tennis-ranking-guide/">ranking guide</a>.</p>
 
-      <h2>Main types of tennis events in Malaysia</h2>
-      <h3>1. National Circuit events</h3>
-      <p>National Circuit events are usually more competitive and may involve ranked Malaysian players. These tournaments are important for players who want to build their competitive record and move up the local tennis structure.</p>
-      <p>Common categories may include:</p>
-      <ul>
-        <li>Men's Singles</li><li>Men's Doubles</li><li>Women's Singles</li><li>Women's Doubles</li>
-        <li>Junior Boys' Singles</li><li>Junior Girls' Singles</li><li>Mixed Doubles</li>
-      </ul>
-      <h3>2. Junior tennis tournaments</h3>
-      <p>Junior tournaments are important for player development. They give younger players experience in match play, tournament pressure, scoring, and competitive routines.</p>
-      <p>Junior events may be grouped by age categories such as:</p>
-      <ul><li>Under-10</li><li>Under-12</li><li>Under-14</li><li>Under-16</li><li>Under-18</li></ul>
-      <h3>3. ITF junior and professional events</h3>
-      <p>Malaysia has hosted ITF-level events, including junior events and professional tour events. For example, ITF lists tournament pages for Malaysia-based events such as J200 Kuala Lumpur, which took place from 15 April 2025 to 20 April 2025.</p>
-      <h3>4. Club and academy tournaments</h3>
-      <p>Local tennis clubs and academies often organise tournaments for beginner, intermediate, and advanced players. These are useful for players who want match experience before joining higher-level events.</p>
-      <h3>5. School, college, and university tennis events</h3>
-      <p>Educational institutions may organise inter-school, college, or university competitions. These events help introduce younger players to structured competition.</p>
+    <h2 id="enter">How to enter</h2>
 
-      <h2>How to choose the right tennis event</h2>
-      <p>Before joining a tennis tournament in Malaysia, players should check:</p>
-      <ul>
-        <li>Age category</li><li>Ranking requirement</li><li>Registration deadline</li><li>Tournament venue</li><li>Match format</li>
-        <li>Surface type</li><li>Entry fee</li><li>Draw size</li><li>Ball type</li><li>Prize or ranking points</li>
-      </ul>
-      <p>Beginners should start with friendly club events or academy competitions. More experienced players can look for national-level tournaments or ranking events. If you still need somewhere to practise, see our guide to <a href="/tennis-courts-malaysia/">tennis courts in Malaysia</a>.</p>
+    <h3>TennisMalaysia events (Junior Tour, National Circuit, national juniors)</h3>
+    <ol>
+      <li>Download the <strong>BOUNX Sport</strong> app and create an account. Parents add each child under “Manage Kids”.</li>
+      <li>Search for “TennisMalaysia National Tennis Centre” and choose the tournament.</li>
+      <li>Read the event’s <strong>fact sheet</strong> on <a href={L.tm} target="_blank" rel="noopener">ltam.my</a> for categories, birth-year bands, format, fee and deadlines.</li>
+      <li>Register and pay in the app before the entry deadline.</li>
+    </ol>
+    <p><strong>Published 2026 examples:</strong></p>
+    <ul>
+      <li><a href={L.jt5} target="_blank" rel="noopener">Junior Tour Leg 5, Melaka</a> (5–9 Aug 2026): <strong>RM100</strong> for singles and doubles. Entry deadline 28 July (8 days before the start), withdrawal deadline 30 July. Players lost 10 ranking points for not turning up to their first match (<a href={L.jt5fs} target="_blank" rel="noopener">fact sheet</a>).</li>
+      <li><a href={L.klo} target="_blank" rel="noopener">CIMB KL Open</a> (28 Jul–2 Aug 2026): <strong>RM200</strong> for the men’s and women’s Open, <strong>RM150</strong> for Masters 35+ and Veterans 50+ (<a href={L.klofs} target="_blank" rel="noopener">fact sheet</a>).</li>
+    </ul>
 
-      <h2>Featured Malaysia tennis event categories</h2>
-      <h3>TennisMalaysia National Circuit</h3>
-      <p>The TennisMalaysia National Circuit is one of the key domestic competition formats for Malaysian players. It is useful for tracking active players, competition results, and local tennis development. You can follow the players who compete in it on our <a href="/malaysian-tennis-players/">Malaysian tennis players</a> page.</p>
-      <h3>ITF World Tennis Tour events in Malaysia</h3>
-      <p>ITF events give Malaysian players exposure to international competition and allow foreign players to compete in Malaysia. ITF tournament pages usually include dates, event categories, results, and draws.</p>
-      <h3>Junior development tournaments</h3>
-      <p>Junior tennis events are important for Malaysia's long-term tennis growth. They help young players build match discipline, ranking history, and competitive confidence.</p>
+    <h3>ATF 14&amp;U events</h3>
+    <p>Create an <a href={L.atfReg} target="_blank" rel="noopener">ATF player account</a> (US$40 a year). Entries close on the <strong>Tuesday 21 days before</strong> the Monday of the tournament week, and withdrawals 13 days before. Entry fees depend on the event grade and are listed in the <a href={L.atfRegs} target="_blank" rel="noopener">ATF 14&amp;U Regulations</a>.</p>
 
-      <h2>How we update this page</h2>
-      <p>We review Malaysia tennis event information from official tournament organisers, LTAM, ITF listings, venue announcements, and public tournament results. For completed events, we aim to include champions, runner-up information, venue details, and event category where available.</p>
+    <h3>ITF junior events</h3>
+    <p>Join <strong>IPIN Juniors</strong> (US$70 a year) and complete the ITF’s mandatory online courses. Enter and withdraw online in IPIN. The entry deadline for J30–J300 events is <strong>14:00 GMT on the Tuesday 20 days before</strong> the tournament week starts, and the withdrawal deadline is the Tuesday 13 days before. Tournament entry fees are capped by grade; for outdoor J30/J60 events without hospitality the cap is US$70 for the main draw (<a href={L.jrRegs} target="_blank" rel="noopener">regulations</a>; <a href={L.ipinFaq} target="_blank" rel="noopener">IPIN FAQ</a>).</p>
 
-      <Faq items={faqs} />
+    <h3>ITF professional events (M15 and up)</h3>
+    <p>Join <strong>IPIN</strong> as a professional (US$90 a year; minimum age 13 years 11 months to register). Singles entries close at <strong>14:00 GMT on the Thursday 18 days before</strong> the tournament week; withdrawals on the Tuesday 13 days before. Tournament entry fees are capped at US$40 (<a href={L.wttRegs} target="_blank" rel="noopener">2026 WTT Regulations</a>). From 2027 the ITF pro ranking will no longer be used for acceptance, and the ITF says the World Tennis Number will matter more for entry (<a href="https://itftennis.com/media/15605/wtt-points-tables-2026.pdf" target="_blank" rel="noopener">ITF</a>).</p>
 
-      <div class="related callout info">
-        <strong>Related:</strong> <a href="/tournaments/">Full 2026 tournament calendar</a> · <a href="/player-profiles/men/">Player profiles</a> · <a href="/malaysian-tennis-players/">Malaysian tennis players</a>
-      </div>
-    </div>
-  </section>
+    <h2 id="checklist">First-tournament checklist</h2>
+    <ul class="checklist">
+      <li><strong>Right event and category:</strong> check the birth-year band, not just the age label (“14&amp;U” means born in a stated range of years).</li>
+      <li><strong>Entry deadline:</strong> diary it. TennisMalaysia deadlines can be just over a week before the event; ITF and ATF deadlines are about three weeks before.</li>
+      <li><strong>Withdrawal deadline:</strong> pulling out late can cost the fee or ranking points.</li>
+      <li><strong>Format:</strong> full sets, short sets, No-Ad or match tie-breaks? See <a href="/how-tennis-scoring-works/#formats">match formats</a>. Formats can change on the day for weather.</li>
+      <li><strong>Venue and surface:</strong> find the courts on a map and check parking. Most Malaysian events are on hard courts. See <a href="/tennis-courts-malaysia/">courts in Malaysia</a>.</li>
+      <li><strong>Sign-in and reporting time:</strong> arrive well before your first match, and check the order of play the night before.</li>
+      <li><strong>Equipment:</strong> two rackets, spare grips, drinks and food for long days, sun protection, and shoes suitable for hard courts.</li>
+      <li><strong>Officiating:</strong> many junior matches are unofficiated, so know how to call lines and keep score. See <a href="/tennis-rules/#officials">line calls</a>.</li>
+    </ul>
+
+    <h2 id="points">Which events award which points</h2>
+    <div class="table-wrap" style="min-width:0"><table class="lv">
+      <thead><tr><th scope="col">Event in Malaysia (2026)</th><th scope="col">Points awarded</th></tr></thead>
+      <tbody>
+        <tr><td>TennisMalaysia Junior Tour legs</td><td>TennisMalaysia Junior Tour ranking</td></tr>
+        <tr><td>TennisMalaysia National Circuit legs, incl. the KL Open</td><td>TennisMalaysia National Circuit ranking</td></tr>
+        <tr><td>ATF 14&amp;U Series (Seremban, Penang, Ipoh, KL, Melaka)</td><td>ATF 14&amp;U ranking</td></tr>
+        <tr><td>ITF J300 Sarawak Cup, J200/J100 Kuala Lumpur, J60 Seremban/Ipoh, J30 Penang/Selangor</td><td>ITF junior ranking (winner: 300 / 200 / 100 / 60 / 30)</td></tr>
+        <tr><td>ITF M15 Kuala Lumpur</td><td>ATP ranking (winner: 15 points)</td></tr>
+        <tr><td>SUKMA, MSSM, Penang and Perlis Open Junior Internationals</td><td>Set by each organiser; check the event’s fact sheet</td></tr>
+      </tbody>
+    </table></div>
+
+    <Faq items={faqs} />
+    <div class="related callout info"><strong>Related:</strong> <a href="/tournaments/">2026 calendar &amp; results</a> · <a href="/tennis-ranking-guide/">Ranking guide</a> · <a href="/malaysian-tennis-players/">Malaysian players</a> · <a href="/tennis-courts-malaysia/">Where to play</a></div>
+  </div></section>
+  <style>
+    .lv{min-width:0;font-size:14.5px}
+    .lv td{vertical-align:top}
+    .src{font-size:13.5px;color:var(--slate)}
+    .checklist li{margin-bottom:8px}
+    @media (max-width:640px){ .lv{min-width:560px} }
+  </style>
 </BaseLayout>

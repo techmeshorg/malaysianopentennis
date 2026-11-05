@@ -3,6 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { NEWS } from '../../data/news.js';
 import { SITE } from '../../data/site-nav.js';
+import { fmtDate } from '../../lib/events.js';
+import { cardAlt } from '../../lib/cards.js';
 
 export async function getStaticPaths() {
   const { NEWS } = await import('../../data/news.js');
@@ -12,47 +14,59 @@ const { item } = Astro.props;
 const path = `/news/${item.slug}/`;
 const title = item.title;
 const description = item.summary;
-const imageAbs = new URL(item.image, SITE.url).href;
+const AUTHOR = `${SITE.name} Editorial Team`;
+
+// Feature image: licensed photo if supplied, otherwise the on-brand SVG card.
+// Social previews need a raster image: use the legacy PNG if one exists, else the site default.
+const heroSrc = item.photo?.src || `/cards/news/${item.slug}.svg`;
+const heroAlt = item.photo?.alt || cardAlt('news', item);
+const ogImage = item.photo?.src || item.image || '/og-default.png';
+
+const modified = item.updated?.date || item.date;
+const sources = item.sources || [{ label: item.source, url: item.sourceUrl }];
+const schema = [{
+  '@context': 'https://schema.org', '@type': 'NewsArticle',
+  headline: item.title, description: item.summary,
+  datePublished: item.date, dateModified: modified,
+  image: [new URL(ogImage, SITE.url).href], inLanguage: 'en-MY',
+  mainEntityOfPage: new URL(path, SITE.url).href,
+  author: { '@type': 'Organization', name: AUTHOR, url: new URL('/about/', SITE.url).href },
+  publisher: { '@type': 'Organization', name: SITE.name, logo: { '@type': 'ImageObject', url: new URL('/logo.png', SITE.url).href } },
+  citation: sources.map((s) => s.url),
+}];
 const crumbs = [
   { name: 'Home', href: '/' },
   { name: 'News', href: '/news/' },
   { name: item.title, href: path },
 ];
-const schema = [{
-  '@context': 'https://schema.org', '@type': 'NewsArticle',
-  headline: item.title, description: item.summary,
-  datePublished: item.date, dateModified: item.date,
-  image: [imageAbs], inLanguage: 'en-MY',
-  mainEntityOfPage: new URL(path, SITE.url).href,
-  author: { '@type': 'Organization', name: SITE.name },
-  publisher: { '@type': 'Organization', name: SITE.name, logo: { '@type': 'ImageObject', url: new URL('/logo.png', SITE.url).href } },
-}];
-const more = NEWS.filter((n) => n.slug !== item.slug).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 2);
+const more = NEWS.filter((n) => n.slug !== item.slug).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 3);
 
-// Internal-link any featured players we have a profile for (first mention in the body).
+// Internal-link any featured players we have a profile for (first mention only).
 const players = item.players || [];
 const escapeHtml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const linkedSlugs = new Set();
-const bodyHtml = item.body.map((p) => {
+const linked = new Set();
+const linkify = (p) => {
   let html = escapeHtml(p);
   for (const pl of players) {
-    if (linkedSlugs.has(pl.slug)) continue;
+    if (linked.has(pl.slug)) continue;
     const i = html.indexOf(pl.name);
     if (i !== -1) {
       const href = `/player-profiles/${pl.gender}/${pl.slug}/`;
       html = html.slice(0, i) + `<a href="${href}">${pl.name}</a>` + html.slice(i + pl.name.length);
-      linkedSlugs.add(pl.slug);
+      linked.add(pl.slug);
     }
   }
   return html;
-});
+};
+const bodyHtml = item.body.map(linkify);
+const followHtml = (item.followUp?.body || []).map(linkify);
 ---
-<BaseLayout title={title} description={description} path={path} type="article" image={item.image} schema={schema} updated={item.displayDate}>
+<BaseLayout title={title} description={description} path={path} type="article" image={ogImage} schema={schema} updated={fmtDate(modified)}>
   <div class="page-band"><div class="container">
     <Breadcrumbs items={crumbs} />
     <span class="art-cat" style={`background:${item.accent}`}>{item.category}</span>
     <h1>{item.title}</h1>
-    <p class="art-meta">{item.displayDate} · {item.source}</p>
+    <p class="art-meta">By {AUTHOR} · Published <time datetime={item.date}>{item.displayDate || fmtDate(item.date)}</time>{item.updated && <> · Updated <time datetime={item.updated.date}>{fmtDate(item.updated.date)}</time></>}</p>
     {players.length > 0 && (
       <p class="art-players">{players.length > 1 ? 'Featured players: ' : 'Featured player: '}
         {players.map((pl, i) => (<span><a href={`/player-profiles/${pl.gender}/${pl.slug}/`}>{pl.name}</a>{i < players.length - 1 ? ', ' : ''}</span>))}
@@ -60,14 +74,29 @@ const bodyHtml = item.body.map((p) => {
     )}
   </div></div>
   <section class="section"><div class="container">
-    <figure class="art-hero"><img src={item.image} alt={item.title} width="1200" height="630" /></figure>
+    <figure class="art-hero">
+      <img src={heroSrc} alt={heroAlt} width="1200" height="630" />
+      {item.photo?.credit && <figcaption>{item.photo.credit}</figcaption>}
+    </figure>
     <div class="prose art-body">
+      {item.followUp && (
+        <aside class="callout info follow" aria-labelledby="fu-h">
+          <p class="fu-kick">Follow-up · <time datetime={item.followUp.date}>{fmtDate(item.followUp.date)}</time></p>
+          <h2 id="fu-h">{item.followUp.title}</h2>
+          {followHtml.map((h) => <p set:html={h} />)}
+          {item.followUp.link && <p><a href={item.followUp.link.href}>{item.followUp.link.label} →</a></p>}
+        </aside>
+      )}
+      {item.followUp && <p class="orig-note">Original article, published {item.displayDate || fmtDate(item.date)}:</p>}
       {bodyHtml.map((h) => <p set:html={h} />)}
-      <div class="callout info art-source">
-        <strong>Source:</strong> This is an original summary written by MalaysianOpenTennis.com from publicly reported facts.
-        Read the full report at <a href={item.sourceUrl} target="_blank" rel="nofollow noopener">{item.source}</a>.
+      <div class="callout art-source">
+        <strong>Sources.</strong> This is an original summary written by the {AUTHOR} from official results and published reports:
+        <ul>
+          {sources.map((s) => <li><a href={s.url} target="_blank" rel="nofollow noopener">{s.label}</a></li>)}
+          {(item.followUp?.sources || []).map((s) => <li><a href={s.url} target="_blank" rel="nofollow noopener">{s.label}</a> (follow-up)</li>)}
+        </ul>
       </div>
-      <div class="related callout"><strong>More news:</strong> {more.map((n, i) => (<span><a href={`/news/${n.slug}/`}>{n.title}</a>{i < more.length - 1 ? ' · ' : ''}</span>))} · <a href="/news/">All news</a></div>
+      <div class="related callout info"><strong>More news:</strong> {more.map((n, i) => (<span><a href={`/news/${n.slug}/`}>{n.title}</a>{i < more.length - 1 ? ' · ' : ''}</span>))} · <a href="/news/">All news</a> · <a href="/tournaments/">Calendar &amp; results</a></div>
     </div>
   </div></section>
   <style>
@@ -78,8 +107,15 @@ const bodyHtml = item.body.map((p) => {
     .art-players a:hover{text-decoration:underline}
     .art-hero{margin:0 0 26px;border-radius:16px;overflow:hidden;border:1px solid var(--line,#e4e8e6)}
     .art-hero img{width:100%;height:auto;display:block}
+    .art-hero figcaption{font-size:12px;color:#5A6862;padding:6px 12px}
     .art-body{max-width:760px}
     .art-body p{font-size:17px;line-height:1.7;color:#27332D}
+    .follow{margin:0 0 26px}
+    .follow h2{font-size:22px;margin:4px 0 8px}
+    .follow p{font-size:16px}
+    .fu-kick{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#155A93;margin:0}
+    .orig-note{font-size:14px !important;color:#5A6862 !important;font-style:italic}
     .art-source{margin-top:24px}
+    .art-source ul{margin:6px 0 0 18px}
   </style>
 </BaseLayout>

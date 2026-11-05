@@ -1,18 +1,110 @@
-// Malaysian tennis news — full, in-house rewritten articles (original wording, not
-// copied text) with a citation link to the original report on the source outlet.
+// Malaysian tennis news — original articles written by the Malaysian Open Tennis
+// Editorial Team from official results and published reports (no copied text or photos).
 //
-// IMPORTANT (read before editing):
-//  • Articles are written in our own words from publicly reported facts, to respect
-//    copyright; we do not republish the outlets' article text or their photographs.
-//  • `image` is a generated, on-brand feature image under /news/. Replace it with a
-//    licensed/owned photo if preferred (keep ~1200×630 for social sharing).
-//  • To add a story, copy a block: give it a slug, date, category/accent, source +
-//    sourceUrl, a short `summary` (index + meta) and a `body` array of paragraphs.
-//  • Source section pages (The Star, NST, FMT) are JavaScript-rendered and rotate
-//    daily, so this list is maintained editorially rather than auto-scraped.
+// Adding a story (newest can go anywhere — pages sort by date):
+//   slug, title, date (YYYY-MM-DD, Malaysia time), category, accent (hex),
+//   summary (index + meta description), body (array of paragraphs),
+//   sources: [{ label, url }]  ← every factual claim must be traceable to one of these
+//   players: [{ name, slug, gender }]  ← auto-links the first mention to the profile
+//   card: { kind: 'result', event, winner, score?, meta? }  ← optional result-style image
+//   photo: { src, alt, credit }  ← only for photos we are licensed to use
+// The feature image is generated automatically from src/lib/cards.js (/cards/news/<slug>.svg).
+// When a previewed event has happened, keep the original text and add
+//   followUp: { date, title, body: [...], sources: [...], link: { href, label } }
+//   updated: { date }  ← the date of the substantive update
 export const NEWS = [
   {
+    slug: 'sukma-2026-tennis-federal-territories-six-golds',
+    title: 'SUKMA 2026 tennis: Federal Territories take six of seven golds',
+    date: '2026-08-24',
+    category: 'Results',
+    accent: '#1F6FB2',
+    sources: [
+      { label: 'The Star, 24 Aug 2026: FT tennis players stand out on final day', url: 'https://www.thestar.com.my/sport/tennis/2026/08/24/ft-tennis-players-stand-out-on-final-day-of-action' },
+      { label: 'The Star, 20 Aug 2026: A tense road to gold', url: 'https://www.thestar.com.my/sport/tennis/2026/08/20/a-tense-road-to-gold' },
+      { label: 'New Straits Times: FT completes team tennis sweep', url: 'https://www.nst.com.my/amp/sports/racquet-sports/2026/08/1514840/sukma-ft-completes-team-tennis-sweep' },
+      { label: 'RTM Berita: WPKL dominasi tenis SUKMA 2026', url: 'https://berita.rtm.gov.my/arena/senarai-berita-arena/senarai-artikel/wpkl-dominasi-tenis-sukma-2026-dengan-empat-emas/' },
+    ],
+    card: { kind: 'result', event: 'SUKMA 2026 tennis · Kelana Jaya', winner: 'Federal Territories: 6 golds', meta: 'Team finals 19 Aug · individual finals 23 Aug 2026' },
+    summary: 'The Federal Territories won both team titles and four of the five individual events at the SUKMA 2026 tennis competition in Petaling Jaya, with Perak’s Shihomi Leong taking the women’s singles gold.',
+    players: [
+      { name: 'Darrshan Suresh Kumar', slug: 'darrshan-suresh', gender: 'men' },
+      { name: 'Shihomi Leong', slug: 'shihomi-leong', gender: 'women' },
+      { name: 'Daania Daniella', slug: 'daania-hazli', gender: 'women' },
+    ],
+    body: [
+      'The Federal Territories dominated the tennis competition at the 2026 Malaysia Games (SUKMA) in Selangor, winning six of the seven gold medals on offer at the Kelana Jaya Sports Complex in Petaling Jaya. The team events were decided on 19 August and the individual finals on 23 August.',
+      'In the men’s team final the Federal Territories beat hosts Selangor 2-0. The deciding doubles, won 6-3, 6-0 by Aqil Adibi Rahiman and Gareth Lim Hao Zhe, ended on a disputed line call, which the 17-year-old Aqil acknowledged afterwards, telling The Star the pair would have replayed the point had it been up to them.',
+      'The women’s team final was closer. The Federal Territories beat Sarawak 2-1: Daania Hazli won her singles 6-2, 6-4 against Soo Hui Yii, Sarawak levelled through the doubles, and Nao Phang sealed the title with a 6-1, 6-1 singles win.',
+      'In the individual events, Darrshan Suresh Kumar won the men’s singles gold when his Federal Territories teammate Gareth Lim was unable to finish the final because of an ankle injury. Darrshan then added the men’s doubles with Imran Daniel Hazli, beating Selangor’s Aiden Lim and Ashton Lim 6-2, 6-2. Daania Daniella and Nao Phang won the women’s doubles against Perak’s Shihomi Leong and Catherine Eva Liew, and Imran Daniel and Daania took the mixed doubles 6-2, 6-4 against Sarawak’s Matthew Goh and Soo Hui Yii.',
+      'The one gold that left the Federal Territories went to Perak. Shihomi Leong won the women’s singles against Terengganu’s Anja Samia Nayar, who withdrew after Shihomi had taken the second set 6-1 to level the final.',
+      'For Malaysian tennis the results matter beyond the medal table. The gold medallists include most of the players who represented Malaysia at the Davis Cup and Billie Jean King Cup earlier in the year, and SUKMA was one of their last domestic tests before preparation intensifies for the 2027 SEA Games, which Malaysia will host.',
+    ],
+  },
+  {
+    slug: 'mitsuki-leong-wins-kl-open-2026',
+    title: 'Mitsuki Leong wins first KL Open title; Daania Hazli completes a double',
+    date: '2026-08-04',
+    category: 'Results',
+    accent: '#167D45',
+    sources: [
+      { label: 'Bernama, 2 Aug 2026', url: 'https://www.bernama.com/en/news.php?id=2589319' },
+      { label: 'The Star, 4 Aug 2026: Daania gears up for SUKMA after winning two titles at CIMB KL Open', url: 'https://www.thestar.com.my/sport/tennis/2026/08/04/daania-gears-up-for-sukma-after-winning-two-titles-at-cimb-kl-open' },
+    ],
+    card: { kind: 'result', event: 'CIMB KL Open 2026 · Men’s singles', winner: 'Mitsuki Leong', meta: 'National Tennis Centre, Kuala Lumpur · 2 Aug 2026' },
+    summary: 'Malaysia’s top-ranked men’s professional Mitsuki Leong won his first KL Open singles title at the National Tennis Centre, while 16-year-old Daania Hazli took the women’s singles and doubles.',
+    players: [
+      { name: 'Mitsuki Leong', slug: 'mitsuki-leong', gender: 'men' },
+      { name: 'Darrshan Suresh Kumar', slug: 'darrshan-suresh', gender: 'men' },
+      { name: 'Daania Daniella Abdul Hazli', slug: 'daania-hazli', gender: 'women' },
+      { name: 'Sharifah Elsa Wan Abdul Rahman', slug: 'elsa-wan', gender: 'women' },
+    ],
+    body: [
+      'Mitsuki Leong won the men’s singles title at the 2026 CIMB Kuala Lumpur Open, the third leg of the TennisMalaysia National Circuit, beating Darrshan Suresh Kumar in the final at the National Tennis Centre on 2 August. It was his first KL Open title, and he told Bernama the win meant a lot because he had not played at home for some time.',
+      'The two reports of the final give different scores, so we have not repeated one here; see the sources below.',
+      'In the women’s draw, 16-year-old Daania Daniella Abdul Hazli of the Federal Territories won the singles title with a 6-0, 6-3 victory over Iman Syuhada Abdullah. She then partnered Sharifah Elsa Wan Abdul Rahman to the women’s doubles title, beating Iman and Adani Raihan 6-4, 6-3.',
+      'Darrshan had consolation in the men’s doubles, winning the title with Koay Hao Sheng against Louis Tan and Shaun Tung, 6-4, 6-3.',
+      'Several of the finalists went straight on to the SUKMA tennis competition later in August. Daania described the KL Open as a good warm-up, since most of the players would also be competing at SUKMA.',
+    ],
+  },
+  {
+    slug: 'malaysia-relegated-davis-cup-group-iv-2026',
+    title: 'Malaysia relegated to Davis Cup Group IV after home Group III campaign',
+    date: '2026-07-20',
+    category: 'National Team',
+    accent: '#167D45',
+    sources: [
+      { label: 'The Star, 20 Jul 2026: Home court misery as Malaysian aces slip into Davis Cup relegation', url: 'https://www.thestar.com.my/sport/tennis/2026/07/20/home-court-misery-as-malaysian-aces-slip-into-davis-cup-relegation' },
+      { label: 'Asian Tennis Federation, 20 Jul 2026: Iran, Jordan and Saudi Arabia secure promotion', url: 'https://www.asiantennis.com/news/iran-jordan-and-saudi-arabia-secure-promotion-from-davis-cup-asia-oceania-group-iii/' },
+      { label: 'RTM Berita, 14 Jul 2026 (preview and groups)', url: 'https://berita.rtm.gov.my/arena/senarai-berita-arena/senarai-artikel/piala-davis-asia-oceania-malaysia-sasar-layak-kumpulan-2/' },
+      { label: 'Vietnam News, 21 Jul 2026', url: 'https://vietnamnews.vn/sports/1785916/vie-t-nam-win-davis-cup-playoff-to-maintain-place-in-tournament.html' },
+    ],
+    summary: 'Malaysia lost all three group ties and a relegation play-off against the Philippines at the Davis Cup Asia/Oceania Group III in Kuala Lumpur, and will play in Group IV in 2027. Iran, Jordan and Saudi Arabia were promoted.',
+    players: [{ name: 'Darrshan Suresh Kumar', slug: 'darrshan-suresh', gender: 'men' }],
+    body: [
+      'Malaysia’s hopes of promotion from the Davis Cup Asia/Oceania Group III ended in relegation. Hosting the event at the National Tennis Centre in Kuala Lumpur from 15 to 18 July, the team lost all three of its group ties and then the relegation play-off, and will compete in Group IV in 2027.',
+      'Eight nations took part in two groups of four. Malaysia were drawn in Group B with Iran, Saudi Arabia and Vietnam, and lost to all three, including a 0-3 defeat by Vietnam. Group A comprised Jordan, the Philippines, Singapore and Uzbekistan.',
+      'The relegation play-off against the Philippines went to a deciding doubles. Darrshan Suresh Kumar gave Malaysia the lead by beating Eric Jr Olivarez 7-6(5), 6-3, before Alberto Lim levelled with a 6-1, 6-1 win over Imran Daniel Hazli. In the doubles, played late at night after heavy rain, Koay Hao Sheng and Darrshan lost 2-6, 6-4, 3-6 to Francis Alcantara and Ruben Gonzales.',
+      'Iran topped Group B and beat Group A winners Jordan 2-0. According to the Asian Tennis Federation, Iran, Jordan and Saudi Arabia, who beat Singapore in a play-off, were promoted to the 2027 World Group II Play-offs. Malaysia and Uzbekistan were relegated to Group IV.',
+      'National coach Muliyadi Jamal told The Star the team had had its opportunities at home in front of strong support, and that Malaysia would have to fight its way back to Group III next year. He said the focus would now move to preparation for the 2027 SEA Games.',
+      'The result reverses Malaysia’s progress of 2025, when the team was promoted from Group IV to Group III.',
+    ],
+  },
+  {
     slug: 'tennis-malaysia-davis-cup-group-iii-2026',
+    updated: { date: '2026-07-20' },
+    followUp: {
+      date: '2026-07-20',
+      title: 'What happened: Malaysia were relegated, not promoted',
+      body: [
+        'Malaysia lost all three Group B ties (against Iran, Saudi Arabia and Vietnam) and then lost the relegation play-off 1-2 to the Philippines, so the team will play in Group IV in 2027. Iran, Jordan and Saudi Arabia were promoted.',
+      ],
+      sources: [
+        { label: 'The Star, 20 Jul 2026', url: 'https://www.thestar.com.my/sport/tennis/2026/07/20/home-court-misery-as-malaysian-aces-slip-into-davis-cup-relegation' },
+        { label: 'Asian Tennis Federation, 20 Jul 2026', url: 'https://www.asiantennis.com/news/iran-jordan-and-saudi-arabia-secure-promotion-from-davis-cup-asia-oceania-group-iii/' },
+      ],
+      link: { href: '/news/malaysia-relegated-davis-cup-group-iv-2026/', label: 'Read the full report' },
+    },
     title: 'Tennis Malaysia targets Davis Cup promotion as hosts of Group III',
     date: '2026-05-17',
     displayDate: '17 May 2026',

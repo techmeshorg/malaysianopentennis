@@ -1,0 +1,39 @@
+---
+// Directory card grid used by /player-profiles/men/, /women/ and the players overview.
+// Card text comes from `intro` (short, directory-only) so it does not repeat the profile bio.
+import { fmtDate } from '../lib/events.js';
+const { players = [], showGender = false } = Astro.props;
+const initials = (n) => n.split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+const rankLine = (p) => {
+  const r = p.rankings?.current?.[0];
+  if (r) return `${r.system} ${r.value}${r.date ? ` (${fmtDate(r.date)})` : ''}`;
+  const h = p.rankings?.high?.[0];
+  if (h) return `Career high: ${h.system} ${h.value}`;
+  return '';
+};
+---
+<div class="pp-grid">
+  {players.map((p) => (
+    <a class="pp-card" href={`/player-profiles/${p.gender}/${p.slug}/`}>
+      <span class={`pp-avatar av-${p.status}`} aria-hidden="true">{initials(p.name)}</span>
+      <span class="pp-body">
+        <span class="pp-name">{p.name}</span>
+        <span class="pp-cat">{p.status === 'Retired' ? 'Retired' : p.status === 'Junior' ? 'Junior' : 'Active'}{showGender ? ` · ${p.gender === 'women' ? 'Women' : 'Men'}` : ''} · {p.tour}</span>
+        <span class="pp-head">{p.intro}</span>
+        {rankLine(p) && <span class="pp-rank">{rankLine(p)}</span>}
+      </span>
+    </a>
+  ))}
+</div>
+<style>
+  .pp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+  .pp-card{display:flex;gap:14px;align-items:flex-start;padding:18px;border:1px solid var(--line,#e4e8e6);border-radius:14px;background:#fff;text-decoration:none;color:inherit;transition:box-shadow .15s,transform .15s}
+  .pp-card:hover{box-shadow:0 8px 24px rgba(20,32,26,.08);transform:translateY(-2px);text-decoration:none}
+  .pp-avatar{flex:0 0 auto;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff;background:linear-gradient(135deg,#167D45,#1F6FB2);letter-spacing:.5px}
+  .pp-avatar.av-Retired{background:#5A6862}
+  .pp-body{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .pp-name{font-weight:800;font-size:17px;color:#15201A}
+  .pp-cat{font-size:12px;color:#1F6FB2;font-weight:600}
+  .pp-head{font-size:13.5px;color:#36433C;margin-top:2px;line-height:1.45}
+  .pp-rank{font-size:12px;color:#15201A;margin-top:4px;font-family:var(--mono)}
+</style>

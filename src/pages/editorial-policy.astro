@@ -4,24 +4,45 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { SITE } from '../data/site-nav.js';
 const path='/editorial-policy/';
 const title='Editorial Policy';
-const description='Our editorial policy: how we research, source, verify and update tennis content, and how we handle corrections at MalaysianOpenTennis.com.';
-const updated='18 June 2026';
-const schema=[{'@context':'https://schema.org','@type':'WebPage',name:title,url:new URL(path,SITE.url).href,inLanguage:'en-MY'}];
+const description='How MalaysianOpenTennis.com sources, verifies, dates and corrects its tennis content, and how often calendars, player rankings and venue details are reviewed.';
+const updated='5 November 2026';
+const schema=[{'@context':'https://schema.org','@type':'WebPage',name:title,url:new URL(path,SITE.url).href,inLanguage:'en-MY',dateModified:'2026-11-05'}];
 const crumbs=[{name:'Home',href:'/'},{name:'Editorial Policy',href:path}];
 ---
 <BaseLayout title={title} description={description} path={path} schema={schema} updated={updated}>
-  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Editorial Policy</h1><p class="intro">How we research, verify and maintain our content.</p></div></div>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Editorial Policy</h1><p class="intro">How we research, verify, date and correct our content.</p></div></div>
   <section class="section"><div class="container prose">
-    <p class="lead">We want our tennis content to be accurate, clear and genuinely useful. This policy explains how we work.</p>
-    <h2>Sourcing</h2>
-    <p>We base factual content on official and primary sources where possible — including tournament organisers, the Lawn Tennis Association of Malaysia (LTAM), the ITF, and the ATP and WTA. Tournament data such as our <a href="/tournaments/">2026 calendar</a> is taken from official summaries.</p>
-    <h2>Verification and no fabrication</h2>
-    <p>We do not publish invented results, statistics or champions. When a detail (such as a past finalist or score) cannot be confirmed against a reliable source, we leave it clearly marked as unconfirmed rather than filling the gap with a guess.</p>
-    <h2>Updates</h2>
-    <p>Schedules and results change. We review time-sensitive pages — particularly events and calendars — and show a "last updated" date on each page so you can judge how current it is.</p>
+    <p class="lead">All content is produced by the {SITE.name} Editorial Team. This page explains the standards we apply and what you can expect from each page.</p>
+
+    <h2>Sources we use</h2>
+    <p>We rely on official and primary sources first: the ITF (including the World Tennis Tour, Davis Cup and Billie Jean King Cup sites), the ATP and WTA, the Asian Tennis Federation, TennisMalaysia (the Lawn Tennis Association of Malaysia), tournament organisers and venue operators. Established news organisations such as Bernama, The Star, New Straits Times and Borneo Post are used for reporting and context. Secondary statistics sites are used only when an official page is unavailable, and we label them as secondary.</p>
+    <p>Important facts carry a source link close to where they appear, not only at the end of the page.</p>
+
+    <h2>No invented facts</h2>
+    <p>We do not publish invented results, rankings, venues, prices, quotes or achievements. Where a detail cannot be confirmed, we write that it is unconfirmed or tell readers to contact the venue or organiser. An event is marked <em>Completed</em> on our calendar only when we have found a result or report showing it took place; if its dates have passed without evidence, it is marked <em>Unconfirmed</em>.</p>
+
+    <h2>Dates on our pages</h2>
+    <ul>
+      <li><strong>Published</strong>: the date a news article first appeared. We keep original publication dates and the original text of past articles.</li>
+      <li><strong>Updated / Last updated</strong>: changed only when content changes substantively, not for typo fixes or design changes.</li>
+      <li><strong>Checked</strong>: rankings, prices and opening hours show the date we last checked them, and rankings name the ranking release they come from.</li>
+      <li><strong>Follow-ups</strong>: when an event we previewed has since taken place, we add a dated follow-up to the original story rather than rewriting it.</li>
+    </ul>
+
+    <h2>How often we review</h2>
+    <ul>
+      <li>Tournament calendar and upcoming events: weekly.</li>
+      <li>Player rankings and results; court and venue details: monthly.</li>
+      <li>Rules, scoring and ranking guides: when the governing body publishes a change.</li>
+    </ul>
+
+    <h2>Images</h2>
+    <p>We publish only images we have the right to use. Most images on the site are our own illustrations and graphics, and they are not presented as photographs of real events or people. Licensed photos, if used, carry a credit.</p>
+
     <h2>Corrections</h2>
-    <p>If you spot an error, please <a href="/contact/">contact us</a>. We correct confirmed mistakes promptly and, where relevant, note the change.</p>
-    <h2>Commercial content</h2>
-    <p>This site may add commercial content in future. When it does, it will be clearly labelled and kept separate from editorial coverage.</p>
+    <p>If you spot an error, please <a href="/contact/">contact us</a> with the page link and, ideally, a source. We correct confirmed mistakes promptly, and where a correction changes a fact (such as a result or ranking) we note the change on the page.</p>
+
+    <h2>Independence and commercial content</h2>
+    <p>We are independent and not affiliated with any governing body, organiser, venue or player. The site currently carries no sponsored or affiliate content. If that changes, it will be clearly labelled and kept separate from editorial coverage.</p>
   </div></section>
 </BaseLayout>

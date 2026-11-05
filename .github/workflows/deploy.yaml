@@ -3,6 +3,10 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  # Weekly rebuild (Mondays 09:17 Malaysia time) so date-derived event statuses
+  # (Upcoming / Ongoing) stay current between content updates.
+  schedule:
+    - cron: '17 1 * * 1'
   workflow_dispatch:
 
 permissions:

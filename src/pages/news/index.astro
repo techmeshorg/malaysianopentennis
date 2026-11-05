@@ -3,27 +3,31 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { NEWS } from '../../data/news.js';
 import { SITE } from '../../data/site-nav.js';
+import { fmtDate } from '../../lib/events.js';
+import { cardAlt } from '../../lib/cards.js';
 const path='/news/';
 const title='Malaysian Tennis News';
 const description='Latest Malaysian tennis news — national team, juniors and ITF events — written in original summaries with links to the original reports.';
-const updated='19 June 2026';
 const crumbs=[{name:'Home',href:'/'},{name:'News',href:path}];
 const items=[...NEWS].sort((a,b)=>b.date.localeCompare(a.date));
+const updated=fmtDate(items.map((n)=>n.updated?.date||n.date).sort().at(-1));
+const img=(n)=>n.photo?.src || `/cards/news/${n.slug}.svg`;
+const alt=(n)=>n.photo?.alt || cardAlt('news', n);
 const itemList={'@context':'https://schema.org','@type':'ItemList',name:'Malaysian tennis news',numberOfItems:items.length,itemListElement:items.map((n,i)=>({'@type':'ListItem',position:i+1,name:n.title,url:new URL(`/news/${n.slug}/`,SITE.url).href}))};
 ---
 <BaseLayout title={title} description={description} path={path} schema={[itemList]} updated={updated}>
-  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Malaysian Tennis News</h1><p class="intro">Original write-ups of Malaysian tennis stories — national team, juniors and ITF events. Each article links to the original report at its source.</p></div></div>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Malaysian Tennis News</h1><p class="intro">Malaysian tennis stories — national team, juniors and ITF events — newest first. Each article links to the official results or original reports it is based on.</p></div></div>
   <section class="section"><div class="container">
     <div class="news-grid">
       {items.map((n)=>(
         <article class="news-card">
           <a class="news-figlink" href={`/news/${n.slug}/`} aria-label={n.title}>
-            <img class="news-img" src={n.image} alt={n.title} width="1200" height="630" loading="lazy" />
+            <img class="news-img" src={img(n)} alt={alt(n)} width="1200" height="630" loading="lazy" />
             <span class="news-cat" style={`background:${n.accent}`}>{n.category}</span>
           </a>
           <div class="news-body">
             <h2 class="news-title"><a href={`/news/${n.slug}/`}>{n.title}</a></h2>
-            <p class="news-meta">{n.displayDate} · {n.source}</p>
+            <p class="news-meta">By {SITE.name} Editorial Team · <time datetime={n.date}>{n.displayDate || fmtDate(n.date)}</time>{n.updated && <> · Updated <time datetime={n.updated.date}>{fmtDate(n.updated.date)}</time></>}</p>
             <p class="news-sum">{n.summary}</p>
             <a class="news-link" href={`/news/${n.slug}/`}>Read more →</a>
           </div>
@@ -31,7 +35,7 @@ const itemList={'@context':'https://schema.org','@type':'ItemList',name:'Malaysi
       ))}
     </div>
     <div class="prose" style="max-width:none;margin-top:24px">
-      <div class="callout info"><strong>About this section.</strong> Articles are written in-house in our own words from publicly reported facts, and link to the original report; we do not republish outlets' text or photographs. Feature images are on-brand generated graphics — swap for licensed photos if preferred. New stories are added in <code>src/data/news.js</code>.</div>
+      <div class="callout info"><strong>About our news.</strong> Every story is written by the {SITE.name} Editorial Team in our own words from official results and published reports, and links to its sources. Feature images are original illustrations, not photographs of the events. Spotted an error? <a href="/contact/">Tell us</a> and we will correct it and note the change.</div>
     </div>
   </div></section>
   <style>
