@@ -2,31 +2,120 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import TournamentTable from '../components/TournamentTable.astro';
-import { TOURNAMENTS, STATUS_ORDER } from '../data/tournaments.js';
+import { TOURNAMENTS, CATEGORIES, CALENDAR_META } from '../data/tournaments.js';
+import { upcoming, past, counts, withStatus, todayMY, fmtDate } from '../lib/events.js';
 import { SITE } from '../data/site-nav.js';
-const path='/tournaments/';
-const title='Malaysia Tennis Tournaments 2026 | Full Calendar & Status';
-const description='The full 2026 Malaysian tennis tournament calendar — national circuit, junior tour, ITF, ATF and international team events with venues, dates and status.';
-const updated='18 June 2026';
-const counts = STATUS_ORDER.map((s)=>({s,n:TOURNAMENTS.filter(t=>t.status===s).length}));
-const itemList={'@context':'https://schema.org','@type':'ItemList',name:'TennisMalaysia 2026 tournament calendar',numberOfItems:TOURNAMENTS.length,itemListElement:TOURNAMENTS.map((t,i)=>({'@type':'ListItem',position:i+1,name:t.name}))};
-const crumbs=[{name:'Home',href:'/'},{name:'Tournaments',href:path}];
+
+const path = '/tournaments/';
+const title = 'Malaysia Tennis Tournaments 2026 | Calendar, Status & Results';
+const description = 'Malaysia’s 2026 tennis calendar: upcoming events with entry links, and completed events with verified winners and official results links.';
+const updated = CALENDAR_META.updated;
+const today = todayMY();
+const up = upcoming(TOURNAMENTS, today);
+const done = past(TOURNAMENTS, today);
+const all = withStatus(TOURNAMENTS, today);
+const statusCounts = counts(TOURNAMENTS, today);
+const catSlug = (c) => c.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const nMY = all.filter((t) => t.inMalaysia !== false).length;
+
+const itemList = {
+  '@context': 'https://schema.org', '@type': 'ItemList',
+  name: 'Malaysian tennis calendar 2026', numberOfItems: all.length,
+  itemListElement: [...up, ...done].map((t, i) => ({ '@type': 'ListItem', position: i + 1, name: t.name })),
+};
+const events = up.filter((t) => t.inMalaysia !== false).slice(0, 10).map((t) => ({
+  '@context': 'https://schema.org', '@type': 'SportsEvent', name: t.name, sport: 'Tennis',
+  startDate: t.start, endDate: t.end, eventStatus: 'https://schema.org/EventScheduled',
+  location: { '@type': 'Place', name: t.venue, address: { '@type': 'PostalAddress', addressCountry: 'MY' } },
+  ...(t.link ? { url: t.link } : {}),
+}));
+const crumbs = [{ name: 'Home', href: '/' }, { name: 'Tournaments', href: path }];
 ---
-<BaseLayout title={title} description={description} path={path} schema={[itemList]} updated={updated}>
-  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Malaysia Tennis Tournaments 2026</h1><p class="intro">The full TennisMalaysia 2026 calendar — {TOURNAMENTS.length} events across the national circuit, junior tour, ITF, ATF and international team competition.</p></div></div>
+<BaseLayout title={title} description={description} path={path} schema={[itemList, ...events]} updated={updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Malaysia Tennis Tournaments 2026</h1><p class="intro">{all.length} events on the 2026 calendar: {nMY} held in Malaysia and {all.length - nMY} overseas events involving Malaysian teams or players. Upcoming events are listed first, then past events with verified results.</p></div></div>
   <section class="section"><div class="container">
-    <div class="prose" style="max-width:none">
-      <p class="lead">Below is the complete 2026 tournament list. Use the filters to show confirmed events, events still to be confirmed (TBC), or completed events. Status and dates follow the official TennisMalaysia summary.</p>
-      <p style="color:var(--slate);font-size:14px">
-        {counts.map((c,i)=>(<span><span class={`chip ${c.s}`}>{c.s}</span> {c.n}{i !== counts.length - 1 ? '  ·  ' : ''} </span>))}
-      </p>
+    <div class="tt-filters" id="tt-filters">
+      <div class="filters" role="group" aria-label="Filter by status">
+        <span class="tt-flabel">Status</span>
+        <button class="filter-btn" data-filter="all" aria-pressed="true">All <span class="n">{all.length}</span></button>
+        {statusCounts.map((c) => <button class="filter-btn" data-filter={c.s} aria-pressed="false">{c.s} <span class="n">{c.n}</span></button>)}
+      </div>
+      <div class="tt-selects">
+        <label class="tt-flabel" for="cat-filter">Category</label>
+        <select id="cat-filter">
+          <option value="all">All categories</option>
+          {CATEGORIES.map((c) => <option value={catSlug(c)}>{c}</option>)}
+        </select>
+        <label class="tt-flabel" for="loc-filter">Location</label>
+        <select id="loc-filter">
+          <option value="all">Malaysia &amp; overseas</option>
+          <option value="malaysia">In Malaysia</option>
+          <option value="overseas">Overseas (Malaysian teams)</option>
+        </select>
+      </div>
+      <p class="tt-shown" aria-live="polite">Showing <strong id="tt-count">{all.length}</strong> of {all.length} events</p>
     </div>
-    <div style="margin-top:18px">
-      <TournamentTable heading={`TennisMalaysia 2026 calendar — ${TOURNAMENTS.length} events`} showFilter={true} />
-    </div>
-    <div class="prose" style="max-width:none;margin-top:22px">
-      <div class="callout">Source: TennisMalaysia "Calendar of Events 2026" summary (updated 29 May 2026). Venue "TBC" means the source did not list a venue. Dates and statuses can change — confirm with the organiser before travelling. "Category" is our own classification to aid filtering, not part of the source data.</div>
-      <div class="related callout info"><strong>Related:</strong> <a href="/malaysia-tennis-events/">Types of Malaysia tennis events</a> · <a href="/malaysian-tennis-players/">Malaysian tennis players</a> · <a href="/atp-wta-malaysia-history/">ATP &amp; WTA history</a></div>
+
+    <h2 class="tt-h" id="upcoming">Upcoming &amp; ongoing <span class="n">({up.length})</span></h2>
+    {up.length > 0
+      ? <TournamentTable rows={up} id="tt-up" caption={`Nearest first · status as of ${fmtDate(today)} (Malaysia time)`} />
+      : <p class="callout">No further 2026 events are confirmed in our sources yet. Check back after TennisMalaysia publishes its next calendar update.</p>}
+    <p class="tt-empty" id="tt-up-empty" hidden>No upcoming events match these filters.</p>
+
+    <h2 class="tt-h" id="past">Past events &amp; results <span class="n">({done.length})</span></h2>
+    <TournamentTable rows={done} id="tt-past" caption="Most recent first · winners shown where an official or reliable published result exists" />
+    <p class="tt-empty" id="tt-past-empty" hidden>No past events match these filters.</p>
+
+    <div class="prose" style="max-width:none;margin-top:26px">
+      <h2 id="status-key">What the statuses mean</h2>
+      <ul>
+        <li><strong>Upcoming / Ongoing</strong> — scheduled on the latest official calendar; worked out from the published dates in Malaysia time.</li>
+        <li><strong>Completed</strong> — we found an official result or a published report confirming the event took place.</li>
+        <li><strong>Postponed / Cancelled</strong> — announced by the organiser.</li>
+        <li><strong>Unconfirmed</strong> — the scheduled dates have passed but we have not found evidence that the event went ahead as listed. We do not assume an event took place just because its date passed.</li>
+      </ul>
+      <div class="callout">
+        <strong>Sources.</strong> Base calendar: <a href={CALENDAR_META.sourceUrl} target="_blank" rel="noopener">{CALENDAR_META.sourceLabel}</a>. Results and status changes are checked against ITF, Davis Cup / Billie Jean King Cup, organiser and news sources linked in each row. Calendar last checked {CALENDAR_META.checked}. Dates can change at short notice — confirm with the organiser before you travel or enter. "Category" and the organiser badge are our own labels to help filtering.
+      </div>
+      <div class="related callout info"><strong>Related:</strong> <a href="/malaysia-tennis-events/">How to choose and enter an event</a> · <a href="/tennis-ranking-guide/">How ranking points work</a> · <a href="/malaysian-tennis-players/">Malaysian players</a> · <a href="/news/">News &amp; results</a></div>
     </div>
   </div></section>
+
+  <script>
+    const btns = document.querySelectorAll('#tt-filters .filter-btn');
+    const cat = document.getElementById('cat-filter');
+    const loc = document.getElementById('loc-filter');
+    const rows = document.querySelectorAll('.tt tbody tr');
+    const out = document.getElementById('tt-count');
+    let st = 'all';
+    function apply() {
+      let shown = 0;
+      rows.forEach((tr) => {
+        const ok = (st === 'all' || tr.dataset.status === st)
+          && (cat.value === 'all' || tr.dataset.cat === cat.value)
+          && (loc.value === 'all' || tr.dataset.loc === loc.value);
+        tr.hidden = !ok; if (ok) shown++;
+      });
+      out.textContent = String(shown);
+      for (const [tbl, msg] of [['tt-up', 'tt-up-empty'], ['tt-past', 'tt-past-empty']]) {
+        const t = document.getElementById(tbl); const m = document.getElementById(msg);
+        if (t && m) { const any = [...t.querySelectorAll('tbody tr')].some((r) => !r.hidden); m.hidden = any; t.closest('.tt-wrap').hidden = !any; }
+      }
+    }
+    btns.forEach((b) => b.addEventListener('click', () => {
+      st = b.dataset.filter; btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b))); apply();
+    }));
+    cat.addEventListener('change', apply); loc.addEventListener('change', apply);
+  </script>
+  <style>
+    .tt-filters{display:flex;flex-direction:column;gap:12px;margin-bottom:8px;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--bg-soft)}
+    .tt-flabel{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#5A6862;margin-right:6px}
+    .tt-selects{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+    .tt-selects select{padding:7px 10px;border:1px solid #d8ded9;border-radius:9px;background:#fff;font:inherit;font-size:14px;color:#15201A;max-width:100%}
+    .filter-btn .n,.tt-h .n{font-weight:500;color:var(--slate)}
+    .filter-btn[aria-pressed="true"] .n{color:#DCEBE1}
+    .tt-shown{margin:0;font-size:14px;color:var(--slate)}
+    .tt-h{margin:30px 0 10px;font-size:24px}
+    .tt-empty{color:var(--slate);font-size:15px}
+  </style>
 </BaseLayout>

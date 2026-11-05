@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 621 622" role="img" aria-labelledby="t d" font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif">
+<title id="t">Where the serve must land</title><desc id="d">Top-down tennis court drawn to scale. The server stands behind the baseline. At an even score the server stands right of the centre mark and serves diagonally into the receiver's right-hand (deuce) service box, shaded yellow. At an odd score the server stands left of the centre mark and serves into the left-hand (advantage) box, shaded blue.</desc>
+<rect x="22" y="16" width="297.34000000000003" height="592.9399999999999" fill="#2E8B57" rx="6"/>
+<rect x="50" y="40" width="241.34" height="522.9399999999999" fill="#167D45" stroke="#fff" stroke-width="3"/>
+<line x1="80.1" y1="40.0" x2="80.1" y2="562.9" stroke="#fff" stroke-width="3" />
+<line x1="261.2" y1="40.0" x2="261.2" y2="562.9" stroke="#fff" stroke-width="3" />
+<line x1="80.1" y1="160.7" x2="261.2" y2="160.7" stroke="#fff" stroke-width="3" />
+<line x1="80.1" y1="442.3" x2="261.2" y2="442.3" stroke="#fff" stroke-width="3" />
+<line x1="170.7" y1="160.7" x2="170.7" y2="442.3" stroke="#fff" stroke-width="3" />
+<line x1="170.7" y1="40.0" x2="170.7" y2="47.7" stroke="#fff" stroke-width="3" />
+<line x1="170.7" y1="562.9" x2="170.7" y2="555.2" stroke="#fff" stroke-width="3" />
+<rect x="82.1" y="162.7" width="86.5" height="136.8" fill="#E8C23B" opacity=".5"/>
+<rect x="172.7" y="162.7" width="86.5" height="136.8" fill="#9CC7EA" opacity=".55"/>
+<line x1="39.0" y1="301.5" x2="302.3" y2="301.5" stroke="#E6EEE9" stroke-width="6" />
+<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#fff"/></marker></defs>
+<line x1="199.3" y1="580.9" x2="113.1" y2="248.7" stroke="#fff" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#ah)"/>
+<line x1="142.1" y1="580.9" x2="228.2" y2="248.7" stroke="#fff" stroke-width="3" stroke-dasharray="9 7" marker-end="url(#ah)"/>
+<circle cx="199.3" cy="580.9" r="9" fill="#E8C23B" stroke="#15201A" stroke-width="2"/>
+<circle cx="142.1" cy="580.9" r="9" fill="#9CC7EA" stroke="#15201A" stroke-width="2"/>
+<line x1="321.3" y1="231.1" x2="329.3" y2="231.1" stroke="#15201A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="337.34000000000003" y="205.1" fill="#15201A" font-size="16" font-weight="700">Receiver's service boxes</text>
+<text x="337.34000000000003" y="225.1" fill="#7A5A12" font-size="15" font-weight="600">Yellow: deuce court</text>
+<text x="337.34000000000003" y="245.1" fill="#5A6862" font-size="13" font-weight="500">(score even: 0-0, 15-15, 30-15…)</text>
+<text x="337.34000000000003" y="265.1" fill="#155A93" font-size="15" font-weight="600">Blue: advantage court</text>
+<text x="337.34000000000003" y="285.1" fill="#5A6862" font-size="13" font-weight="500">(score odd: 15-0, 40-30, Ad…)</text>
+<line x1="321.3" y1="301.5" x2="329.3" y2="301.5" stroke="#15201A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="337.34000000000003" y="306.5" fill="#15201A" font-size="16" font-weight="700">Net</text>
+<line x1="321.3" y1="580.9" x2="329.3" y2="580.9" stroke="#15201A" stroke-width="1.2" stroke-dasharray="3 3"/>
+<text x="337.34000000000003" y="560.9" fill="#15201A" font-size="16" font-weight="700">Server: behind the baseline,</text>
+<text x="337.34000000000003" y="580.9" fill="#15201A" font-size="16" font-weight="700">between the centre mark</text>
+<text x="337.34000000000003" y="600.9" fill="#15201A" font-size="16" font-weight="700">and the sideline</text>
+<text x="337.34000000000003" y="400.5" fill="#15201A" font-size="14" font-weight="500">The serve must clear the net and</text>
+<text x="337.34000000000003" y="418.5" fill="#15201A" font-size="14" font-weight="500">land in the diagonal box.</text>
+<text x="337.34000000000003" y="436.5" fill="#15201A" font-size="14" font-weight="500">A ball touching a line is in.</text>
+</svg>

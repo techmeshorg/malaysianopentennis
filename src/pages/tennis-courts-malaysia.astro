@@ -3,103 +3,134 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Faq from '../components/Faq.astro';
 import { SITE } from '../data/site-nav.js';
+import { COURTS, COURTS_CHECKED } from '../data/courts.js';
+import { fmtDate } from '../lib/events.js';
 
 const path = '/tennis-courts-malaysia/';
-const title = 'Tennis Courts in Malaysia | Where to Play Tennis by State & City';
-const description = 'Find tennis courts in Malaysia by city and state, including public courts, private clubs, academies, school courts, and booking tips.';
-const updated = '18 June 2026';
+const title = 'Tennis Courts in Malaysia | Verified Venues in KL & Selangor';
+const description = 'Verified tennis courts in Kuala Lumpur, Selangor and Negeri Sembilan: addresses, map links, access rules, official booking links, published rates and opening hours.';
+const updated = fmtDate(COURTS_CHECKED);
+const CV = 'Contact venue';
 
 const faqs = [
-  { q: 'Are there public tennis courts in Malaysia?', a: 'Yes, many Malaysian cities have public or community sports facilities, although availability and booking systems vary by location.' },
-  { q: 'Do I need to be a club member to play tennis?', a: 'Not always. Some courts are public or pay-per-use, while private clubs may require membership or guest access.' },
-  { q: 'What is the best court surface for beginners?', a: 'Hard courts are usually beginner-friendly because the bounce is predictable and the pace is balanced.' },
-  { q: 'Can I take tennis lessons at Malaysian courts?', a: 'Yes. Many clubs and academies offer coaching for juniors and adults.' },
+  { q: 'Can I play at the National Tennis Centre without being a member?', a: 'Yes. Recreational court bookings at the Tun Razak National Tennis Centre in Jalan Duta are open to the public through the booking link on Perbadanan Stadium Malaysia’s website. Bring your booking confirmation to the gate.' },
+  { q: 'Do I need to be a club member to play tennis?', a: 'Not always. Council and national venues take public bookings, while private clubs such as KLGCC and Royal Selangor Club generally require you to be a member or a member’s guest.' },
+  { q: 'Are there clay courts in Malaysia?', a: 'Clay courts are uncommon in Malaysia. One confirmed example is the indoor clay at the Mouratoglou Academy at Epsom College, Bandar Enstek, which is used for academy programmes rather than public hire.' },
+  { q: 'What is the best court surface for beginners?', a: 'A hard court is usually the easiest place to start because the bounce is consistent and predictable.' },
 ];
 const articleSchema = {
   '@context': 'https://schema.org', '@type': 'Article', headline: 'Tennis Courts in Malaysia',
-  description, inLanguage: 'en-MY', datePublished: '2026-06-18', dateModified: '2026-06-18',
+  description, inLanguage: 'en-MY', datePublished: '2026-06-18', dateModified: COURTS_CHECKED,
   mainEntityOfPage: new URL(path, SITE.url).href,
-  author: { '@type': 'Organization', name: SITE.name },
+  author: { '@type': 'Organization', name: `${SITE.name} Editorial Team` },
   publisher: { '@type': 'Organization', name: SITE.name, logo: { '@type': 'ImageObject', url: new URL('/logo.png', SITE.url).href } },
 };
+const placeSchema = {
+  '@context': 'https://schema.org', '@type': 'ItemList', name: 'Verified tennis venues in Malaysia',
+  itemListElement: COURTS.map((c, i) => ({
+    '@type': 'ListItem', position: i + 1,
+    item: { '@type': 'SportsActivityLocation', name: c.name, ...(c.address !== CV ? { address: c.address } : {}), hasMap: c.map },
+  })),
+};
 const crumbs = [{ name: 'Home', href: '/' }, { name: 'Tennis', href: '/malaysia-tennis-events/' }, { name: 'Tennis Courts in Malaysia', href: path }];
-const cities = ['Kuala Lumpur','Selangor','Penang','Johor','Melaka','Negeri Sembilan','Perak','Pahang','Sabah','Sarawak'];
+const states = [...new Set(COURTS.map((c) => c.state))];
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 ---
-<BaseLayout title={title} description={description} path={path} type="article" schema={[articleSchema]} updated={updated}>
+<BaseLayout title={title} description={description} path={path} type="article" schema={[articleSchema, placeSchema]} updated={updated}>
   <div class="page-band">
     <div class="container">
       <Breadcrumbs items={crumbs} />
       <h1>Tennis Courts in Malaysia</h1>
-      <p class="intro">Where to play tennis across Malaysia — by court type, city and state.</p>
+      <p class="intro">{COURTS.length} verified venues in {states.slice(0,-1).join(', ')} and {states.at(-1)}, with official booking links. All details checked {fmtDate(COURTS_CHECKED)}.</p>
     </div>
   </div>
   <section class="section">
-    <div class="container prose">
-      <p class="lead">Finding the right tennis court is one of the first steps to playing more regularly. Malaysia has tennis courts in public sports complexes, private clubs, hotels, schools, universities, residential communities, and tennis academies.</p>
-      <p>This guide helps players understand the main types of tennis courts in Malaysia and how to choose the right venue. Once you're playing regularly, browse <a href="/malaysia-tennis-events/">Malaysia tennis events</a> to find your first competition.</p>
-
-      <h2>Types of tennis courts in Malaysia</h2>
-      <h3>Public tennis courts</h3>
-      <p>Public courts are usually located in sports complexes, community facilities, or local council venues. They may be more affordable, but court conditions and booking systems can vary.</p>
-      <h3>Private club courts</h3>
-      <p>Private clubs often provide better facilities, organised coaching, leagues, and social tennis sessions. Access may require membership or guest fees.</p>
-      <h3>Tennis academy courts</h3>
-      <p>Academies are useful for players who want structured coaching. They may offer beginner lessons, junior programmes, adult clinics, and performance training.</p>
-      <h3>School and university courts</h3>
-      <p>Some schools and universities have tennis courts for students or community programmes. Access depends on the institution's rules.</p>
-      <h3>Hotel and resort courts</h3>
-      <p>Some hotels and resorts in Malaysia offer tennis courts for guests. These are useful for casual players and travellers.</p>
-
-      <h2>Popular cities for tennis in Malaysia</h2>
-      <p>Tennis courts can be found across major Malaysian cities and states, including:</p>
-      <ul>{cities.map((c) => <li>{c}</li>)}</ul>
-
-      <h2 id="choose">What to check before booking a court</h2>
-      <p>Before booking a tennis court, check:</p>
-      <ul>
-        <li>Court surface</li><li>Lighting availability</li><li>Opening hours</li><li>Booking method</li><li>Hourly rate</li>
-        <li>Coaching availability</li><li>Parking</li><li>Changing rooms</li><li>Weather policy</li><li>Racket or ball rental</li>
-      </ul>
-
-      <h2 id="court-surfaces">Court surfaces</h2>
-      <p>Common tennis court surfaces include:</p>
-      <div class="table-wrap" style="min-width:0">
-        <table style="min-width:0">
-          <thead><tr><th scope="col">Surface</th><th scope="col">Playing style</th></tr></thead>
-          <tbody>
-            <tr><td>Hard court</td><td>Balanced speed and bounce</td></tr>
-            <tr><td>Clay court</td><td>Slower rallies and higher bounce</td></tr>
-            <tr><td>Grass court</td><td>Faster and lower bounce</td></tr>
-            <tr><td>Artificial turf</td><td>Recreational and club-friendly</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>Many Malaysian recreational courts are hard courts or synthetic surfaces, but surface type varies by venue.</p>
-
-      <h2>How to choose the best tennis court</h2>
-      <p>Beginners should look for courts with:</p>
-      <ul><li>Affordable hourly rates</li><li>Beginner coaching</li><li>Easy booking</li><li>Good lighting</li><li>Safe surroundings</li><li>Convenient location</li></ul>
-      <p>Competitive players should look for:</p>
-      <ul><li>Consistent surface quality</li><li>Match-play environment</li><li>Tournament hosting experience</li><li>Coaching and hitting partners</li><li>Access to regular leagues</li></ul>
-
-      <h2>Court directory (in progress)</h2>
-      <p>We're building a verified, court-by-court directory. The format below will be filled in with confirmed venue information rather than placeholder data.</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th scope="col">State</th><th scope="col">Venue</th><th scope="col">City</th><th scope="col">Court type</th><th scope="col">Booking</th><th scope="col">Notes</th></tr></thead>
-          <tbody>
-            <tr><td>Kuala Lumpur</td><td>—</td><td>—</td><td>Hard court</td><td>—</td><td>Verified info to be added</td></tr>
-            <tr><td>Selangor</td><td>—</td><td>—</td><td>Hard court</td><td>—</td><td>Verified info to be added</td></tr>
-            <tr><td>Penang</td><td>—</td><td>—</td><td>—</td><td>—</td><td>Verified info to be added</td></tr>
-          </tbody>
-        </table>
+    <div class="container">
+      <div class="prose" style="max-width:none">
+        <p class="lead">Every venue below was checked against the operator’s own website, its official booking platform, a council page or a named news report. Where a detail is not published, we say <em>Contact venue</em> rather than guess. Rates and hours change, so confirm before you go.</p>
+        <p class="jump">Jump to: {states.map((s, i) => <><a href={`#${slug(s)}`}>{s}</a>{i < states.length - 1 ? ' · ' : ''}</>)} · <a href="#choose">Booking checklist</a> · <a href="#court-surfaces">Court surfaces</a></p>
       </div>
 
-      <Faq items={faqs} />
+      {states.map((s) => (
+        <section class="state" aria-labelledby={slug(s)}>
+          <h2 id={slug(s)}>{s}</h2>
+          <div class="venues">
+            {COURTS.filter((c) => c.state === s).map((c) => (
+              <article class="venue">
+                <h3>{c.name}</h3>
+                <p class="v-area">{c.area} · {c.operator}</p>
+                <dl>
+                  <dt>Address</dt><dd>{c.address} · <a href={c.map} target="_blank" rel="noopener">Open in Google Maps ↗</a></dd>
+                  <dt>Courts</dt><dd>{c.courts}</dd>
+                  <dt>Surface</dt><dd>{c.surface}</dd>
+                  <dt>Indoor / outdoor</dt><dd>{c.setting}</dd>
+                  <dt>Access</dt><dd>{c.access}</dd>
+                  <dt>Booking</dt><dd>
+                    {c.booking.map((b, i) => <><a href={b.url} target="_blank" rel="noopener">{b.label} ↗</a>{i < c.booking.length - 1 ? ' · ' : ''}</>)}
+                    {c.phone && <>{c.booking.length ? <br /> : null}{c.phone}</>}
+                  </dd>
+                  <dt>Rates</dt><dd>{c.rates}{c.ratesSource && c.rates !== CV && <span class="v-src"> (published by {c.ratesSource}, checked {fmtDate(COURTS_CHECKED)})</span>}</dd>
+                  <dt>Hours</dt><dd>{c.hours}</dd>
+                </dl>
+                {c.note && <p class="v-note">{c.note}</p>}
+                <p class="v-sources">Source: {c.sources.map((x, i) => <><a href={x.url} target="_blank" rel="noopener">{x.label}</a>{i < c.sources.length - 1 ? ' · ' : ''}</>)} · Checked {fmtDate(COURTS_CHECKED)}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
 
-      <div class="related callout info">
-        <strong>Related:</strong> <a href="/malaysia-tennis-events/">Malaysia tennis events</a> · <a href="/tennis-rules/">Tennis rules</a> · <a href="/tournaments/">2026 calendar</a>
+      <div class="prose" style="max-width:none">
+        <p class="callout">Run a venue or know one we should add? <a href="/contact/">Send us the details</a> with a link to the official booking page or rate card. We add venues only once their details can be checked.</p>
+
+        <h2 id="choose">Booking checklist</h2>
+        <ul>
+          <li><strong>Who can book:</strong> public pay-and-play, members only, or members’ guests.</li>
+          <li><strong>How to book:</strong> online platform, council app (for example MBPJ’s MyPJ Tempah) or the club counter. Some venues ask you to show the booking confirmation at the gate.</li>
+          <li><strong>Peak vs off-peak:</strong> evening slots with floodlights usually cost more.</li>
+          <li><strong>Rain policy:</strong> outdoor courts may offer a reschedule rather than a refund.</li>
+          <li><strong>Extras:</strong> parking, changing rooms, ball or racket hire, and whether outside coaches are allowed.</li>
+        </ul>
+
+        <h2 id="court-surfaces">Court surfaces</h2>
+        <div class="table-wrap" style="min-width:0">
+          <table style="min-width:0">
+            <thead><tr><th scope="col">Surface</th><th scope="col">How it plays</th><th scope="col">In Malaysia</th></tr></thead>
+            <tbody>
+              <tr><td>Hard court (acrylic)</td><td>Medium pace, consistent bounce</td><td>The most common competition surface.</td></tr>
+              <tr><td>Clay</td><td>Slower, higher bounce, sliding footwork</td><td>Rare; for example the indoor clay at Epsom College (academy use).</td></tr>
+              <tr><td>Natural grass</td><td>Fast, low bounce</td><td>Very rare; found at private clubs such as Royal Selangor Club.</td></tr>
+              <tr><td>Artificial grass</td><td>Low bounce, pace varies with sand infill</td><td>Found at some clubs and recreational venues.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <Faq items={faqs} />
+
+        <div class="related callout info">
+          <strong>Related:</strong> <a href="/malaysia-tennis-events/">Choosing and entering events</a> · <a href="/tournaments/">2026 calendar</a> · <a href="/tennis-rules/">Tennis rules</a>
+        </div>
       </div>
     </div>
   </section>
+  <style>
+    .jump{font-size:15px}
+    .state{margin-top:28px}
+    .state h2{font-size:26px;margin-bottom:12px}
+    .venues{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+    .venue{border:1px solid var(--line);border-top:4px solid var(--green);border-radius:12px;padding:16px 18px;background:#fff}
+    .venue h3{font-size:18px;line-height:1.3;margin:0}
+    .v-area{color:var(--slate);font-size:13.5px;margin:4px 0 10px}
+    .venue dl{display:grid;grid-template-columns:118px 1fr;gap:6px 12px;font-size:14.5px;margin:0}
+    .venue dt{font-weight:700;color:var(--slate);font-size:12.5px;text-transform:uppercase;letter-spacing:.03em;padding-top:2px}
+    .venue dd{margin:0;line-height:1.45;overflow-wrap:anywhere}
+    .v-src{color:var(--slate);font-size:12.5px}
+    .v-note{font-size:14px;margin:10px 0 0;padding:8px 10px;background:var(--bg-soft);border-radius:8px}
+    .v-sources{font-size:12.5px;color:var(--slate);margin:10px 0 0}
+    @media (max-width:520px){
+      .venues{grid-template-columns:1fr}
+      .venue dl{grid-template-columns:1fr;gap:0}
+      .venue dt{margin-top:8px}
+    }
+  </style>
 </BaseLayout>

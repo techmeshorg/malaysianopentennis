@@ -4,75 +4,128 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Faq from '../components/Faq.astro';
 import { SITE } from '../data/site-nav.js';
 const path='/tennis-ranking-guide/';
-const title='Tennis Ranking Guide | ATP, WTA, ITF & Malaysia Rankings Explained';
-const description='Learn how tennis rankings work, including ATP, WTA, ITF, junior rankings, Malaysia rankings, ranking points, seeding, and tournament entry.';
-const updated='19 June 2026';
+const title='Tennis Ranking Guide | How ATP, WTA, ITF Junior & Malaysian Rankings Work';
+const description='How ATP, WTA, ITF junior and TennisMalaysia rankings work in 2026: points tables, counting results, seeding, career-high and a worked example.';
+const updated='5 November 2026';
+const L={
+  atpFaq:'https://www.atptour.com/en/rankings/rankings-faq',
+  atpRank:'https://www.atptour.com/en/rankings/singles',
+  atp2024:'https://www.itftennis.com/media/11846/2024-atp-points-table.pdf',
+  wtaBook:'https://photoresources.wtatennis.com/wta/document/2026/08/10/f7e04e05-20c2-4f22-979c-3bbfdb3aa778/2026-WTA-Rulebook-7-27-2026-.pdf',
+  wtaRank:'https://www.wtatennis.com/rankings/singles',
+  jrRegs:'https://www.itftennis.com/media/16911/2026-itf-world-tennis-tour-juniors-regulations.pdf',
+  wttPts:'https://itftennis.com/media/15605/wtt-points-tables-2026.pdf',
+  tmRank:'https://www.ltam.my/ranking',
+  tmNC:'https://www.ltam.my/rankings/tennismalaysia-national-circuit-rankings-30-sept-2026',
+};
 const faqs=[
-  {q:'Where can I check official Malaysia tennis rankings?',a:'You can check LTAM\u2019s official ranking page for National Circuit and Junior Tour rankings.'},
-  {q:'What is the difference between ATP and WTA rankings?',a:'ATP rankings are for men\u2019s professional tennis, while WTA rankings are for women\u2019s professional tennis.'},
-  {q:'Do all tournaments give ranking points?',a:'No. Only eligible tournaments under the relevant ranking system award official ranking points.'},
-  {q:'Why does a player\u2019s ranking drop?',a:'A ranking can drop if a player loses points from previous results, performs worse than before, misses tournaments, or is overtaken by other players.'},
+  {q:'Where can I check official Malaysian tennis rankings?',a:'TennisMalaysia (the Lawn Tennis Association of Malaysia) publishes National Circuit and Junior Tour rankings, roughly monthly, on its rankings page at ltam.my/ranking.'},
+  {q:'Do all tournaments give ranking points?',a:'No. Each ranking system only counts its own sanctioned events. ATP and WTA points come from tour events, Challengers/WTA 125s and ITF World Tennis Tour events; ITF junior points from ITF junior events; TennisMalaysia points from its National Circuit and Junior Tour.'},
+  {q:'Why did a player’s ranking drop without playing?',a:'ATP and WTA rankings use a rolling 52-week window. Points from a tournament drop off a year later, so a player who does not defend them (or replace them with a better result) loses ground.'},
+  {q:'Is a seed the same as a ranking?',a:'No. Seeds are assigned for one tournament, normally from the ranking at the entry or seeding deadline, to keep the highest-ranked players apart in the draw. The ranking itself is a running points total.'},
 ];
-const articleSchema={'@context':'https://schema.org','@type':'Article',headline:'Tennis Ranking Guide',description,inLanguage:'en-MY',datePublished:'2026-06-19',dateModified:'2026-06-19',mainEntityOfPage:new URL(path,SITE.url).href,author:{'@type':'Organization',name:SITE.name},publisher:{'@type':'Organization',name:SITE.name,logo:{'@type':'ImageObject',url:new URL('/logo.png',SITE.url).href}}};
+const articleSchema={'@context':'https://schema.org','@type':'Article',headline:'Tennis Ranking Guide',description,inLanguage:'en-MY',datePublished:'2026-06-19',dateModified:'2026-11-05',mainEntityOfPage:new URL(path,SITE.url).href,author:{'@type':'Organization',name:`${SITE.name} Editorial Team`},publisher:{'@type':'Organization',name:SITE.name,logo:{'@type':'ImageObject',url:new URL('/logo.png',SITE.url).href}}};
 const crumbs=[{name:'Home',href:'/'},{name:'Tennis',href:'/malaysia-tennis-events/'},{name:'Tennis Ranking Guide',href:path}];
 ---
 <BaseLayout title={title} description={description} path={path} type="article" schema={[articleSchema]} updated={updated}>
-  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Tennis Ranking Guide</h1><p class="intro">ATP, WTA, ITF, junior and Malaysia tennis rankings — explained in simple terms.</p></div></div>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Tennis Ranking Guide</h1><p class="intro">Four different systems, four different calculations: how ATP, WTA, ITF junior and Malaysian rankings work in 2026.</p></div></div>
   <section class="section"><div class="container prose">
-    <p class="lead">Tennis rankings help measure player performance over time. They are used to decide tournament entry, seedings, qualification priority, and player status. Rankings are especially important for competitive players because they influence which tournaments a player can enter and how they are placed in the draw.</p>
-    <p>This guide explains ATP, WTA, ITF, junior, and Malaysia tennis rankings in simple terms.</p>
+    <p class="lead">Every ranking adds up points from results over a set period, but the systems differ in which events count, how many results count and how long points last. Don’t assume a rule from one system applies to another. Current rankings of Malaysian players are kept, with dates, on their <a href="/malaysian-tennis-players/">player profiles</a> rather than on this page.</p>
 
-    <h2>What is a tennis ranking?</h2>
-    <p>A tennis ranking is a points-based position that shows where a player stands compared to other players. Players earn points by competing in tournaments and winning matches. The better the tournament level and the deeper a player goes in the draw, the more points they usually earn.</p>
-
-    <h2>ATP rankings</h2>
-    <p>ATP rankings apply to men's professional tennis. ATP rankings are used for tournament entry, seedings, and measuring performance across the men's professional tour. ATP explains ranking-related details through its official rankings FAQ.</p>
-
-    <h2>WTA rankings</h2>
-    <p>WTA rankings apply to women's professional tennis. The WTA ranking system awards points based on tournament category and round reached. WTA's ranking explanation shows different points by event level, including Grand Slams, WTA 1000, WTA 500, WTA 250, WTA 125, and ITF Circuit events.</p>
-
-    <h2>ITF rankings and player records</h2>
-    <p>The ITF provides information for players who compete across ITF tours, including men's, women's, junior, masters, wheelchair, and other categories. ITF player pages can be useful for checking player profiles and international tournament history.</p>
-
-    <h2>Malaysia tennis rankings</h2>
-    <p>Malaysia has official rankings for local competition pathways. LTAM publishes official rankings for National Circuit and Junior Tour players, including historical ranking updates.</p>
-    <p>For Malaysian players, local rankings can be useful for:</p>
-    <ul>
-      <li>Tournament entry</li><li>Player development tracking</li><li>Junior progression</li>
-      <li>National competition structure</li><li>Seeding decisions</li><li>Performance comparison</li>
-    </ul>
-
-    <h2>How ranking points usually work</h2>
-    <p>Ranking systems vary by tour, but the basic idea is similar:</p>
-    <ul>
-      <li>Players enter tournaments</li><li>Players earn points based on results</li><li>Bigger tournaments award more points</li>
-      <li>Points are updated after tournaments</li><li>Rankings change as new results are added</li><li>Older results eventually drop off</li>
-    </ul>
-
-    <h2>Ranking vs seeding</h2>
-    <p>Ranking and seeding are related, but they are not the same.</p>
-    <div class="table-wrap" style="min-width:0"><table style="min-width:0">
-      <thead><tr><th scope="col">Term</th><th scope="col">Meaning</th></tr></thead>
+    <div class="table-wrap" style="min-width:0"><table class="cmp">
+      <thead><tr><th scope="col"></th><th scope="col">ATP (men)</th><th scope="col">WTA (women)</th><th scope="col">ITF juniors</th><th scope="col">TennisMalaysia</th></tr></thead>
       <tbody>
-        <tr><td>Ranking</td><td>Player's position in the official ranking list</td></tr>
-        <tr><td>Seeding</td><td>Player's protected position in a tournament draw</td></tr>
-        <tr><td>Entry list</td><td>List of players accepted into a tournament</td></tr>
-        <tr><td>Wild card</td><td>Special entry given by organisers</td></tr>
-        <tr><td>Qualifying</td><td>Pre-main draw competition for entry</td></tr>
+        <tr><th scope="row">Period</th><td>Rolling 52 weeks</td><td>Rolling 52 weeks</td><td>Rolling 52 weeks</td><td>Recent National Circuit / Junior Tour legs</td></tr>
+        <tr><th scope="row">Results counted</th><td>Best 18 (singles, 2026)</td><td>Best 18 (singles)</td><td>Best 6 singles + ¼ of best 6 doubles</td><td>Per TennisMalaysia’s published lists</td></tr>
+        <tr><th scope="row">Events that count</th><td>Tour, Challenger, ITF M15/M25</td><td>Tour, WTA 125, ITF W15–W100</td><td>ITF J30–J500, Grand Slams</td><td>National Circuit, Junior Tour (plus other inputs, below)</td></tr>
+        <tr><th scope="row">Updated</th><td>Weekly (Mondays)</td><td>Weekly (Mondays)</td><td>Weekly</td><td>About monthly</td></tr>
+        <tr><th scope="row">Official list</th><td><a href={L.atpRank} target="_blank" rel="noopener">ATP rankings</a></td><td><a href={L.wtaRank} target="_blank" rel="noopener">WTA rankings</a></td><td>ITF junior rankings (via IPIN / ITF site)</td><td><a href={L.tmRank} target="_blank" rel="noopener">TennisMalaysia rankings</a></td></tr>
       </tbody>
     </table></div>
+    <p class="src">Sources: <a href={L.atpFaq} target="_blank" rel="noopener">ATP rankings FAQ</a> (18 counting events in 2026, plus the ATP Finals for qualifiers); <a href={L.wtaBook} target="_blank" rel="noopener">2026 WTA Rulebook</a>; <a href={L.jrRegs} target="_blank" rel="noopener">2026 ITF Juniors Regulations</a>; <a href={L.tmRank} target="_blank" rel="noopener">TennisMalaysia</a>.</p>
 
-    <h2>Why rankings matter</h2>
-    <p>Rankings matter because they influence:</p>
+    <h2 id="atp">ATP rankings (men)</h2>
+    <p>The ATP ranking totals a player’s points from the last 52 weeks. For 2026 it counts <strong>18 results</strong>, according to the <a href={L.atpFaq} target="_blank" rel="noopener">ATP rankings FAQ</a>: the four Grand Slams, the eight mandatory Masters 1000 events (which count even if a player in the main draw withdraws, scoring zero) and the best six other results. The ATP Finals counts as an extra result for those who qualify.</p>
+    <div class="table-wrap" style="min-width:0"><table class="pts">
+      <thead><tr><th scope="col">ATP singles</th><th scope="col">W</th><th scope="col">F</th><th scope="col">SF</th><th scope="col">QF</th><th scope="col">R16</th></tr></thead>
+      <tbody>
+        <tr><td>Grand Slam</td><td>2000</td><td>1300</td><td>800</td><td>400</td><td>200</td></tr>
+        <tr><td>Masters 1000</td><td>1000</td><td>650</td><td>400</td><td>200</td><td>100</td></tr>
+        <tr><td>ATP 500</td><td>500</td><td>330</td><td>200</td><td>100</td><td>50</td></tr>
+        <tr><td>ATP 250</td><td>250</td><td>165</td><td>100</td><td>50</td><td>25</td></tr>
+        <tr><td>Challenger 50</td><td>50</td><td>25</td><td>14</td><td>8</td><td>4</td></tr>
+        <tr><td>ITF M15</td><td>15</td><td>8</td><td>4</td><td>2</td><td>1</td></tr>
+      </tbody>
+    </table></div>
+    <p class="src">Points from the ATP Rulebook points table (<a href={L.atp2024} target="_blank" rel="noopener">2024 edition, hosted by the ITF</a>). Selected rows; Challengers run at 50, 75, 100, 125 and 175 levels. Check the <a href={L.atpFaq} target="_blank" rel="noopener">ATP rankings FAQ</a> for any 2026 adjustments.</p>
+
+    <h2 id="wta">WTA rankings (women)</h2>
+    <p>The WTA singles ranking also counts <strong>18 results</strong> over 52 weeks. These must include the four Grand Slams and the mandatory WTA 1000 events, plus the best remaining results from WTA 1000, 500, 250 and 125 events and ITF W15-and-above tournaments. Doubles counts the best 12. To appear on the list, a player needs points from three tournaments or at least 10 points. Players under 14 cannot hold a WTA ranking.</p>
+    <div class="table-wrap" style="min-width:0"><table class="pts">
+      <thead><tr><th scope="col">WTA singles</th><th scope="col">W</th><th scope="col">F</th><th scope="col">SF</th><th scope="col">QF</th><th scope="col">R16</th></tr></thead>
+      <tbody>
+        <tr><td>Grand Slam</td><td>2000</td><td>1300</td><td>780</td><td>430</td><td>240</td></tr>
+        <tr><td>WTA 1000</td><td>1000</td><td>650</td><td>390</td><td>215</td><td>120</td></tr>
+        <tr><td>WTA 500</td><td>500</td><td>325</td><td>195</td><td>108</td><td>60</td></tr>
+        <tr><td>WTA 250</td><td>250</td><td>163</td><td>98</td><td>54</td><td>30</td></tr>
+        <tr><td>WTA 125</td><td>125</td><td>81</td><td>49</td><td>27</td><td>15</td></tr>
+        <tr><td>ITF W35</td><td>35</td><td>23</td><td>14</td><td>8</td><td>4</td></tr>
+        <tr><td>ITF W15</td><td>15</td><td>10</td><td>6</td><td>3</td><td>1</td></tr>
+      </tbody>
+    </table></div>
+    <p class="src">Source: <a href={L.wtaBook} target="_blank" rel="noopener">2026 WTA Rulebook</a>, Section VIII (32-draw events shown).</p>
+
+    <h2 id="itf-juniors">ITF junior rankings (under-18)</h2>
+    <p>The ITF World Tennis Tour Juniors uses a <strong>combined ranking</strong>: a player’s <strong>six best singles results plus one quarter of their six best doubles results</strong> over 52 weeks. A player earns nothing until they have played and won a main-draw match (a first-round bye does not count).</p>
+    <div class="table-wrap" style="min-width:0"><table class="pts">
+      <thead><tr><th scope="col">Junior singles</th><th scope="col">W</th><th scope="col">F</th><th scope="col">SF</th><th scope="col">QF</th><th scope="col">R16</th></tr></thead>
+      <tbody>
+        <tr><td>Grand Slam</td><td>1000</td><td>700</td><td>490</td><td>300</td><td>180</td></tr>
+        <tr><td>J500</td><td>500</td><td>350</td><td>250</td><td>150</td><td>90</td></tr>
+        <tr><td>J300 (e.g. Premier Sarawak Cup)</td><td>300</td><td>210</td><td>140</td><td>100</td><td>60</td></tr>
+        <tr><td>J200 (e.g. J200 Kuala Lumpur)</td><td>200</td><td>140</td><td>100</td><td>60</td><td>36</td></tr>
+        <tr><td>J100</td><td>100</td><td>60</td><td>36</td><td>20</td><td>10</td></tr>
+        <tr><td>J60</td><td>60</td><td>36</td><td>18</td><td>10</td><td>5</td></tr>
+        <tr><td>J30</td><td>30</td><td>18</td><td>9</td><td>5</td><td>2</td></tr>
+      </tbody>
+    </table></div>
+    <p class="src">Source: <a href={L.jrRegs} target="_blank" rel="noopener">2026 ITF World Tennis Tour Juniors Regulations</a>.</p>
+    <p><strong>Note on ITF pro rankings:</strong> the separate ITF World Tennis Tour (pro) ranking, earned only in qualifying at M15/M25/W15/W35 events, is being discontinued at the end of 2026 (<a href={L.wttPts} target="_blank" rel="noopener">ITF 2026 points tables</a>). ATP and WTA points at ITF events continue.</p>
+
+    <h2 id="malaysia">Malaysian national rankings</h2>
+    <p><strong>TennisMalaysia</strong>, the public name of the Lawn Tennis Association of Malaysia (LTAM), publishes two ranking lists about once a month:</p>
     <ul>
-      <li>Who enters tournaments directly</li><li>Who must play qualifying</li><li>Who receives seeding</li>
-      <li>Who avoids top players in early rounds</li><li>Who receives national attention</li><li>Who may be selected for higher-level opportunities</li>
+      <li><strong>TennisMalaysia National Circuit Rankings</strong>: men’s and women’s singles and doubles, plus 16&amp;U down to 8&amp;U age groups. The latest list we checked is dated <a href={L.tmNC} target="_blank" rel="noopener">30 September 2026</a>.</li>
+      <li><strong>TennisMalaysia Junior Tour Rankings</strong>: 12&amp;U, 14&amp;U and 16&amp;U.</li>
+    </ul>
+    <p>The 2026 National Circuit men’s singles list combines results from recent National Circuit legs (2025 and 2026) with ITF World Tennis Tour results, ATP points and the national open ranking. TennisMalaysia does not publish a points-per-round table, so we don’t reproduce one. Junior Tour fact sheets do publish some rules: in 2026, for example, players lose 10 points for not turning up to their first match. When we describe a player as “national No. 1”, we name this list and its date.</p>
+
+    <h2 id="example">Worked example: how one result changes a ranking</h2>
+    <p>Imagine a Malaysian man with 40 ATP points from 12 results, all within the last 52 weeks. Because he has fewer than 18 results, every result counts.</p>
+    <ol>
+      <li>He reaches the <strong>final of an M15 event in Kuala Lumpur</strong>: +8 points, so his total becomes <strong>48</strong>.</li>
+      <li>The following week, a <strong>semi-final from the same week last year (4 points) expires</strong>: his total drops to <strong>44</strong>.</li>
+      <li>He then <strong>wins an M15</strong>: +15 points, total <strong>59</strong>.</li>
+      <li>Once he has more than 18 counting results, only his best 18 count, so a new 1-point result would not change his total.</li>
+    </ol>
+    <p>His ranking position depends on how his total compares with everyone else’s that week. The same 59 points could be a higher or lower ranking from one Monday to the next.</p>
+    <p><strong>Junior version:</strong> a Malaysian junior who wins a J30 (30 points) and reaches a J60 semi-final (18 points) adds 48 points, but only if those results are among her six best singles results of the last 52 weeks.</p>
+
+    <h2 id="seeding">Ranking vs seeding, career-high and the Race</h2>
+    <ul>
+      <li><strong>Seeding</strong> applies to one tournament: the highest-ranked entrants are placed apart in the draw so they cannot meet early. The WTA Rulebook states that rankings “determine player acceptances and seeding”. Entry lists and seeds are fixed from the ranking at the relevant deadline, so a seed can differ from the player’s ranking on the week of play.</li>
+      <li><strong>Career-high</strong> is the best ranking position a player has ever held. It never goes down, which is why our profiles show it separately from the current ranking.</li>
+      <li><strong>The Race</strong> (ATP and WTA) counts only points earned in the current calendar year, to decide who qualifies for the season-ending Finals. It resets each January, unlike the 52-week ranking.</li>
     </ul>
 
-    <h2>Junior rankings</h2>
-    <p>Junior rankings help track young players by age category or junior competition level. For Malaysian juniors, LTAM ranking updates are important because they reflect the domestic junior tennis structure.</p>
-
     <Faq items={faqs} />
-    <div class="related callout info"><strong>Related:</strong> <a href="/malaysian-tennis-players/">Malaysian tennis players</a> · <a href="/atp-wta-malaysia-history/">ATP &amp; WTA Malaysia history</a> · <a href="/how-tennis-scoring-works/">How tennis scoring works</a></div>
+    <div class="related callout info"><strong>Related:</strong> <a href="/malaysian-tennis-players/">Malaysian players and their current rankings</a> · <a href="/malaysia-tennis-events/">Which events award which points</a> · <a href="/tournaments/">2026 calendar</a> · <a href="/how-tennis-scoring-works/">How scoring works</a></div>
   </div></section>
+  <style>
+    .cmp,.pts{min-width:0;font-size:14px}
+    .cmp th[scope=row]{text-align:left;color:var(--slate);font-weight:600;white-space:nowrap}
+    .pts td:not(:first-child){font-family:var(--mono);text-align:right}
+    .src{font-size:13.5px;color:var(--slate)}
+    @media (max-width:640px){ .cmp{min-width:620px} }
+  </style>
 </BaseLayout>

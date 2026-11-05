@@ -1,0 +1,155 @@
+---
+// Shared individual player profile (men's and women's routes both use this).
+// Every time-sensitive figure is shown with its date and source.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import { SITE } from '../data/site-nav.js';
+import { NEWS } from '../data/news.js';
+import { fmtDate } from '../lib/events.js';
+import { cardAlt } from '../lib/cards.js';
+
+const { player: p } = Astro.props;
+const g = p.gender;
+const dirHref = `/player-profiles/${g}/`;
+const dirLabel = g === 'women' ? "Women's players" : "Men's players";
+const path = `${dirHref}${p.slug}/`;
+const title = `${p.name} | Malaysian Tennis Player Profile`;
+const description = ((d) => d.length <= 158 ? d : `${p.name}: ${p.headline}`)(`${p.name}: ${p.headline} Dated rankings, results and official profiles.`);
+const crumbs = [
+  { name: 'Home', href: '/' },
+  { name: 'Malaysian Players', href: '/malaysian-tennis-players/' },
+  { name: dirLabel, href: dirHref },
+  { name: p.name, href: path },
+];
+const person = {
+  '@context': 'https://schema.org', '@type': 'Person',
+  name: p.fullName || p.name, nationality: { '@type': 'Country', name: 'Malaysia' },
+  url: new URL(path, SITE.url).href, description: p.headline,
+  sameAs: (p.officialProfiles || []).map((o) => o.url),
+};
+const page = { '@context': 'https://schema.org', '@type': 'ProfilePage', dateModified: p.checked, mainEntity: { '@type': 'Person', name: p.name } };
+const relatedNews = NEWS.filter((n) => (n.players || []).some((pl) => pl.slug === p.slug)).sort((a, b) => b.date.localeCompare(a.date));
+const statusLabel = { Active: 'Active', Junior: 'Junior (active)', Retired: 'Retired' }[p.status] || p.status;
+const facts = [
+  ['Full name', p.fullName],
+  ['Status', statusLabel],
+  ['Represents', 'Malaysia'],
+  ['Born', p.born],
+  ['Plays', p.plays],
+  ['Competes in', p.mainEvents],
+].filter(([, v]) => v);
+---
+<BaseLayout title={title} description={description} path={path} image={`/og-default.png`} schema={[person, page]} updated={fmtDate(p.checked)}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} />
+    <div class="pp-head-row">
+      <img class="pp-card-img" src={`/cards/players/${p.slug}.svg`} alt={cardAlt('player', p)} width="1200" height="630" />
+      <div>
+        <p class="pp-status"><span class={`st st-${p.status}`}>{statusLabel}</span></p>
+        <h1>{p.name}</h1>
+        <p class="intro">{p.headline}</p>
+      </div>
+    </div>
+  </div></div>
+  <section class="section"><div class="container">
+    <div class="prose" style="max-width:none">
+      {p.note && <div class="callout info" style="margin-bottom:18px">{p.note}</div>}
+
+      <h2 id="rankings">Rankings</h2>
+      {p.rankings?.current?.length > 0 && (
+        <>
+          <h3 class="rk-h">Current</h3>
+          <ul class="rk">
+            {p.rankings.current.map((r) => (
+              <li><span class="rk-sys">{r.system}</span> <strong>{r.value}</strong> <span class="rk-meta">{r.date ? `ranking dated ${fmtDate(r.date)}` : ''}{r.source && <>{r.date ? ' · ' : ''}<a href={r.source.url} target="_blank" rel="noopener">{r.source.label}</a></>}</span></li>
+            ))}
+          </ul>
+        </>
+      )}
+      {p.rankings?.high?.length > 0 && (
+        <>
+          <h3 class="rk-h">Career high</h3>
+          <ul class="rk">
+            {p.rankings.high.map((r) => (
+              <li><span class="rk-sys">{r.system}</span> <strong>{r.value}</strong> <span class="rk-meta">{r.date ? `reached ${r.date}` : ''}{r.source && <>{r.date ? ' · ' : ''}<a href={r.source.url} target="_blank" rel="noopener">{r.source.label}</a></>}</span></li>
+            ))}
+          </ul>
+        </>
+      )}
+      {p.rankingNote && <p class="rk-note">{p.rankingNote}</p>}
+
+      <h2 id="profile">Profile</h2>
+      <table class="pp-table"><tbody>
+        {facts.map(([k, v]) => (<tr><th scope="row">{k}</th><td>{v}</td></tr>))}
+      </tbody></table>
+
+      {p.bio?.length > 0 && <>{p.bio.map((para) => <p>{para}</p>)}</>}
+
+      {p.results?.length > 0 && (
+        <>
+          <h2 id="results">{p.status === 'Retired' ? 'Career highlights' : 'Recent results'}</h2>
+          <ul class="res">
+            {p.results.map((r) => (
+              <li>{r.date && <span class="res-d">{r.date}</span>} {r.text}{r.source && <> <a class="res-src" href={r.source.url} target={r.source.url.startsWith('/') ? undefined : '_blank'} rel="noopener">({r.source.label})</a></>}</li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      {p.highlights?.length > 0 && (
+        <>
+          <h2 id="highlights">{p.status === 'Retired' ? 'More from the career' : 'Career highlights'}</h2>
+          <ul>{p.highlights.map((h) => <li>{h.text || h}{h.source && <> <a class="res-src" href={h.source.url} target="_blank" rel="noopener">({h.source.label})</a></>}</li>)}</ul>
+        </>
+      )}
+
+      {p.officialProfiles?.length > 0 && (
+        <>
+          <h2 id="official">Official profiles</h2>
+          <p>{p.officialProfiles.map((o, i) => <><a href={o.url} target="_blank" rel="noopener">{o.label} ↗</a>{i < p.officialProfiles.length - 1 ? ' · ' : ''}</>)}</p>
+        </>
+      )}
+      {p.sources?.length > 0 && (
+        <>
+          <h2 id="sources">Other sources</h2>
+          <ul class="pp-sources">{p.sources.map((s) => <li><a href={s.url} target="_blank" rel="nofollow noopener">{s.label}</a></li>)}</ul>
+        </>
+      )}
+      <p class="pp-checked">Profile checked {fmtDate(p.checked)} by the {SITE.name} Editorial Team. Rankings change weekly; follow the official profile links for the latest figure. Spotted an error? <a href="/contact/">Let us know</a>.</p>
+
+      {relatedNews.length > 0 && (
+        <>
+          <h2 id="news">In the news</h2>
+          <ul class="pp-news">
+            {relatedNews.map((n) => <li><a href={`/news/${n.slug}/`}>{n.title}</a> <span class="res-d">{n.displayDate || fmtDate(n.date)}</span></li>)}
+          </ul>
+        </>
+      )}
+
+      <div class="related callout info"><strong>More players:</strong> <a href={dirHref}>{dirLabel}</a> · <a href="/malaysian-tennis-players/">All Malaysian players</a> · <a href="/tennis-ranking-guide/">How rankings work</a></div>
+    </div>
+  </div></section>
+  <style>
+    .pp-head-row{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+    .pp-card-img{width:240px;max-width:100%;border-radius:12px;border:1px solid var(--line)}
+    .pp-status{margin:0 0 4px}
+    .st{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 10px;border-radius:999px;background:var(--green-soft);color:var(--green)}
+    .st-Retired{background:#EEF1EF;color:#5A6862}
+    .st-Junior{background:#E2EEF8;color:#155189}
+    .rk-h{font-size:15px;text-transform:uppercase;letter-spacing:.05em;color:var(--slate);margin:14px 0 6px}
+    .rk{list-style:none;padding:0;margin:0 0 6px}
+    .rk li{padding:8px 0;border-bottom:1px solid #eef1ef}
+    .rk-sys{display:inline-block;min-width:150px;color:var(--slate);font-size:14px}
+    .rk-meta{display:block;font-size:13px;color:var(--slate);margin-top:2px}
+    .rk-note{font-size:14px;color:var(--slate)}
+    .pp-table{width:100%;border-collapse:collapse;margin:8px 0 14px;min-width:0}
+    .pp-table th{text-align:left;width:170px;vertical-align:top;padding:9px 14px 9px 0;color:#5A6862;font-weight:600;border-bottom:1px solid #eef1ef}
+    .pp-table td{padding:9px 0;border-bottom:1px solid #eef1ef;color:#15201A}
+    .res{padding-left:18px}
+    .res li{margin-bottom:8px}
+    .res-d{font-family:var(--mono);font-size:12.5px;color:var(--slate)}
+    .res-src{font-size:13px}
+    .pp-sources a{word-break:break-word}
+    .pp-checked{font-size:13px;color:var(--slate);margin-top:18px}
+    @media (max-width:560px){ .pp-table th{width:110px} .rk-sys{display:block} }
+  </style>
+</BaseLayout>

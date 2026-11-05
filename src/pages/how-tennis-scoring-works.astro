@@ -4,96 +4,97 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Faq from '../components/Faq.astro';
 import { SITE } from '../data/site-nav.js';
 const path='/how-tennis-scoring-works/';
-const title='How Tennis Scoring Works | Points, Games, Sets, Deuce & Tie-Breaks';
-const description='Learn how tennis scoring works, including love, 15, 30, 40, deuce, advantage, games, sets, matches, and tie-break rules.';
-const updated='19 June 2026';
+const title='How Tennis Scoring Works | Points, Deuce, Tie-Breaks & Match Formats';
+const description='How tennis scoring works: points, deuce and advantage, games, sets, 7-point tie-breaks, 10-point match tie-breaks, No-Ad scoring and short sets, with worked examples.';
+const updated='5 November 2026';
+const ITF_RULES='https://www.itftennis.com/en/about-us/governance/rules-and-regulations/';
 const faqs=[
-  {q:'Why is tennis scoring 15, 30, and 40?',a:'The exact historical origin is debated, but the 15, 30, 40 system has been part of traditional tennis scoring for a long time.'},
-  {q:'What happens at 40-40?',a:'The score is called deuce. A player must win two points in a row to win the game.'},
-  {q:'What does 7-6 mean in tennis?',a:'It usually means the set was decided by a tie-break.'},
-  {q:'What is the easiest way to understand tennis scoring?',a:'Remember this structure: points make games, games make sets, and sets make the match.'},
+  {q:'What happens at 40-40?',a:'The score is deuce. Under standard scoring a player must then win two points in a row: the first gives them advantage, the second wins the game. Under No-Ad scoring, a single deciding point is played instead.'},
+  {q:'What does 7-6 mean in tennis?',a:'In a tie-break set, 7-6 always means the set was decided by a tie-break at 6-6 (an advantage set can never end 7-6). The tie-break score is often written in brackets, for example 7-6(5), meaning the loser of the tie-break scored 5 points.'},
+  {q:'What is the difference between a tie-break and a match tie-break?',a:'A tie-break (first to 7 points, win by 2) decides a set at 6-6. A match tie-break (first to 10 points, win by 2) is played instead of a whole deciding set, and in some events (including all four Grand Slams since 2022) to decide the final set at 6-6.'},
+  {q:'Is the server’s score called first?',a:'Yes. In a game the server’s score is always called first, so 15-30 means the server has one point and the receiver two. In a tie-break, the player or team with more points is usually called first.'},
 ];
-const articleSchema={'@context':'https://schema.org','@type':'Article',headline:'How Tennis Scoring Works',description,inLanguage:'en-MY',datePublished:'2026-06-19',dateModified:'2026-06-19',mainEntityOfPage:new URL(path,SITE.url).href,author:{'@type':'Organization',name:SITE.name},publisher:{'@type':'Organization',name:SITE.name,logo:{'@type':'ImageObject',url:new URL('/logo.png',SITE.url).href}}};
+const articleSchema={'@context':'https://schema.org','@type':'Article',headline:'How Tennis Scoring Works',description,inLanguage:'en-MY',datePublished:'2026-06-19',dateModified:'2026-11-05',mainEntityOfPage:new URL(path,SITE.url).href,author:{'@type':'Organization',name:`${SITE.name} Editorial Team`},publisher:{'@type':'Organization',name:SITE.name,logo:{'@type':'ImageObject',url:new URL('/logo.png',SITE.url).href}},citation:ITF_RULES};
 const crumbs=[{name:'Home',href:'/'},{name:'Tennis',href:'/malaysia-tennis-events/'},{name:'How Tennis Scoring Works',href:path}];
 ---
 <BaseLayout title={title} description={description} path={path} type="article" schema={[articleSchema]} updated={updated}>
-  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>How Tennis Scoring Works</h1><p class="intro">Points, games, sets, deuce, advantage and tie-breaks — made simple.</p></div></div>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>How Tennis Scoring Works</h1><p class="intro">Points make games, games make sets, sets make the match, with worked examples for deuce, tie-breaks and the formats you will meet in Malaysian events.</p></div></div>
   <section class="section"><div class="container prose">
-    <p class="lead">Tennis scoring can look confusing at first, but it becomes simple once you understand the structure. A tennis match is built from points, games, and sets.</p>
-    <p>The basic structure is: <strong>Points → Games → Sets → Match</strong>. The official Rules of Tennis are maintained by the International Tennis Federation.</p>
+    <p class="lead">This guide covers <strong>scoring</strong>: how points, games, sets and matches are counted. For how play itself works (serving, faults, lets and what loses a point), see our companion guide to <a href="/tennis-rules/">tennis rules</a>. Both follow the ITF <a href={ITF_RULES} target="_blank" rel="noopener">Rules of Tennis</a>.</p>
 
-    <h2>Tennis point scoring</h2>
-    <p>Tennis does not use 1, 2, 3, 4 for normal point scoring. Instead, the score goes:</p>
-    <ul><li>0 = Love</li><li>1 point = 15</li><li>2 points = 30</li><li>3 points = 40</li><li>4 points = Game</li></ul>
-    <p>A player must usually win by two points to win a game.</p>
-
-    <h2>Example game score</h2>
-    <ul>
-      <li>Player A wins first point: 15-0</li><li>Player B wins next point: 15-15</li><li>Player A wins next point: 30-15</li>
-      <li>Player A wins next point: 40-15</li><li>Player A wins next point: Game</li>
-    </ul>
-
-    <h2>What does love mean?</h2>
-    <p>Love means zero in tennis. For example: 15-love = 15-0, 30-love = 30-0, 40-love = 40-0.</p>
-
-    <h2>What is deuce?</h2>
-    <p>Deuce happens when both players reach 40-40. At deuce, a player must win two points in a row to win the game.</p>
-    <ul>
-      <li>Deuce</li>
-      <li>Player A wins point → Advantage Player A</li>
-      <li>Player A wins next point → Game Player A</li>
-    </ul>
-    <p>If Player A has advantage but loses the next point, the score returns to deuce.</p>
-
-    <h2>What is advantage?</h2>
-    <p>Advantage means a player is one point away from winning the game after deuce.</p>
-    <ul>
-      <li>Advantage server = server can win the game on the next point</li>
-      <li>Advantage receiver = receiver can win the game on the next point</li>
-    </ul>
-
-    <h2>How games work</h2>
-    <p>A player wins a game by winning at least four points and leading by two points. A set is made up of games.</p>
-
-    <h2>How sets work</h2>
-    <p>A player usually wins a set by reaching six games with at least a two-game lead. Common set scores include:</p>
-    <ul><li>6-0</li><li>6-1</li><li>6-2</li><li>6-3</li><li>6-4</li><li>7-5</li><li>7-6</li></ul>
-    <p>If the score reaches 6-6, many tournaments use a tie-break.</p>
-
-    <h2>What is a tie-break?</h2>
-    <p>A tie-break is a special scoring format used to decide a close set. Instead of love, 15, 30, and 40, tie-breaks use normal numbers: 1, 2, 3, 4, 5, 6, 7.</p>
-    <p>A player usually wins a standard tie-break by reaching seven points with at least a two-point lead. Example: 7-4 = tie-break won, 8-6 = tie-break won, 10-8 = tie-break won.</p>
-
-    <h2>How matches work</h2>
-    <p>A tennis match is usually played as best of 3 sets or best of 5 sets. Most regular tennis matches are best of three sets. Some men's Grand Slam matches use best of five sets.</p>
-
-    <h2>Simple scoring example</h2>
-    <p>Imagine Player A beats Player B 6-4, 3-6, 6-2. This means:</p>
-    <ul>
-      <li>Player A won the first set 6-4</li>
-      <li>Player B won the second set 6-3</li>
-      <li>Player A won the third set 6-2</li>
-      <li>Player A won the match by 2 sets to 1</li>
-    </ul>
-
-    <h2>Common tennis scoring terms</h2>
+    <h2 id="points">Points within a game</h2>
     <div class="table-wrap" style="min-width:0"><table style="min-width:0">
-      <thead><tr><th scope="col">Term</th><th scope="col">Meaning</th></tr></thead>
+      <thead><tr><th scope="col">Points won</th><th scope="col">Called</th></tr></thead>
       <tbody>
-        <tr><td>Love</td><td>Zero</td></tr>
-        <tr><td>15</td><td>One point</td></tr>
-        <tr><td>30</td><td>Two points</td></tr>
-        <tr><td>40</td><td>Three points</td></tr>
-        <tr><td>Deuce</td><td>40-40</td></tr>
-        <tr><td>Advantage</td><td>One point after deuce</td></tr>
-        <tr><td>Game</td><td>Unit won after enough points</td></tr>
-        <tr><td>Set</td><td>Group of games</td></tr>
-        <tr><td>Match</td><td>Full contest</td></tr>
-        <tr><td>Tie-break</td><td>Special game to decide a close set</td></tr>
+        <tr><td>0</td><td>Love</td></tr><tr><td>1</td><td>15</td></tr><tr><td>2</td><td>30</td></tr><tr><td>3</td><td>40</td></tr><tr><td>4 (with a 2-point lead)</td><td>Game</td></tr>
       </tbody>
     </table></div>
+    <p>The server’s score is always called first: <strong>30-15</strong> means the server leads by two points to one.</p>
+
+    <h2 id="deuce">Deuce and advantage: worked example</h2>
+    <p>When both players reach three points (40-40) the score is <strong>deuce</strong>. Under standard scoring a player must now win two points in a row.</p>
+    <ol class="steps">
+      <li>Score is <strong>40-40</strong>: deuce.</li>
+      <li>Server wins the next point: <strong>advantage server</strong> (“ad-in”).</li>
+      <li>Receiver wins the next point: back to <strong>deuce</strong>.</li>
+      <li>Receiver wins the next point: <strong>advantage receiver</strong> (“ad-out”).</li>
+      <li>Receiver wins the next point: <strong>game to the receiver</strong>. The server has been broken.</li>
+    </ol>
+    <p>A game can return to deuce any number of times.</p>
+
+    <h3 id="no-ad">No-Ad scoring (deciding point)</h3>
+    <p>Some events, especially doubles and junior or club competitions, use <strong>No-Ad</strong> scoring, one of the alternative methods in Appendix VI of the ITF rules. At deuce a single <strong>deciding point</strong> is played, and whoever wins it wins the game. The receiver (or receiving team in doubles) chooses which side of the court to receive from. In mixed doubles, the player of the same gender as the server receives the deciding point.</p>
+
+    <h2 id="sets">Games and sets</h2>
+    <p>A standard set is won by the first player to <strong>six games with a two-game lead</strong>: 6-4 or 7-5 win a set, but 6-5 does not. At <strong>6-6</strong>, most events play a tie-break, making the set score 7-6. An “advantage set” (no tie-break, play continues until someone leads by two games) is still allowed but now rare.</p>
+
+    <h2 id="tiebreak">The 7-point tie-break: worked example</h2>
+    <p>The tie-break is scored in plain numbers. The first player to <strong>7 points with a 2-point lead</strong> wins it, and the set 7-6.</p>
+    <ul>
+      <li>The player whose turn it is to serve serves the <strong>first point</strong> (from the deuce court).</li>
+      <li>After that, each player serves <strong>two points in a row</strong>, starting from the advantage court.</li>
+      <li>Players <strong>change ends after every 6 points</strong>.</li>
+      <li>The player who served first in the tie-break <strong>receives</strong> in the first game of the next set.</li>
+    </ul>
+    <figure class="diagram">
+      <img src="/diagrams/tiebreak-serving-order.svg" alt="Diagram of tie-break serving order for the first twelve points: player A serves point 1, then B serves points 2 and 3, A serves 4 and 5, and so on, with players changing ends after points 6 and 12." width="820" height="300" loading="lazy" />
+      <figcaption>Who serves each point in a tie-break, and when the players change ends.</figcaption>
+    </figure>
+    <p><strong>Example.</strong> Siti and Mei are level at 6-6 and Siti is due to serve. Siti serves point 1 and wins it (1-0). Mei serves points 2 and 3 and wins both (1-2). Siti serves 4 and 5 and wins both (3-2). Mei serves 6 and 7; they split them (4-3), with the change of ends after the sixth point. The players keep alternating pairs of serves until Siti reaches 7 points while leading by two, say <strong>7-5</strong>. Siti wins the set 7-6, written <strong>7-6(5)</strong>. Had the score reached 6-6 in the tie-break, play would continue until someone led by two, for example 9-7.</p>
+
+    <h2 id="match-tiebreak">The match tie-break (10-point)</h2>
+    <p>A <strong>match tie-break</strong> uses the same serving pattern as a normal tie-break, but is played to <strong>10 points with a 2-point lead</strong>. It is used in two ways:</p>
+    <ul>
+      <li><strong>Instead of a deciding set.</strong> Common in doubles and many junior and club events. If the sets are one-all, a match tie-break decides the match. A result such as <strong>6-4 3-6 [10-7]</strong> means the winner took the match tie-break 10-7.</li>
+      <li><strong>To finish a final set at 6-6.</strong> All four Grand Slam tournaments have used a 10-point tie-break at 6-6 in the final set since 2022.</li>
+    </ul>
+    <p><strong>Example.</strong> In a doubles final the teams split the first two sets 6-3, 4-6. Instead of a third set they play a match tie-break. The score reaches 9-9; the winning team takes the next two points to win it 11-9, and the match is recorded as <strong>6-3 4-6 [11-9]</strong>.</p>
+
+    <h2 id="formats">Match formats you will meet</h2>
+    <div class="table-wrap" style="min-width:0"><table style="min-width:0">
+      <thead><tr><th scope="col">Format</th><th scope="col">How it works</th><th scope="col">Where it is used</th></tr></thead>
+      <tbody>
+        <tr><td>Best of three sets</td><td>First to two sets; tie-break at 6-6 in each set</td><td>Most professional and senior events, including ATP and WTA tour events</td></tr>
+        <tr><td>Best of five sets</td><td>First to three sets</td><td>Men’s main-draw singles at the Grand Slams</td></tr>
+        <tr><td>Two sets + match tie-break</td><td>Third set replaced by a 10-point match tie-break</td><td>Doubles on the professional tours; many junior events</td></tr>
+        <tr><td>Short sets</td><td>First to four games with a two-game lead; tie-break at 4-4</td><td>Some junior, weather-shortened and club events</td></tr>
+        <tr><td>No-Ad</td><td>Deciding point at deuce</td><td>Pro doubles and many junior and team events</td></tr>
+        <tr><td>ITF junior events (2026)</td><td>No-Let in all matches; doubles use No-Ad and a 10-point match tie-break instead of a third set</td><td>ITF World Tennis Tour Juniors, including the J30–J300 events held in Malaysia</td></tr>
+      </tbody>
+    </table></div>
+    <p>No single format is universal. Formats are set by each event, so check the tournament fact sheet or entry form before you play. Weather can change formats mid-event: at the 2026 TennisMalaysia Junior Tour Leg 4 in Ipoh, organisers switched singles to short sets after rain. See <a href="/malaysia-tennis-events/">how to choose and enter an event</a>.</p>
+
+    <h2 id="reading">Reading a score line</h2>
+    <p><strong>6-4 3-6 7-6(5)</strong>: the winner took the first set 6-4, lost the second 3-6, and won the third in a tie-break, scoring 7 points to the opponent’s 5. Scores are written from the winner’s point of view, so the second set shows the winner’s 3 games first.</p>
 
     <Faq items={faqs} />
-    <div class="related callout info"><strong>Related:</strong> <a href="/tennis-rules/">Tennis rules</a> · <a href="/tennis-ranking-guide/">Tennis ranking guide</a> · <a href="/malaysia-tennis-events/">Malaysia tennis events</a></div>
+    <div class="related callout info"><strong>Related:</strong> <a href="/tennis-rules/">Tennis rules: serving, faults and lets</a> · <a href="/tennis-ranking-guide/">How rankings work</a> · <a href="/malaysia-tennis-events/">Choosing your first tournament</a> · <a href="/tournaments/">2026 calendar &amp; results</a></div>
+    <p class="note" style="font-size:14px;color:var(--slate)">Source: ITF <a href={ITF_RULES} target="_blank" rel="noopener">Rules of Tennis</a>, 2026 edition, including the alternative scoring methods in Appendix VI; ITF World Tennis Tour Juniors summary of 2026 rule changes. Individual events may adopt alternative formats permitted by those rules.</p>
   </div></section>
+  <style>
+    .steps li{margin-bottom:6px}
+    .diagram{margin:18px 0 22px;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+    .diagram img{width:100%;height:auto}
+    .diagram figcaption{font-size:13px;color:var(--slate);margin-top:6px}
+  </style>
 </BaseLayout>

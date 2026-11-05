@@ -2,156 +2,200 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Card from '../components/Card.astro';
 import { TOURNAMENTS } from '../data/tournaments.js';
+import { NEWS } from '../data/news.js';
+import { ALL_PLAYERS } from '../data/players.js';
+import { PAGE_UPDATES } from '../data/updates.js';
+import { upcoming, recentResults, fmtDate, todayMY } from '../lib/events.js';
 import { SITE } from '../data/site-nav.js';
 
 const title = 'Malaysia Tennis, Tournament Guides & Player Resources';
 const description = SITE.description;
+const today = todayMY();
 
-// Upcoming events: not yet completed, first few in calendar order.
-const upcoming = TOURNAMENTS.filter((t) => t.status !== 'Completed').slice(0, 6);
+// Next 3–5 events held in Malaysia (status derived from dates; see src/lib/events.js).
+const nextEvents = upcoming(TOURNAMENTS, today).filter((t) => t.inMalaysia !== false).slice(0, 5);
+const results = recentResults(TOURNAMENTS, 4, today);
 
-const coreGuides = [
-  { title: 'Malaysia Tennis Events', href: '/malaysia-tennis-events/', tag: 'Guide', body: 'National circuits, junior tours, ITF events and how to choose the right one.' },
-  { title: 'ATP & WTA Malaysia History', href: '/atp-wta-malaysia-history/', tag: 'History', body: 'How Malaysia connects to the ATP, WTA and ITF tours, tournament levels and the player pathway.' },
-  { title: 'Tennis Rules', href: '/tennis-rules/', tag: 'Learn', body: 'The essential rules of tennis explained for new and improving players.' },
-  { title: 'How Tennis Scoring Works', href: '/how-tennis-scoring-works/', tag: 'Learn', body: 'Points, games, sets, deuce, advantage and tiebreaks made simple.' },
-  { title: 'Tennis Ranking Guide', href: '/tennis-ranking-guide/', tag: 'Reference', body: 'How ATP, WTA and national rankings are calculated and updated.' },
-  { title: 'Malaysian Tennis Players', href: '/malaysian-tennis-players/', tag: 'Players', body: 'Following Malaysia’s players across national and international competition.' },
-];
+// Latest articles & substantial updates, newest first, with dates.
+const latest = [
+  // A preview whose follow-up links to a full report stays under its original date
+  // (the report itself is listed), so stale preview wording never surfaces as "new".
+  ...NEWS.map((n) => {
+    const upd = n.updated && !n.followUp?.link;
+    return { title: n.title, href: `/news/${n.slug}/`, date: upd ? n.updated.date : n.date, kind: upd ? 'Updated' : 'News', display: upd ? null : n.displayDate, body: n.summary };
+  }),
+  ...PAGE_UPDATES.map((u) => ({ ...u, kind: 'Updated' })),
+].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 6);
 
+const featured = ALL_PLAYERS.filter((p) => p.featured);
+const profileHref = (p) => `/player-profiles/${p.gender}/${p.slug}/`;
 ---
 <BaseLayout title={title + ' | ' + SITE.name} description={description} path="/">
   <section class="hero">
     <div class="container">
       <p class="eyebrow">Independent · Malaysia tennis</p>
       <h1>Malaysia Tennis, Tournament Guides &amp; Player Resources</h1>
-      <p class="sub">Your independent guide to tennis events, tournament history, rankings, rules, courts, and player development in Malaysia.</p>
+      <p class="sub">Upcoming Malaysian tennis events, verified results, player profiles, and clear guides to the rules, scoring, rankings and where to play.</p>
       <div class="cta-row">
-        <a class="btn btn-primary" href="/malaysia-tennis-events/">Explore Tennis Events</a>
-        <a class="btn btn-secondary" href="/tennis-rules/">Learn Tennis Rules</a>
+        <a class="btn btn-primary" href="/tournaments/">See the tournament calendar</a>
+        <a class="btn btn-secondary" href="/tennis-rules/">Learn the rules</a>
       </div>
     </div>
   </section>
 
-  <!-- 1. Featured core guides -->
+  <!-- Next events -->
   <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <p class="kick">Start here</p>
-        <h2>Featured core guides</h2>
-        <p>The essential resources for following and playing tennis in Malaysia.</p>
-      </div>
-      <div class="grid grid-3">
-        {coreGuides.map((g) => <Card {...g} />)}
-      </div>
-    </div>
-  </section>
-
-  <!-- 2. Malaysia tennis events overview -->
-  <section class="section alt">
     <div class="container">
       <div class="section-head">
         <p class="kick">What's on</p>
-        <h2>Malaysia tennis events overview</h2>
-        <p>National circuit legs, junior tours and ITF stops run across the country through the year. Here are upcoming and confirmed events from the 2026 calendar.</p>
+        <h2>Next tennis events in Malaysia</h2>
+        <p>Status as of {fmtDate(today)} (Malaysia time), from the latest official calendar. Confirm with the organiser before travelling.</p>
       </div>
-      <div class="table-wrap">
-        <table>
-          <caption>Upcoming &amp; confirmed — 2026</caption>
-          <thead><tr><th scope="col">Tournament</th><th scope="col">Venue</th><th scope="col">Date</th><th scope="col">Status</th></tr></thead>
-          <tbody>
-            {upcoming.map((t) => (
-              <tr>
-                <td><strong>{t.name}</strong></td>
-                <td>{t.venue}</td>
-                <td>{t.date}</td>
-                <td><span class={`chip ${t.status}`}>{t.status}</span></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <p style="margin-top:16px"><a class="btn btn-secondary" href="/tournaments/">View the full 2026 calendar</a></p>
+      {nextEvents.length > 0 ? (
+        <div class="ev-list">
+          {nextEvents.map((t) => (
+            <article class="ev">
+              <p class="ev-date">{t.dates}</p>
+              <h3 class="ev-name">{t.link ? <a href={t.link} target="_blank" rel="noopener">{t.name}</a> : t.name}</h3>
+              <p class="ev-venue">{t.venue}</p>
+              <p class="ev-foot"><span class={`chip ${t.status}`}>{t.status}</span>{t.entryDeadline && <span class="ev-entry">Entry deadline {fmtDate(t.entryDeadline)}</span>}</p>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="callout">We have not been able to verify any further upcoming events in Malaysia from official sources yet. The <a href="/tournaments/">full calendar</a> lists everything we have confirmed so far.</p>
+      )}
+      <p style="margin-top:16px"><a class="btn btn-secondary" href="/tournaments/">Full 2026 calendar &amp; results</a></p>
     </div>
   </section>
 
-  <!-- 3. Learn tennis basics -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <p class="kick">Learn</p>
-        <h2>Learn tennis basics</h2>
-        <p>New to the sport? Start with the rules and the scoring system.</p>
+  <!-- Recent results -->
+  {results.length > 0 && (
+    <section class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <p class="kick">Results</p>
+          <h2>Recent results</h2>
+          <p>Winners from recently completed events, each linked to its source.</p>
+        </div>
+        <div class="res-grid">
+          {results.map((t) => (
+            <article class="res">
+              <p class="res-ev"><strong>{t.name}</strong> · {t.dates}</p>
+              <ul>
+                {t.results.slice(0, 3).map((r) => (
+                  <li><span class="r-cat">{r.category}</span> <strong>{r.winner}</strong>{r.score && <span class="r-score"> {r.score}</span>}</li>
+                ))}
+              </ul>
+              {(t.resultsLink || t.sourceUrl || t.link) && <a class="res-src" href={t.resultsLink || t.sourceUrl || t.link} target="_blank" rel="noopener">Source: {t.sourceLabel || 'official results'} ↗</a>}
+            </article>
+          ))}
+        </div>
       </div>
-      <div class="grid grid-2">
-        <Card title="Tennis Rules" href="/tennis-rules/" tag="Learn" body="Court layout, serving, faults, lets, and the rules that govern singles and doubles play." />
-        <Card title="How Tennis Scoring Works" href="/how-tennis-scoring-works/" tag="Learn" body="From 15-30-40 and deuce to games, sets, tiebreaks and full match formats." />
-      </div>
-    </div>
-  </section>
+    </section>
+  )}
 
-  <!-- 4. Player and ranking resources -->
-  <section class="section alt-blue">
-    <div class="container">
-      <div class="section-head">
-        <p class="kick">Players &amp; rankings</p>
-        <h2>Player and ranking resources</h2>
-        <p>Understand how rankings work and how to follow Malaysian players.</p>
-      </div>
-      <div class="grid grid-3">
-        <Card title="Tennis Ranking Guide" href="/tennis-ranking-guide/" tag="Reference" body="How the ATP, WTA, ITF and Malaysia ranking systems award points, seeding and entry." />
-        <Card title="Malaysian Tennis Players" href="/malaysian-tennis-players/" tag="Players" body="The player pathway, junior and national circuit competition, and where to track results." />
-        <Card title="Player Profiles" href="/player-profiles/men/" tag="Format" body="How we build individual Malaysian player pages — fields, format and verified-data standards." />
-      </div>
-    </div>
-  </section>
-
-  <!-- 5. Tennis courts in Malaysia -->
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <p class="kick">Where to play</p>
-        <h2>Tennis courts in Malaysia</h2>
-        <p>Public courts, private clubs, academies and more — and what to check before you book.</p>
-      </div>
-      <div class="grid grid-3">
-        <Card title="Find Tennis Courts" href="/tennis-courts-malaysia/" tag="Courts" body="Court types across Malaysia by city and state, with a booking checklist." />
-        <Card title="Court Surfaces" href="/tennis-courts-malaysia/#court-surfaces" tag="Reference" body="Hard, clay, grass and artificial turf — how each plays." />
-        <Card title="Choosing a Court" href="/tennis-courts-malaysia/#choose" tag="Tips" body="What beginners and competitive players should look for." />
-      </div>
-    </div>
-  </section>
-
-  <!-- 7. Latest guides -->
+  <!-- Latest articles & updates -->
   <section class="section">
     <div class="container">
       <div class="section-head">
         <p class="kick">Recently published</p>
-        <h2>Latest guides</h2>
-        <p>Our most recent tennis resources and references.</p>
+        <h2>Latest articles &amp; updates</h2>
+        <p>New reporting and substantial page updates, newest first.</p>
+      </div>
+      <ul class="latest">
+        {latest.map((l) => (
+          <li>
+            <span class="l-meta"><span class="l-kind">{l.kind}</span> {l.display || fmtDate(l.date)}</span>
+            <a href={l.href}>{l.title}</a>
+            {l.body && <p>{l.body}</p>}
+          </li>
+        ))}
+      </ul>
+      <p style="margin-top:14px"><a href="/news/">All news →</a></p>
+    </div>
+  </section>
+
+  <!-- Featured players -->
+  <section class="section alt-blue">
+    <div class="container">
+      <div class="section-head">
+        <p class="kick">Players</p>
+        <h2>Malaysian players to follow</h2>
+        <p>Profiles with dated rankings, recent results and links to official ATP, WTA and ITF pages.</p>
       </div>
       <div class="grid grid-3">
-        <Card title="ATP, WTA & ITF: how Malaysia fits in" href="/atp-wta-malaysia-history/" tag="History" body="The professional tennis structure and Malaysia’s place in the wider tennis world." />
-        <Card title="A beginner's guide to tennis scoring" href="/how-tennis-scoring-works/" tag="Learn" body="The scoring system explained step by step." />
-        <Card title="Choosing a tennis tournament in Malaysia" href="/malaysia-tennis-events/" tag="Guide" body="Categories, ranking points and what to check before you enter." />
+        {featured.map((p) => (
+          <a class="card pl-card" href={profileHref(p)}>
+            <span class="tag">{p.status === 'Retired' ? 'Retired' : p.status === 'Junior' ? 'Junior' : p.gender === 'women' ? 'Women' : 'Men'}</span>
+            <h3>{p.name}</h3>
+            <p>{p.headline}</p>
+            <span class="more">View profile →</span>
+          </a>
+        ))}
+      </div>
+      <p style="margin-top:16px"><a href="/malaysian-tennis-players/">Browse the full player directory →</a> · <a href="/player-profiles/men/">Men</a> · <a href="/player-profiles/women/">Women</a></p>
+    </div>
+  </section>
+
+  <!-- Core guides -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="kick">Start here</p>
+        <h2>Rules, scoring, courts &amp; tournaments</h2>
+        <p>Reference guides for playing and following tennis in Malaysia.</p>
+      </div>
+      <div class="grid grid-3">
+        <Card title="Tennis Rules" href="/tennis-rules/" tag="Learn" body="Serving, faults, lets, the ball in play and the infringements that lose a point." />
+        <Card title="How Tennis Scoring Works" href="/how-tennis-scoring-works/" tag="Learn" body="Points, deuce, games, sets, tie-breaks and match tie-breaks, with worked examples." />
+        <Card title="Tennis Ranking Guide" href="/tennis-ranking-guide/" tag="Reference" body="How ATP, WTA, ITF junior and Malaysian rankings are calculated, with a worked example." />
+        <Card title="Choosing & Entering Events" href="/malaysia-tennis-events/" tag="Guide" body="Competition levels, eligibility, entry routes and a first-tournament checklist." />
+        <Card title="Tennis Courts in Malaysia" href="/tennis-courts-malaysia/" tag="Courts" body="Verified venues in Kuala Lumpur and Selangor, plus court surfaces and booking tips." />
+        <Card title="ATP & WTA in Malaysia" href="/atp-wta-malaysia-history/" tag="History" body="The professional tournaments Malaysia has hosted, when they ran and who won." />
       </div>
     </div>
   </section>
 
-  <!-- 8. Editorial trust section -->
+  <!-- Trust -->
   <section class="section alt-blue">
     <div class="container">
       <div class="section-head">
         <p class="kick">Why trust us</p>
         <h2>Independent, editorial-first</h2>
       </div>
-      <div class="grid grid-3">
-        <Card title="Editorial Policy" href="/editorial-policy/" tag="Trust" body="How we research, source and update our content — and how we handle corrections." />
+      <div class="grid grid-2">
+        <Card title="Editorial Policy" href="/editorial-policy/" tag="Trust" body="How we research, source and update our content, and how we handle corrections." />
         <Card title="About Us" href="/about/" tag="Trust" body="Who we are and what this independent tennis resource is for." />
       </div>
       <div class="callout info" style="margin-top:18px">
-        We don't publish fabricated results or statistics. Tournament data is taken from official organisers and listings; where a detail isn't confirmed, we mark it rather than guess.
+        We don't publish invented results or statistics. Tournament data comes from official organisers and listings, every result links to its source, and anything we can't confirm is labelled as such.
       </div>
     </div>
   </section>
+
+  <style>
+    .ev-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+    .ev{border:1px solid var(--line);border-top:4px solid var(--green);border-radius:12px;padding:14px 16px;background:#fff;display:flex;flex-direction:column;gap:4px}
+    .ev-date{font-family:var(--mono);font-size:13px;color:var(--green);font-weight:700;margin:0}
+    .ev-name{font-size:17px;line-height:1.3;margin:0}
+    .ev-name a{color:var(--ink)}
+    .ev-venue{font-size:14px;color:var(--slate);margin:0}
+    .ev-foot{margin:auto 0 0;padding-top:6px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .ev-entry{font-size:12px;color:var(--slate)}
+    .res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+    .res{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff}
+    .res-ev{font-size:15px;margin:0 0 8px}
+    .res ul{list-style:none;margin:0 0 8px;padding:0;font-size:14.5px}
+    .res li{margin:0 0 5px;line-height:1.4}
+    .r-cat{display:block;font-size:12px;color:var(--slate)}
+    .r-score{font-family:var(--mono);font-size:12.5px;color:#36433C}
+    .res-src{font-size:13px;font-weight:600}
+    .latest{list-style:none;margin:0;padding:0;display:grid;gap:0}
+    .latest li{padding:14px 0;border-bottom:1px solid var(--line)}
+    .latest a{font-weight:700;font-size:17px;color:var(--ink)}
+    .latest p{margin:4px 0 0;font-size:14.5px;color:var(--slate);line-height:1.5}
+    .l-meta{display:block;font-family:var(--mono);font-size:12px;color:var(--slate);margin-bottom:3px}
+    .l-kind{display:inline-block;background:var(--green-soft);color:var(--green);font-weight:700;padding:1px 7px;border-radius:6px;margin-right:6px}
+  </style>
 </BaseLayout>

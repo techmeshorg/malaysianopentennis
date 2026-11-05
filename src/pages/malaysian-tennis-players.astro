@@ -2,59 +2,60 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Faq from '../components/Faq.astro';
+import PlayerDirectory from '../components/PlayerDirectory.astro';
+import { ALL_PLAYERS, PLAYERS_CHECKED } from '../data/players.js';
 import { SITE } from '../data/site-nav.js';
+import { fmtDate } from '../lib/events.js';
 const path='/malaysian-tennis-players/';
-const title='Malaysian Tennis Players | National, Junior & Rising Tennis Talents';
-const description='Discover Malaysian tennis players, national competitors, junior talents, rankings, tournament pathways, and player development in Malaysia.';
-const updated='19 June 2026';
+const title='Malaysian Tennis Players | Directory of Active, Junior & Retired Players';
+const description='Directory of Malaysian tennis players: active pros, Davis Cup and BJK Cup players, top juniors and retired greats, with dated rankings and official profiles.';
+const updated=fmtDate(PLAYERS_CHECKED);
+const groups=[
+  ['Active','Active players','Currently competing on the ATP, WTA or ITF circuits, in US college tennis or for Malaysia’s national teams.'],
+  ['Junior','Juniors','Under-18 players. We publish public tennis information only.'],
+  ['Retired','Retired and former players','Included for Malaysian tennis history.'],
+].map(([k,l,d])=>({l,d,list:ALL_PLAYERS.filter((p)=>p.status===k)}));
 const faqs=[
-  {q:'Where can I find official Malaysian tennis rankings?',a:'LTAM publishes official rankings for National Circuit and Junior Tour players.'},
-  {q:'Are there Malaysian players in ITF tournaments?',a:'Yes. Malaysian players may appear in ITF junior or professional tournaments. ITF player search can be used to find player records.'},
-  {q:'How can a Malaysian player start competing?',a:'A player can start with local club tournaments, academy events, junior competitions, and then progress to ranking events depending on age and ability.'},
+  {q:'Who is the highest-ranked Malaysian tennis player?',a:'On the ATP ranking of 2 November 2026, Mitsuki Leong was the highest-ranked Malaysian man at No. 408. On the WTA list of the same date, Shihomi Leong was the highest-ranked Malaysian woman at No. 1153. Rankings change weekly; see each profile for the date and source.'},
+  {q:'Where can I find official Malaysian rankings?',a:'TennisMalaysia (the Lawn Tennis Association of Malaysia) publishes National Circuit and Junior Tour rankings about once a month at ltam.my/ranking.'},
+  {q:'How do Malaysian players reach the professional tour?',a:'Most come through TennisMalaysia’s Junior Tour and National Circuit, then ITF junior events, before moving to ITF World Tennis Tour events (M15/W15 and up). Several now combine this with US college tennis.'},
 ];
-const articleSchema={'@context':'https://schema.org','@type':'Article',headline:'Malaysian Tennis Players',description,inLanguage:'en-MY',datePublished:'2026-06-19',dateModified:'2026-06-19',mainEntityOfPage:new URL(path,SITE.url).href,author:{'@type':'Organization',name:SITE.name},publisher:{'@type':'Organization',name:SITE.name,logo:{'@type':'ImageObject',url:new URL('/logo.png',SITE.url).href}}};
-const crumbs=[{name:'Home',href:'/'},{name:'Tennis',href:'/malaysia-tennis-events/'},{name:'Malaysian Tennis Players',href:path}];
+const itemList={'@context':'https://schema.org','@type':'ItemList',name:'Malaysian tennis players',numberOfItems:ALL_PLAYERS.length,itemListElement:ALL_PLAYERS.map((p,i)=>({'@type':'ListItem',position:i+1,name:p.name,url:new URL(`/player-profiles/${p.gender}/${p.slug}/`,SITE.url).href}))};
+const crumbs=[{name:'Home',href:'/'},{name:'Malaysian Players',href:path}];
 ---
-<BaseLayout title={title} description={description} path={path} type="article" schema={[articleSchema]} updated={updated}>
-  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Malaysian Tennis Players</h1><p class="intro">The Malaysian tennis player pathway, from juniors to national and international competition.</p></div></div>
-  <section class="section"><div class="container prose">
-    <p class="lead">Malaysia has a growing tennis community made up of junior players, national competitors, club players, coaches, and international-level hopefuls. This page introduces the Malaysian tennis player pathway and helps readers understand how local players progress through tournaments and rankings.</p>
-    <p>For fans, parents, and new players, this guide explains where Malaysian tennis players usually begin, how they compete, and how rankings and tournament results shape their development.</p>
-
-    <h2>Malaysian tennis player pathway</h2>
-    <p>A Malaysian tennis player may progress through several stages:</p>
-    <ul>
-      <li>Beginner lessons</li><li>Club or academy training</li><li>Local tournaments</li><li>Junior tournaments</li><li>State competitions</li>
-      <li>National Circuit events</li><li>ITF junior tournaments</li><li>ITF professional events</li><li>Regional or international competition</li>
-    </ul>
-    <p>Not every player follows the same path, but most competitive players build experience through structured tournaments. See the <a href="/tournaments/">2026 tournament calendar</a> for current events.</p>
-
-    <h2>Junior Malaysian tennis players</h2>
-    <p>Junior tennis is important because it builds the next generation of Malaysian players. Junior players may compete in age-group events and ranking tournaments. LTAM publishes Junior Tour rankings, which can be used to track domestic junior player progress.</p>
-
-    <h2>National Circuit players</h2>
-    <p>National Circuit players compete at a higher domestic level. These tournaments help identify strong Malaysian competitors and provide a platform for players to test themselves against serious opposition.</p>
-    <p>LTAM publishes National Circuit ranking updates, which are useful for following local competitive players.</p>
-
-    <h2>Malaysian players in ITF events</h2>
-    <p>Some Malaysian players compete in ITF junior or professional events. ITF player profiles can include career information, event participation, and international competition history.</p>
-
-    <h2>How to follow Malaysian tennis players</h2>
-    <p>You can follow Malaysian tennis players through:</p>
-    <ul>
-      <li>LTAM ranking updates</li><li>Tournament result pages</li><li>ITF player search</li><li>Academy announcements</li>
-      <li>Club tournament results</li><li>Social media updates from organisers</li><li>MalaysianOpenTennis.com <a href="/player-profiles/men/">player profiles</a></li>
-    </ul>
-
-    <h2>Malaysian tennis development</h2>
-    <p>Malaysia's tennis development depends on:</p>
-    <ul>
-      <li>Accessible courts</li><li>Qualified coaching</li><li>Regular tournaments</li><li>Junior competition</li>
-      <li>National ranking systems</li><li>International exposure</li><li>Parent and school support</li><li>Clear player pathways</li>
-    </ul>
-    <p>A strong local tennis ecosystem helps more players compete consistently and progress to higher levels.</p>
-
-    <Faq items={faqs} />
-    <div class="related callout info"><strong>Related:</strong> <a href="/player-profiles/men/">Player profiles</a> · <a href="/tennis-ranking-guide/">Tennis ranking guide</a> · <a href="/malaysia-tennis-events/">Malaysia tennis events</a></div>
+<BaseLayout title={title} description={description} path={path} schema={[itemList]} updated={updated}>
+  <div class="page-band"><div class="container"><Breadcrumbs items={crumbs} /><h1>Malaysian Tennis Players</h1><p class="intro">{ALL_PLAYERS.length} player profiles: who they are, where they compete and how they rank. Browse <a href="/player-profiles/men/">men</a> or <a href="/player-profiles/women/">women</a> separately.</p></div></div>
+  <section class="section"><div class="container">
+    <div class="prose" style="max-width:none">
+      <div class="callout info"><strong>Three kinds of ranking appear on these pages:</strong> <strong>professional</strong> (ATP for men, WTA for women, updated weekly), <strong>junior</strong> (ITF World Tennis Tour Juniors, under-18) and <strong>national</strong> (TennisMalaysia’s National Circuit ranking, published about monthly). They are calculated differently and are always labelled. See the <a href="/tennis-ranking-guide/">ranking guide</a>.</div>
+    </div>
+    {groups.map((g)=>(
+      <section class="grp" aria-label={g.l}>
+        <h2>{g.l} <span class="n">({g.list.length})</span></h2>
+        <p class="grp-d">{g.d}</p>
+        <PlayerDirectory players={g.list} showGender />
+      </section>
+    ))}
   </div></section>
+  <section class="section alt"><div class="container prose">
+    <h2 id="pathway">The Malaysian player pathway</h2>
+    <ol>
+      <li><strong>Club and academy tennis</strong>, then the TennisMalaysia <strong>Junior Tour</strong> (12&amp;U–16&amp;U) and national junior championships.</li>
+      <li><strong>ATF 14&amp;U</strong> events across Asia and Malaysia’s World Junior Tennis teams.</li>
+      <li><strong>ITF junior events</strong> (J30–J300). Malaysia hosts several each year, including the J300 Premier Sarawak Cup.</li>
+      <li><strong>National Circuit</strong> open events against senior players. Daania Hazli won the KL Open singles at 16.</li>
+      <li><strong>ITF World Tennis Tour</strong> (M15/W15 and up) for the first ATP or WTA points, often combined with <strong>US college tennis</strong>, as Shihomi Leong (Pepperdine) and Darrshan Suresh Kumar (North Dakota) are doing.</li>
+      <li>Selection for <strong>SUKMA</strong>, the <strong>SEA Games</strong>, and the <strong>Davis Cup</strong> or <strong>Billie Jean King Cup</strong>.</li>
+    </ol>
+    <p>For events at each level, see <a href="/malaysia-tennis-events/">how to choose and enter events</a> and the <a href="/tournaments/">2026 calendar</a>.</p>
+    <Faq items={faqs} />
+    <p class="callout">Profiles are compiled by the {SITE.name} Editorial Team from official ATP, WTA, ITF and TennisMalaysia sources, university rosters and news reports, and were last checked {updated}. Spotted an error or a player we should add? <a href="/contact/">Contact us</a>.</p>
+    <div class="related callout info"><strong>Related:</strong> <a href="/tennis-ranking-guide/">Tennis ranking guide</a> · <a href="/news/">Latest news</a> · <a href="/atp-wta-malaysia-history/">ATP &amp; WTA history in Malaysia</a></div>
+  </div></section>
+  <style>
+    .grp{margin-top:28px}
+    .grp h2{font-size:24px;margin:0 0 4px}
+    .grp .n{color:var(--slate);font-weight:500}
+    .grp-d{color:var(--slate);font-size:15px;margin:0 0 14px}
+  </style>
 </BaseLayout>

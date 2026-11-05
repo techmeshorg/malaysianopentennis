@@ -1,94 +1,95 @@
 ---
-import { TOURNAMENTS, STATUS_ORDER, CAT_META, CATEGORIES, ORG_META, orgOf } from '../data/tournaments.js';
-const { limit = 0, statuses = null, heading = 'TennisMalaysia 2026 calendar', showFilter = true } = Astro.props;
-let rows = TOURNAMENTS.slice();
-if (statuses) rows = rows.filter((t) => statuses.includes(t.status));
-rows.sort((a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status));
-if (limit > 0) rows = rows.slice(0, limit);
+// Calendar table. Rows come pre-processed from src/lib/events.js (status + dates).
+// Columns collapse into stacked cards on small screens.
+import { CAT_META, ORG_META, orgOf } from '../data/tournaments.js';
+import { fmtDate } from '../lib/events.js';
+const { rows = [], caption = '', id = 'tt', showDetails = true } = Astro.props;
 const catSlug = (c) => c.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 ---
-{showFilter && (
-  <div class="tt-filters">
-    <div class="filters" role="group" aria-label="Filter by status">
-      <span class="tt-flabel">Status</span>
-      <button class="filter-btn" data-filter="all" aria-pressed="true">All</button>
-      <button class="filter-btn" data-filter="Confirmed" aria-pressed="false">Confirmed</button>
-      <button class="filter-btn" data-filter="TBC" aria-pressed="false">TBC</button>
-      <button class="filter-btn" data-filter="Completed" aria-pressed="false">Completed</button>
-    </div>
-    <div class="tt-catfilter">
-      <label for="cat-filter" class="tt-flabel">Category</label>
-      <select id="cat-filter" aria-label="Filter by category">
-        <option value="all">All categories</option>
-        {CATEGORIES.map((c) => <option value={catSlug(c)}>{c}</option>)}
-      </select>
-    </div>
-  </div>
-)}
-<div class="table-wrap">
-  <table id="tournament-table">
-    <caption>{heading}</caption>
+<div class="table-wrap tt-wrap">
+  <table id={id} class="tt">
+    {caption && <caption>{caption}</caption>}
     <thead>
       <tr>
-        <th scope="col">Organizer</th>
-        <th scope="col">Tournament</th>
-        <th scope="col">Category</th>
-        <th scope="col">Venue</th>
-        <th scope="col">Date (2026)</th>
+        <th scope="col">Event</th>
+        <th scope="col">Where</th>
+        <th scope="col">Dates</th>
         <th scope="col">Status</th>
+        {showDetails && <th scope="col">Results, entry &amp; links</th>}
       </tr>
     </thead>
     <tbody>
       {rows.map((t) => {
-        const org = orgOf(t.name);
-        const om = ORG_META[org];
+        const om = ORG_META[t.org || orgOf(t.name)] || ORG_META.Other;
         const cm = CAT_META[t.category] || { bg: '#eef1ef', fg: '#15201A' };
         return (
-          <tr data-status={t.status} data-cat={catSlug(t.category)}>
-            <td><span class="org-badge" style={`background:${om.color}`}>{om.label}</span></td>
-            <td><strong>{t.name}</strong></td>
-            <td><span class="cat-chip" style={`background:${cm.bg};color:${cm.fg}`}>{t.category}</span></td>
-            <td>{t.venue}</td>
-            <td>{t.date}</td>
-            <td><span class={`chip ${t.status}`}>{t.status}</span></td>
+          <tr data-status={t.status} data-cat={catSlug(t.category)} data-loc={t.inMalaysia === false ? 'overseas' : 'malaysia'}>
+            <td data-label="Event">
+              <strong class="tt-name">{t.name}</strong>
+              <span class="tt-tags">
+                <span class="org-badge" style={`background:${om.color}`}>{om.label}</span>
+                <span class="cat-chip" style={`background:${cm.bg};color:${cm.fg}`}>{t.category}</span>
+              </span>
+            </td>
+            <td data-label="Where">
+              {t.venue}
+              {t.inMalaysia === false
+                ? <span class="loc-tag overseas">Overseas · Malaysian team/players</span>
+                : <span class="loc-tag">In Malaysia</span>}
+            </td>
+            <td data-label="Dates" class="tt-dates">{t.dates}</td>
+            <td data-label="Status"><span class={`chip ${t.status}`}>{t.status}</span></td>
+            {showDetails && (
+              <td data-label="Details" class="tt-details">
+                {t.results?.length > 0 && (
+                  <ul class="tt-results">
+                    {t.results.map((r) => (
+                      <li><span class="r-cat">{r.category}:</span> <strong>{r.winner}</strong>{r.runnerUp && <> d. {r.runnerUp}</>}{r.score && <> <span class="r-score">{r.score}</span></>}</li>
+                    ))}
+                  </ul>
+                )}
+                {t.note && <p class="tt-note-cell">{t.note}</p>}
+                {t.entryDeadline && <p class="tt-entry">Entry deadline: <strong>{fmtDate(t.entryDeadline)}</strong></p>}
+                <p class="tt-links">
+                  {t.link && <a href={t.link} target="_blank" rel="noopener">Official page</a>}
+                  {t.entryLink && <a href={t.entryLink} target="_blank" rel="noopener">Entry</a>}
+                  {t.resultsLink && <a href={t.resultsLink} target="_blank" rel="noopener">Results{t.sourceLabel && !t.sourceUrl ? ` (${t.sourceLabel})` : ''}</a>}
+                  {t.sourceUrl && t.sourceUrl !== t.link && t.sourceUrl !== t.resultsLink && <a href={t.sourceUrl} target="_blank" rel="noopener">{t.sourceLabel || 'Source'}</a>}
+                  {t.reportUrl && <a href={t.reportUrl}>Our report</a>}
+                </p>
+              </td>
+            )}
           </tr>
         );
       })}
     </tbody>
   </table>
 </div>
-{showFilter && (
-  <p class="tt-note">Organizer badges are derived from the event name as a colour-coded label (not official logos). Real organiser logo files can be dropped in later.</p>
-)}
-{showFilter && (
-  <script>
-    const btns = document.querySelectorAll('.filter-btn');
-    const sel = document.getElementById('cat-filter');
-    const trs = document.querySelectorAll('#tournament-table tbody tr');
-    let activeStatus = 'all';
-    let activeCat = 'all';
-    function apply() {
-      trs.forEach((tr) => {
-        const okS = activeStatus === 'all' || tr.dataset.status === activeStatus;
-        const okC = activeCat === 'all' || tr.dataset.cat === activeCat;
-        tr.style.display = (okS && okC) ? '' : 'none';
-      });
-    }
-    btns.forEach((b) => b.addEventListener('click', () => {
-      activeStatus = b.dataset.filter;
-      btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-      apply();
-    }));
-    sel?.addEventListener('change', () => { activeCat = sel.value; apply(); });
-  </script>
-)}
 <style>
-  .tt-filters{display:flex;flex-wrap:wrap;gap:18px 26px;align-items:center;margin-bottom:14px}
-  .tt-flabel{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#5A6862;margin-right:8px}
-  .tt-catfilter{display:flex;align-items:center;gap:4px}
-  .tt-catfilter select{padding:7px 12px;border:1px solid #d8ded9;border-radius:9px;background:#fff;font:inherit;font-size:14px;color:#15201A;cursor:pointer}
-  .org-badge{display:inline-block;padding:3px 9px;border-radius:999px;color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
-  .cat-chip{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
-  .tt-note{font-size:12px;color:#5A6862;margin:8px 0 0}
-  #tournament-table td:first-child{white-space:nowrap}
+  .tt td{vertical-align:top}
+  .tt-name{display:block;line-height:1.35}
+  .tt-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .org-badge{display:inline-block;padding:2px 8px;border-radius:999px;color:#fff;font-size:11px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+  .cat-chip{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11.5px;font-weight:600;white-space:nowrap}
+  .loc-tag{display:block;font-size:11.5px;color:#5A6862;margin-top:4px}
+  .loc-tag.overseas{color:#3B2C8C;font-weight:600}
+  .tt-dates{white-space:nowrap}
+  .tt-details{font-size:14px;min-width:220px}
+  .tt-results{list-style:none;margin:0 0 6px;padding:0}
+  .tt-results li{margin:0 0 4px;line-height:1.4}
+  .r-cat{color:#5A6862;font-size:12.5px}
+  .r-score{font-family:var(--mono);font-size:12.5px;color:#36433C}
+  .tt-note-cell,.tt-entry{margin:0 0 4px;font-size:13px;color:#36433C}
+  .tt-links{display:flex;flex-wrap:wrap;gap:10px;margin:0;font-size:13px;font-weight:600}
+  @media (max-width: 760px){
+    .tt-wrap{overflow:visible;border:0}
+    .tt thead{display:none}
+    .tt, .tt tbody, .tt tr, .tt td{display:block;width:100%;min-width:0}
+    .tt caption{display:block;text-align:left}
+    .tt tr{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 12px;background:#fff}
+    .tt td{border:0;padding:4px 0}
+    .tt td[data-label="Where"]::before,.tt td[data-label="Dates"]::before{content:attr(data-label) ": ";font-weight:700;font-size:12px;color:#5A6862}
+    .tt-dates{white-space:normal}
+    .tt-details{min-width:0}
+  }
 </style>
