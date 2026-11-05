@@ -14,7 +14,7 @@ const dirHref = `/player-profiles/${g}/`;
 const dirLabel = g === 'women' ? "Women's players" : "Men's players";
 const path = `${dirHref}${p.slug}/`;
 const title = `${p.name} | Malaysian Tennis Player Profile`;
-const description = `${p.name}: ${p.headline} Rankings with dates, recent results and links to official profiles.`;
+const description = ((d) => d.length <= 158 ? d : `${p.name}: ${p.headline}`)(`${p.name}: ${p.headline} Dated rankings, results and official profiles.`);
 const crumbs = [
   { name: 'Home', href: '/' },
   { name: 'Malaysian Players', href: '/malaysian-tennis-players/' },
@@ -60,7 +60,7 @@ const facts = [
           <h3 class="rk-h">Current</h3>
           <ul class="rk">
             {p.rankings.current.map((r) => (
-              <li><span class="rk-sys">{r.system}</span> <strong>{r.value}</strong> <span class="rk-meta">{r.date ? `ranking dated ${fmtDate(r.date)}` : ''}{r.source && <> · <a href={r.source.url} target="_blank" rel="noopener">{r.source.label}</a></>}</span></li>
+              <li><span class="rk-sys">{r.system}</span> <strong>{r.value}</strong> <span class="rk-meta">{r.date ? `ranking dated ${fmtDate(r.date)}` : ''}{r.source && <>{r.date ? ' · ' : ''}<a href={r.source.url} target="_blank" rel="noopener">{r.source.label}</a></>}</span></li>
             ))}
           </ul>
         </>
@@ -70,7 +70,7 @@ const facts = [
           <h3 class="rk-h">Career high</h3>
           <ul class="rk">
             {p.rankings.high.map((r) => (
-              <li><span class="rk-sys">{r.system}</span> <strong>{r.value}</strong> <span class="rk-meta">{r.date ? `reached ${r.date}` : ''}{r.source && <> · <a href={r.source.url} target="_blank" rel="noopener">{r.source.label}</a></>}</span></li>
+              <li><span class="rk-sys">{r.system}</span> <strong>{r.value}</strong> <span class="rk-meta">{r.date ? `reached ${r.date}` : ''}{r.source && <>{r.date ? ' · ' : ''}<a href={r.source.url} target="_blank" rel="noopener">{r.source.label}</a></>}</span></li>
             ))}
           </ul>
         </>

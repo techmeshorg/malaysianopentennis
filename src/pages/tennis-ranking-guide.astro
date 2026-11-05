@@ -5,7 +5,7 @@ import Faq from '../components/Faq.astro';
 import { SITE } from '../data/site-nav.js';
 const path='/tennis-ranking-guide/';
 const title='Tennis Ranking Guide | How ATP, WTA, ITF Junior & Malaysian Rankings Work';
-const description='How ATP, WTA, ITF junior and TennisMalaysia rankings are calculated in 2026: points tables, how many results count, ranking vs seeding, career-high and the Race, with a worked example.';
+const description='How ATP, WTA, ITF junior and TennisMalaysia rankings work in 2026: points tables, counting results, seeding, career-high and a worked example.';
 const updated='5 November 2026';
 const L={
   atpFaq:'https://www.atptour.com/en/rankings/rankings-faq',
@@ -36,16 +36,16 @@ const crumbs=[{name:'Home',href:'/'},{name:'Tennis',href:'/malaysia-tennis-event
       <thead><tr><th scope="col"></th><th scope="col">ATP (men)</th><th scope="col">WTA (women)</th><th scope="col">ITF juniors</th><th scope="col">TennisMalaysia</th></tr></thead>
       <tbody>
         <tr><th scope="row">Period</th><td>Rolling 52 weeks</td><td>Rolling 52 weeks</td><td>Rolling 52 weeks</td><td>Recent National Circuit / Junior Tour legs</td></tr>
-        <tr><th scope="row">Results counted</th><td>Best 18 (singles, 2026)*</td><td>Best 18 (singles)</td><td>Best 6 singles + ¼ of best 6 doubles</td><td>Per TennisMalaysia’s published lists</td></tr>
+        <tr><th scope="row">Results counted</th><td>Best 18 (singles, 2026)</td><td>Best 18 (singles)</td><td>Best 6 singles + ¼ of best 6 doubles</td><td>Per TennisMalaysia’s published lists</td></tr>
         <tr><th scope="row">Events that count</th><td>Tour, Challenger, ITF M15/M25</td><td>Tour, WTA 125, ITF W15–W100</td><td>ITF J30–J500, Grand Slams</td><td>National Circuit, Junior Tour (plus other inputs, below)</td></tr>
         <tr><th scope="row">Updated</th><td>Weekly (Mondays)</td><td>Weekly (Mondays)</td><td>Weekly</td><td>About monthly</td></tr>
         <tr><th scope="row">Official list</th><td><a href={L.atpRank} target="_blank" rel="noopener">ATP rankings</a></td><td><a href={L.wtaRank} target="_blank" rel="noopener">WTA rankings</a></td><td>ITF junior rankings (via IPIN / ITF site)</td><td><a href={L.tmRank} target="_blank" rel="noopener">TennisMalaysia rankings</a></td></tr>
       </tbody>
     </table></div>
-    <p class="src">*ATP’s reduction from 19 to 18 counting results for 2026 is widely reported; confirm in the <a href={L.atpFaq} target="_blank" rel="noopener">ATP rankings FAQ</a>.</p>
+    <p class="src">Sources: <a href={L.atpFaq} target="_blank" rel="noopener">ATP rankings FAQ</a> (18 counting events in 2026, plus the ATP Finals for qualifiers); <a href={L.wtaBook} target="_blank" rel="noopener">2026 WTA Rulebook</a>; <a href={L.jrRegs} target="_blank" rel="noopener">2026 ITF Juniors Regulations</a>; <a href={L.tmRank} target="_blank" rel="noopener">TennisMalaysia</a>.</p>
 
     <h2 id="atp">ATP rankings (men)</h2>
-    <p>The ATP ranking totals a player’s points from the last 52 weeks. For 2026 it counts <strong>18 results</strong>: the four Grand Slams, the eight mandatory Masters 1000 events (which count even if a player in the main draw withdraws, scoring zero) and the best six other results. The ATP Finals counts as an extra result for those who qualify.</p>
+    <p>The ATP ranking totals a player’s points from the last 52 weeks. For 2026 it counts <strong>18 results</strong>, according to the <a href={L.atpFaq} target="_blank" rel="noopener">ATP rankings FAQ</a>: the four Grand Slams, the eight mandatory Masters 1000 events (which count even if a player in the main draw withdraws, scoring zero) and the best six other results. The ATP Finals counts as an extra result for those who qualify.</p>
     <div class="table-wrap" style="min-width:0"><table class="pts">
       <thead><tr><th scope="col">ATP singles</th><th scope="col">W</th><th scope="col">F</th><th scope="col">SF</th><th scope="col">QF</th><th scope="col">R16</th></tr></thead>
       <tbody>

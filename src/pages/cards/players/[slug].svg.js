@@ -10,7 +10,7 @@ export function GET({ props }) {
   const p = props.p;
   return svgResponse(playerCard({
     name: p.name,
-    role: p.status === 'Retired' ? 'Retired · Malaysia' : (p.cardRole || p.category.split('·')[0].trim()),
+    role: p.status === 'Retired' ? `Retired · ${p.tour}` : p.tour,
     meta: 'Malaysia (MAS)',
     accent: p.status === 'Retired' ? '#5A6862' : (p.gender === 'women' ? '#1F6FB2' : '#167D45'),
   }));

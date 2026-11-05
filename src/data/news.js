@@ -3,7 +3,7 @@
 //
 // Adding a story (newest can go anywhere — pages sort by date):
 //   slug, title, date (YYYY-MM-DD, Malaysia time), category, accent (hex),
-//   summary (index + meta description), body (array of paragraphs),
+//   summary (listing text), meta (≤160-char search description), body (array of paragraphs),
 //   sources: [{ label, url }]  ← every factual claim must be traceable to one of these
 //   players: [{ name, slug, gender }]  ← auto-links the first mention to the profile
 //   card: { kind: 'result', event, winner, score?, meta? }  ← optional result-style image
@@ -15,6 +15,8 @@
 export const NEWS = [
   {
     slug: 'sukma-2026-tennis-federal-territories-six-golds',
+    meta: 'Federal Territories won six of seven SUKMA 2026 tennis golds in Petaling Jaya; Perak’s Shihomi Leong took the women’s singles title.',
+    image: '/news/sukma-2026-tennis-federal-territories-six-golds.png',
     title: 'SUKMA 2026 tennis: Federal Territories take six of seven golds',
     date: '2026-08-24',
     category: 'Results',
@@ -28,9 +30,10 @@ export const NEWS = [
     card: { kind: 'result', event: 'SUKMA 2026 tennis · Kelana Jaya', winner: 'Federal Territories: 6 golds', meta: 'Team finals 19 Aug · individual finals 23 Aug 2026' },
     summary: 'The Federal Territories won both team titles and four of the five individual events at the SUKMA 2026 tennis competition in Petaling Jaya, with Perak’s Shihomi Leong taking the women’s singles gold.',
     players: [
-      { name: 'Darrshan Suresh Kumar', slug: 'darrshan-suresh', gender: 'men' },
+      { name: 'Darrshan Suresh Kumar', slug: 'darrshan-suresh-kumar', gender: 'men' },
       { name: 'Shihomi Leong', slug: 'shihomi-leong', gender: 'women' },
       { name: 'Daania Daniella', slug: 'daania-hazli', gender: 'women' },
+      { name: 'Imran Daniel Hazli', slug: 'imran-daniel-hazli', gender: 'men' },
     ],
     body: [
       'The Federal Territories dominated the tennis competition at the 2026 Malaysia Games (SUKMA) in Selangor, winning six of the seven gold medals on offer at the Kelana Jaya Sports Complex in Petaling Jaya. The team events were decided on 19 August and the individual finals on 23 August.',
@@ -43,6 +46,8 @@ export const NEWS = [
   },
   {
     slug: 'mitsuki-leong-wins-kl-open-2026',
+    meta: 'Mitsuki Leong won his first CIMB KL Open singles title in August 2026, and 16-year-old Daania Hazli took the women’s singles and doubles.',
+    image: '/news/mitsuki-leong-wins-kl-open-2026.png',
     title: 'Mitsuki Leong wins first KL Open title; Daania Hazli completes a double',
     date: '2026-08-04',
     category: 'Results',
@@ -55,9 +60,10 @@ export const NEWS = [
     summary: 'Malaysia’s top-ranked men’s professional Mitsuki Leong won his first KL Open singles title at the National Tennis Centre, while 16-year-old Daania Hazli took the women’s singles and doubles.',
     players: [
       { name: 'Mitsuki Leong', slug: 'mitsuki-leong', gender: 'men' },
-      { name: 'Darrshan Suresh Kumar', slug: 'darrshan-suresh', gender: 'men' },
+      { name: 'Darrshan Suresh Kumar', slug: 'darrshan-suresh-kumar', gender: 'men' },
       { name: 'Daania Daniella Abdul Hazli', slug: 'daania-hazli', gender: 'women' },
       { name: 'Sharifah Elsa Wan Abdul Rahman', slug: 'elsa-wan', gender: 'women' },
+      { name: 'Koay Hao Sheng', slug: 'koay-hao-sheng', gender: 'men' },
     ],
     body: [
       'Mitsuki Leong won the men’s singles title at the 2026 CIMB Kuala Lumpur Open, the third leg of the TennisMalaysia National Circuit, beating Darrshan Suresh Kumar in the final at the National Tennis Centre on 2 August. It was his first KL Open title, and he told Bernama the win meant a lot because he had not played at home for some time.',
@@ -69,6 +75,8 @@ export const NEWS = [
   },
   {
     slug: 'malaysia-relegated-davis-cup-group-iv-2026',
+    meta: 'Malaysia lost all three group ties and a play-off to the Philippines at Davis Cup Group III in Kuala Lumpur, and drop to Group IV for 2027.',
+    image: '/news/malaysia-relegated-davis-cup-group-iv-2026.png',
     title: 'Malaysia relegated to Davis Cup Group IV after home Group III campaign',
     date: '2026-07-20',
     category: 'National Team',
@@ -80,7 +88,11 @@ export const NEWS = [
       { label: 'Vietnam News, 21 Jul 2026', url: 'https://vietnamnews.vn/sports/1785916/vie-t-nam-win-davis-cup-playoff-to-maintain-place-in-tournament.html' },
     ],
     summary: 'Malaysia lost all three group ties and a relegation play-off against the Philippines at the Davis Cup Asia/Oceania Group III in Kuala Lumpur, and will play in Group IV in 2027. Iran, Jordan and Saudi Arabia were promoted.',
-    players: [{ name: 'Darrshan Suresh Kumar', slug: 'darrshan-suresh', gender: 'men' }],
+    players: [
+      { name: 'Darrshan Suresh Kumar', slug: 'darrshan-suresh-kumar', gender: 'men' },
+      { name: 'Imran Daniel Hazli', slug: 'imran-daniel-hazli', gender: 'men' },
+      { name: 'Koay Hao Sheng', slug: 'koay-hao-sheng', gender: 'men' },
+    ],
     body: [
       'Malaysia’s hopes of promotion from the Davis Cup Asia/Oceania Group III ended in relegation. Hosting the event at the National Tennis Centre in Kuala Lumpur from 15 to 18 July, the team lost all three of its group ties and then the relegation play-off, and will compete in Group IV in 2027.',
       'Eight nations took part in two groups of four. Malaysia were drawn in Group B with Iran, Saudi Arabia and Vietnam, and lost to all three, including a 0-3 defeat by Vietnam. Group A comprised Jordan, the Philippines, Singapore and Uzbekistan.',
@@ -92,6 +104,7 @@ export const NEWS = [
   },
   {
     slug: 'tennis-malaysia-davis-cup-group-iii-2026',
+    meta: 'May 2026 preview of Malaysia hosting Davis Cup Asia/Oceania Group III, with a dated follow-up: the team was relegated to Group IV.',
     updated: { date: '2026-07-20' },
     followUp: {
       date: '2026-07-20',
@@ -124,6 +137,7 @@ export const NEWS = [
   },
   {
     slug: 'malaysia-potential-pickleball-padel-2026',
+    meta: 'A national coach argues Malaysia’s racquet-sport strengths suit pickleball and padel, while noting facilities and pathways are still developing.',
     title: 'Coach: Malaysian players are well suited to pickleball and padel',
     date: '2026-05-10',
     displayDate: 'May 2026',
@@ -142,6 +156,7 @@ export const NEWS = [
   },
   {
     slug: 'j300-premier-sarawak-cup-kuching-2026',
+    meta: 'Kuching hosted the 44th Premier Sarawak Cup, an ITF J300 junior event, in April 2026; Malaysia’s Daania Hazli lost in the first round.',
     title: 'Kuching stages ITF World Junior Tour J300 Premier Sarawak Cup',
     date: '2026-04-08',
     displayDate: '8 April 2026',
@@ -161,6 +176,7 @@ export const NEWS = [
   },
   {
     slug: 'daania-hazli-national-circuit-two-titles-2026',
+    meta: 'Junior Daania Hazli won the women’s Open singles and doubles at National Circuit Leg 1 in Kuala Lumpur in January 2026, beating Elsa Wan in the final.',
     title: 'Daania Hazli sweeps two titles at the 2026 Tennis National Circuit',
     date: '2026-01-28',
     displayDate: '28 January 2026',
@@ -180,6 +196,7 @@ export const NEWS = [
   },
   {
     slug: 'daania-hazli-itf-j30-phnom-penh-2025',
+    meta: 'Malaysian junior Daania Hazli won the girls’ singles and doubles at the ITF J30 Phnom Penh in November 2025, ahead of the SEA Games.',
     title: 'Daania Hazli wins three titles at the ITF J30 Phnom Penh',
     date: '2025-11-22',
     displayDate: '22 November 2025',

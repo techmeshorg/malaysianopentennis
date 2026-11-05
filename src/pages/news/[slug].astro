@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 const { item } = Astro.props;
 const path = `/news/${item.slug}/`;
 const title = item.title;
-const description = item.summary;
+const description = item.meta || item.summary;
 const AUTHOR = `${SITE.name} Editorial Team`;
 
 // Feature image: licensed photo if supplied, otherwise the on-brand SVG card.
